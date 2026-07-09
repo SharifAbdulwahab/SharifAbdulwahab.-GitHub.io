@@ -1,1 +1,52 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolEase - Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+        }
+        .login-box {
+            background: white; width: 100%; max-width: 380px; padding: 35px 25px;
+            border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            text-align: center; border-top: 6px solid #fbbf24;
+        }
+        .login-box h1 { color: #1d4ed8; font-size: 30px; margin-bottom: 5px; }
+        .login-box p.subtitle { color: #6b7280; font-size: 14px; margin-bottom: 25px; }
+        .login-box h2 { color: #1d4ed8; margin-bottom: 20px; }
+        .login-box input {
+            width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #e5e7eb;
+            border-radius: 10px; font-size: 16px;
+        }
+        .login-box input:focus {
+            border-color: #2563eb; outline: none; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+        }
+        .login-box button {
+            width: 100%; padding: 15px; background: #fbbf24; color: #1d4ed8;
+            border: none; border-radius: 10px; font-size: 17px; font-weight: bold; cursor: pointer;
+        }
+        .login-box button:hover { background: #f59e0b; }
+        #loginMsg { margin-top: 15px; font-weight: bold; min-height: 20px; }
+        .hint { color: #6b7280; display: block; margin-top: 15px; font-size: 13px; }
+    </style>
+</head>
+<body>
+<div class="login-box">
+    <h1>📚 SCHOOLEASE</h1>
+    <p class="subtitle">Smart School Management System</p>
 
+    <h2>Welcome Back</h2>
+    <input type="text" id="username" placeholder="Enter Username">
+    <input type="password" id="password" placeholder="Enter Password">
+    <button onclick="login()">Login</button>
+    <p id="loginMsg"></p>
+    <span class="hint">Hint: Password is <b>1234</b></span>
+</div>
+
+<script src="login.js"></script>
+</body>
+</html>
