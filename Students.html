@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,10 +8,12 @@
 </head>
 <body>
 
-<header>
+<header class="topbar">
     <h1>SCHOOLEASE</h1>
     <p>Student Registration</p>
 </header>
+
+<a href="Dashboard.html" class="back-btn">← Back to Dashboard</a>
 
 <div class="container">
 
@@ -31,7 +33,7 @@
 
 <input type="text" id="studentClass" placeholder="Class"><br><br>
 
-<button onclick="registerStudent()">Register Student</button>
+<button onclick="addStudent()">Register Student</button>
 
 <h3 id="message"></h3>
 
@@ -40,11 +42,8 @@
 <table id="studentTable" border="1" style="width:100%; margin-top:10px; border-collapse:collapse;">
 </table>
 
-<br>
-<a href="dashboard.html" class="btn">Back to Dashboard</a>
-
 </div>
 
-<script src="student.js"></script>
+<script src="js/students.js"></script>
 </body>
 </html>
