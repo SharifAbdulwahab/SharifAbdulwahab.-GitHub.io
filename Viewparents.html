@@ -18,16 +18,18 @@
 
         .btn { display: inline-block; padding: 10px 15px; background: #2563eb; color: white; text-decoration: none; border-radius: 8px; margin-right: 10px; margin-top: 10px; }
         .btn-small { padding: 6px 12px; border: none; border-radius: 5px; cursor: pointer; margin-right: 5px; color: white; font-weight: bold; }
-        .edit-btn { background: #f59e0b; } /* Orange */
-        .delete-btn { background: #ef4444; } /* Red */
+        .edit-btn { background: #f59e0b; }
+        .delete-btn { background: #ef4444; }
     </style>
 </head>
 <body>
 
-<header>
+<header class="topbar">
     <h1>SCHOOLEASE</h1>
     <p>All Registered Parents</p>
 </header>
+
+<a href="Dashboard.html" class="back-btn">← Back to Dashboard</a>
 
 <div class="container">
     <h2>Parents List</h2>
@@ -49,7 +51,6 @@
     </table>
     
     <a href="parents.html" class="btn">+ Add New Parent</a>
-    <a href="dashboard.html" class="btn">Back to Dashboard</a>
 </div>
 
 <script>
