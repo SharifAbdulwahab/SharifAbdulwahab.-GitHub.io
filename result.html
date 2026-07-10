@@ -1,128 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>SchoolEase - Report Manager</title>
+    <title>SchoolEase - Report Manager Pro</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; font-family: 'Segoe UI', sans-serif; }
-       .container { background: white; padding: 25px; border-radius: 15px; max-width: 1000px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-       .school-header { text-align: center; color: #1d4ed8; border-bottom: 3px solid #2563eb; padding-bottom: 15px; margin-bottom: 20px; }
-       .school-header h2 { margin: 0; font-size: 24px; }
-       .student-card { border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 25px; background: #f8fafc; }
-       .student-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        :root { --glass: rgba(255,255,255,0.15); --blur: blur(12px); }
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; font-family: 'Segoe UI', sans-serif; min-height: 100vh; }
+       .glass { background: var(--glass); backdrop-filter: var(--blur); border: 1px solid rgba(255,255,255,0.2); }
+       .container { padding: 25px; border-radius: 20px; max-width: 1100px; margin: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+       .login-box { max-width: 400px; margin: 100px auto; padding: 30px; border-radius: 20px; text-align: center; }
+       .login-box input { margin: 10px 0; }
+       .school-header { text-align: center; color: white; padding-bottom: 15px; margin-bottom: 20px; }
+       .school-header h2 { margin: 0; font-size: 26px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+       .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+       .student-card { border-radius: 15px; padding: 20px; margin-bottom: 25px; }
+       .student-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; color: white; }
        .info-grid { display: grid; grid-template-columns: 120px 1fr; gap: 15px; margin-bottom: 15px; align-items: start; }
        .passport-box { text-align: center; }
-       .passport-preview { width: 100px; height: 120px; border: 2px dashed #2563eb; border-radius: 8px; object-fit: cover; background: #eee; }
-        label { font-weight: bold; font-size: 13px; }
-        input { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+       .passport-preview { width: 100px; height: 120px; border: 2px dashed white; border-radius: 8px; object-fit: cover; background: rgba(0,0,0,0.2); }
+        label { font-weight: bold; font-size: 13px; color: white; }
+        input, select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.9); }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; background: white; border-radius: 8px; overflow: hidden; }
         th { background: #2563eb; color: white; padding: 10px; }
-        td { padding: 8px; border: 1px solid #ddd; background: white; text-align: center; }
-       .btn { background:#2563eb; color:white; padding:10px 18px; border-radius:8px; border:none; cursor:pointer; font-weight: bold; margin:5px; transition: 0.3s; }
-       .btn:hover { transform: translateY(-2px); }
-       .btn-add { background:#10b981; width: 100%; }
-       .btn-del { background:#ef4444; }
-       .btn-send { background:#25D366; }
-       .summary-box { background: #dbeafe; padding: 15px; border-radius: 8px; margin-top: 15px; display: flex; justify-content: space-around; font-weight: bold; flex-wrap: wrap; }
-       .position-badge { background: gold; color: #333; padding: 5px 12px; border-radius: 20px; }
-       .class-header { text-align:center; color:#2563eb; margin-top:20px; background:#dbeafe; padding:10px; border-radius:8px; }
+        td { padding: 8px; border: 1px solid #ddd; text-align: center; }
+      .btn { color:white; padding:10px 18px; border-radius:10px; border:none; cursor:pointer; font-weight: bold; margin:5px; transition: 0.3s; backdrop-filter: blur(5px); }
+      .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+      .btn-add { background:rgba(16,185,129,0.8); width: 100%; }
+      .btn-del { background:rgba(239,68,68,0.8); }
+      .btn-send { background:rgba(37,211,102,0.8); }
+      .btn-pdf { background:rgba(239,68,68,0.8); }
+      .btn-excel { background:rgba(34,197,94,0.8); }
+      .summary-box { background: rgba(219,234,254,0.3); padding: 15px; border-radius: 10px; margin-top: 15px; display: flex; justify-content: space-around; font-weight: bold; color: white; flex-wrap: wrap; }
+      .position-badge { background: gold; color: #333; padding: 5px 12px; border-radius: 20px; }
+      .class-header { text-align:center; color:white; margin-top:20px; background:rgba(37,99,235,0.5); padding:12px; border-radius:10px; font-size:18px; }
+      .hidden { display: none; }
     </style>
 </head>
 <body>
 
-<header class="topbar">
-    <h1>SCHOOLEASE</h1>
-    <p>Report Card Manager</p>
-</header>
+<div id="loginPage" class="container glass login-box">
+    <h2 style="color:white;">SCHOOLEASE LOGIN</h2>
+    <input type="text" id="username" placeholder="Username: admin">
+    <input type="password" id="password" placeholder="Password: 1234">
+    <button class="btn btn-add" onclick="login()">Login</button>
+    <p style="color:white; font-size:12px;">Default: admin / 1234</p>
+</div>
 
-<a href="Dashboard.html" class="back-btn">← Back to Dashboard</a>
+<div id="mainApp" class="container glass hidden">
+    <header class="topbar">
+        <h1>SCHOOLEASE</h1>
+        <p>Report Card Manager Pro</p>
+    </header>
 
-<div class="container">
     <div class="school-header">
         <h2>SCHOOLEASE PRIMARY & SECONDARY SCHOOL</h2>
-        <p>Azare, Bauchi State | Term Report Card 2025-2026</p>
+        <p>Azare, Bauchi State</p>
     </div>
 
-    <button class="btn btn-add" onclick="addStudent()">+ Add New Student</button>
-    <button class="btn" onclick="calculateAllPositions()" style="width:100%; background:#f59e0b;">🏆 Calculate All Positions</button>
+    <div class="controls">
+        <select id="termSelect" onchange="loadStudents()">
+            <option value="1st Term">1st Term</option>
+            <option value="2nd Term">2nd Term</option>
+            <option value="3rd Term">3rd Term</option>
+        </select>
+        <button class="btn btn-add" onclick="addStudent()">+ Add New Student</button>
+        <button class="btn" onclick="calculateAllPositions()" style="background:rgba(245,158,11,0.8);">🏆 Calculate Positions</button>
+        <button class="btn btn-pdf" onclick="exportToPDF()">📄 Export PDF</button>
+        <button class="btn btn-excel" onclick="exportToExcel()">📊 Export Excel</button>
+        <button class="btn btn-del" onclick="logout()">Logout</button>
+    </div>
 
     <div id="allStudents"></div>
 </div>
 
 <script>
-let allStudentsData = JSON.parse(localStorage.getItem('allStudentsData')) || [];
+const { jsPDF } = window.jspdf;
+let allStudentsData = [];
+let currentTerm = "1st Term";
+
+function login() {
+    const user = document.getElementById('username').value;
+    const pass = document.getElementById('password').value;
+    if(user === "admin" && pass === "1234") {
+        document.getElementById('loginPage').classList.add('hidden');
+        document.getElementById('mainApp').classList.remove('hidden');
+        loadStudents();
+    } else { alert("Wrong username or password"); }
+}
+
+function logout() {
+    document.getElementById('mainApp').classList.add('hidden');
+    document.getElementById('loginPage').classList.remove('hidden');
+}
+
+function loadStudents() {
+    currentTerm = document.getElementById('termSelect').value;
+    allStudentsData = JSON.parse(localStorage.getItem(`allStudentsData_${currentTerm}`)) || [];
+    document.getElementById('allStudents').innerHTML = '';
+    if(allStudentsData.length === 0) addStudent();
+    else allStudentsData.forEach(s => addStudent(s));
+    calculateAllPositions();
+}
+
+function saveToStorage() {
+    localStorage.setItem(`allStudentsData_${currentTerm}`, JSON.stringify(allStudentsData));
+}
 
 function addStudent(existingData = null) {
     const studentId = existingData? existingData.id : Date.now();
     const studentDiv = document.createElement('div');
-    studentDiv.className = 'student-card';
+    studentDiv.className = 'student-card glass';
     studentDiv.id = `student-${studentId}`;
     studentDiv.innerHTML = `
         <div class="student-header">
             <h3>Student Record</h3>
-            <button class="btn btn-del" onclick="deleteStudent(${studentId})">Delete Student</button>
+            <button class="btn btn-del" onclick="deleteStudent(${studentId})">Delete</button>
         </div>
         <div class="info-grid">
             <div class="passport-box">
-                <img id="passport-${studentId}" class="passport-preview" src="${existingData?.passport || ''}" alt="Passport">
-                <input type="file" accept="image/*" id="upload-${studentId}" onchange="previewPassport(${studentId})" style="margin-top:5px; font-size:12px;">
+                <img id="passport-${studentId}" class="passport-preview" src="${existingData?.passport || ''}">
+                <input type="file" accept="image/*" id="upload-${studentId}" onchange="previewPassport(${studentId})">
             </div>
-            <div>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <div><label>Student Name</label><input type="text" id="name-${studentId}" value="${existingData?.name || ''}" placeholder="Enter Name"></div>
-                    <div><label>Class</label><input type="text" id="class-${studentId}" value="${existingData?.class || ''}" placeholder="Primary 1"></div>
-                    <div><label>Roll No</label><input type="text" id="roll-${studentId}" value="${existingData?.roll || ''}"></div>
-                    <div><label>Parent WhatsApp</label><input type="text" id="phone-${studentId}" value="${existingData?.phone || ''}" placeholder="2348012345678"></div>
-                </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <div><label>Student Name</label><input type="text" id="name-${studentId}" value="${existingData?.name || ''}"></div>
+                <div><label>Class</label><input type="text" id="class-${studentId}" value="${existingData?.class || ''}" placeholder="Primary 1"></div>
+                <div><label>Roll No</label><input type="text" id="roll-${studentId}" value="${existingData?.roll || ''}"></div>
+                <div><label>Parent WhatsApp</label><input type="text" id="phone-${studentId}" value="${existingData?.phone || ''}"></div>
             </div>
         </div>
-
-        <h4>Subjects</h4>
-        <table id="table-${studentId}">
-            <thead><tr><th>#</th><th>Subject</th><th>Total</th><th>Obtained</th><th>Grade</th><th>Remark</th><th>Action</th></tr></thead>
-            <tbody></tbody>
-        </table>
+        <h4 style="color:white;">Subjects</h4>
+        <table id="table-${studentId}"><thead><tr><th>#</th><th>Subject</th><th>Total</th><th>Obtained</th><th>Grade</th><th>Remark</th><th>X</th></tr></thead><tbody></tbody></table>
         <button class="btn btn-add" onclick="addSubject(${studentId})">+ Add Subject</button>
-        <button class="btn" onclick="saveStudent(${studentId})">💾 Save & Calculate</button>
+        <button class="btn" onclick="saveStudent(${studentId})" style="background:rgba(37,99,235,0.8);">💾 Save & Calculate</button>
         <button class="btn btn-send" onclick="sendToParent(${studentId})">📤 Send to Parent</button>
-
         <div class="summary-box" id="summary-${studentId}" style="display:${existingData? 'flex' : 'none'};">
             <span>Total: <b id="total-${studentId}">${existingData?.total || 0}</b></span>
-            <span>Percentage: <b id="percent-${studentId}">${existingData?.percent || '0%'}</b></span>
+            <span>%: <b id="percent-${studentId}">${existingData?.percent || '0%'}</b></span>
             <span>Position: <b class="position-badge" id="position-${studentId}">-</b></span>
         </div>
     `;
     document.getElementById('allStudents').appendChild(studentDiv);
-    if(!existingData){
-        addSubject(studentId);
-        addSubject(studentId);
-    }
+    if(!existingData){ addSubject(studentId); addSubject(studentId); }
 }
 
 function previewPassport(studentId) {
     const file = document.getElementById(`upload-${studentId}`).files[0];
-    if(file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById(`passport-${studentId}`).src = e.target.result;
-        }
-        reader.readAsDataURL(file);
-    }
+    if(file) { const reader = new FileReader(); reader.onload = e => document.getElementById(`passport-${studentId}`).src = e.target.result; reader.readAsDataURL(file); }
 }
 
 function addSubject(studentId) {
     const tbody = document.querySelector(`#table-${studentId} tbody`);
     const rowNum = tbody.rows.length + 1;
-    const row = tbody.insertRow();
-    row.innerHTML = `
-        <td>${rowNum}</td>
-        <td><input type="text" placeholder="Mathematics"></td>
-        <td><input type="number" value="100"></td>
-        <td><input type="number" onkeyup="calculateStudent(${studentId})"></td>
-        <td class="grade">-</td>
-        <td class="remark">-</td>
-        <td><button onclick="this.parentElement.parentElement.remove(); calculateStudent(${studentId})">X</button></td>
-    `;
+    tbody.insertRow().innerHTML = `<td>${rowNum}</td><td><input type="text" placeholder="Math"></td><td><input type="number" value="100"></td><td><input type="number" onkeyup="calculateStudent(${studentId})"></td><td class="grade">-</td><td class="remark">-</td><td><button onclick="this.parentElement.parentElement.remove(); calculateStudent(${studentId})">X</button></td>`;
 }
 
 function getGrade(score, total) {
@@ -138,91 +169,64 @@ function getGrade(score, total) {
 function calculateStudent(studentId) {
     const rows = document.querySelectorAll(`#table-${studentId} tbody tr`);
     let totalMarks = 0; let totalObtained = 0;
-
     rows.forEach(row => {
         const total = parseFloat(row.cells[2].querySelector('input').value) || 0;
         const obtained = parseFloat(row.cells[3].querySelector('input').value) || 0;
         const g = getGrade(obtained, total);
-        row.cells[4].innerText = g.grade;
-        row.cells[5].innerText = g.remark;
+        row.cells[4].innerText = g.grade; row.cells[5].innerText = g.remark;
         totalMarks += total; totalObtained += obtained;
     });
-
     const percent = totalMarks > 0? ((totalObtained/totalMarks)*100).toFixed(2) : 0;
     document.getElementById(`total-${studentId}`).innerText = totalObtained;
     document.getElementById(`percent-${studentId}`).innerText = percent + "%";
     document.getElementById(`summary-${studentId}`).style.display = "flex";
-
     return {total: totalObtained, percent: percent + "%"};
 }
 
 function getSuffix(num) {
     if (num > 3 && num < 21) return 'th';
-    switch (num % 10) {
-        case 1: return "st";
-        case 2: return "nd";
-        case 3: return "rd";
-        default: return "th";
-    }
+    switch (num % 10) { case 1: return "st"; case 2: return "nd"; case 3: return "rd"; default: return "th"; }
 }
 
 function calculateAllPositions() {
     document.querySelectorAll('.class-header').forEach(h => h.remove());
-
     let classes = {};
     allStudentsData.forEach(student => {
         if(!student.class) student.class = "No Class";
         if(!classes[student.class]) classes[student.class] = [];
         classes[student.class].push(student);
     });
-
     for(let className in classes) {
-        const header = document.createElement('h2');
-        header.className = 'class-header';
-        header.innerText = `--- ${className} RESULTS ---`;
-        document.getElementById('allStudents').prepend(header);
-
-        let studentsInClass = classes[className];
-        studentsInClass.sort((a,b) => b.total - a.total);
-
-        studentsInClass.forEach((student, index) => {
-            const posElement = document.getElementById(`position-${student.id}`);
-            if(posElement) {
-                const rank = index + 1;
-                posElement.innerText = `${rank}${getSuffix(rank)}`;
-            }
-        });
+        const header = document.createElement('div'); header.className = 'class-header'; header.innerText = `--- ${className} RESULTS ---`;
+        document.getElementById('allStudents').appendChild(header);
+        let studentsInClass = classes[className].sort((a,b) => b.total - a.total);
+        let currentRank = 1;
+        for(let i=0; i<studentsInClass.length; i++) {
+            if(i > 0 && studentsInClass[i].total < studentsInClass[i-1].total) currentRank = i + 1; // TIE LOGIC
+            const posElement = document.getElementById(`position-${studentsInClass[i].id}`);
+            if(posElement) posElement.innerText = `${currentRank}${getSuffix(currentRank)}`;
+            document.getElementById('allStudents').appendChild(document.getElementById(`student-${studentsInClass[i].id}`));
+        }
     }
-    localStorage.setItem('allStudentsData', JSON.stringify(allStudentsData));
+    saveToStorage();
 }
 
 function saveStudent(studentId) {
     const data = calculateStudent(studentId);
-    const passport = document.getElementById(`passport-${studentId}`).src;
     const student = {
-        id: studentId,
-        name: document.getElementById(`name-${studentId}`).value,
-        class: document.getElementById(`class-${studentId}`).value,
-        roll: document.getElementById(`roll-${studentId}`).value,
-        phone: document.getElementById(`phone-${studentId}`).value,
-        passport: passport,
-        total: data.total,
-        percent: data.percent
+        id: studentId, name: document.getElementById(`name-${studentId}`).value, class: document.getElementById(`class-${studentId}`).value,
+        roll: document.getElementById(`roll-${studentId}`).value, phone: document.getElementById(`phone-${studentId}`).value,
+        passport: document.getElementById(`passport-${studentId}`).src, total: data.total, percent: data.percent
     };
-
-    allStudentsData = allStudentsData.filter(s => s.id!== studentId);
-    allStudentsData.push(student);
-    localStorage.setItem('allStudentsData', JSON.stringify(allStudentsData));
-    calculateAllPositions();
-    alert(`${student.name} saved!`);
+    allStudentsData = allStudentsData.filter(s => s.id!== studentId); allStudentsData.push(student);
+    saveToStorage(); calculateAllPositions(); alert(`${student.name} saved for ${currentTerm}!`);
 }
 
 function deleteStudent(studentId) {
     if(confirm("Delete this student?")) {
         document.getElementById(`student-${studentId}`).remove();
         allStudentsData = allStudentsData.filter(s => s.id!== studentId);
-        localStorage.setItem('allStudentsData', JSON.stringify(allStudentsData));
-        calculateAllPositions();
+        saveToStorage(); calculateAllPositions();
     }
 }
 
@@ -232,19 +236,27 @@ function sendToParent(studentId) {
     const total = document.getElementById(`total-${studentId}`).innerText;
     const percent = document.getElementById(`percent-${studentId}`).innerText;
     const position = document.getElementById(`position-${studentId}`).innerText;
-
     if(!phone) { alert("Enter parent WhatsApp number"); return; }
-
-    const message = `SCHOOLEASE REPORT CARD\n\nStudent: ${name}\nTotal Score: ${total}\nPercentage: ${percent}\nClass Position: ${position}\n\nCongratulations!`;
+    const message = `SCHOOLEASE REPORT CARD - ${currentTerm}\n\nStudent: ${name}\nTotal: ${total}\n%: ${percent}\nPosition: ${position}\n\nCongratulations!`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
 }
 
-// Load saved students on page load
-window.onload = () => {
-    document.getElementById('allStudents').innerHTML = '';
-    if(allStudentsData.length === 0) addStudent();
-    else allStudentsData.forEach(s => addStudent(s));
-    calculateAllPositions();
+function exportToPDF() {
+    const doc = new jsPDF();
+    doc.text(`SCHOOLEASE REPORT - ${currentTerm}`, 10, 10);
+    let y = 20;
+    allStudentsData.sort((a,b) => b.total - a.total).forEach((s, i) => {
+        doc.text(`${i+1}. ${s.name} - ${s.class} - Total: ${s.total} - ${s.percent}`, 10, y);
+        y += 10;
+    });
+    doc.save(`SchoolEase_Report_${currentTerm}.pdf`);
+}
+
+function exportToExcel() {
+    const ws = XLSX.utils.json_to_sheet(allStudentsData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, currentTerm);
+    XLSX.writeFile(wb, `SchoolEase_Report_${currentTerm}.xlsx`);
 }
 </script>
 </body>
