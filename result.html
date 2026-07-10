@@ -1,0 +1,47 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <title>SchoolEase - Results</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f4ff; padding: 20px; }
+        header { text-align: center; color: #1d4ed8; }
+        .container { background: white; padding: 20px; border-radius: 10px; }
+        .btn { background:#2563eb; color:white; padding:10px 15px; border-radius:8px; text-decoration:none; display:inline-block; }
+        .btn-send { background:#25D366; color:white; border:none; padding:10px 15px; border-radius:8px; cursor:pointer; margin-top:10px; font-weight:bold; }
+        input { width: 90%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; margin-bottom:10px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>SCHOOLEASE</h1>
+    <p>Student Results</p>
+</header>
+
+<div class="container">
+
+<h2>Enter Student Result</h2>
+
+<input type="text" id="student" placeholder="Student Name"><br>
+
+<input type="number" id="ca" placeholder="Continuous Assessment (40)"><br>
+
+<input type="number" id="exam" placeholder="Exam Score (60)"><br>
+
+<button onclick="calculateResult()">Calculate Result</button>
+
+<h3 id="result"></h3>
+
+<!-- BUTTON IS NOW ALWAYS HERE -->
+<button class="btn-send" onclick="sendResultToParent()">📤 Send Result to Parent</button>
+
+<br><br>
+<a href="dashboard.html" class="btn">Back to Dashboard</a>
+
+</div>
+
+<script src="results.js"></script>
+
+</body>
+</html>
