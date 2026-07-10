@@ -1,51 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>SchoolEase - Report Manager Pro</title>
+    <title>SchoolEase - Report Manager
+tt<<o</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        :root { --glass: rgba(255,255,255,0.15); --blur: blur(12px); }
-        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; font-family: 'Segoe UI', sans-serif; min-height: 100vh; }
-       .glass { background: var(--glass); backdrop-filter: var(--blur); border: 1px solid rgba(255,255,255,0.2); }
-       .container { padding: 25px; border-radius: 20px; max-width: 1100px; margin: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
-       .login-box { max-width: 400px; margin: 100px auto; padding: 30px; border-radius: 20px; text-align: center; }
-       .login-box input { margin: 10px 0; }
-       .school-header { text-align: center; color: white; padding-bottom: 15px; margin-bottom: 20px; }
-       .school-header h2 { margin: 0; font-size: 26px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-       .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
-       .student-card { border-radius: 15px; padding: 20px; margin-bottom: 25px; }
-       .student-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; color: white; }
-       .info-grid { display: grid; grid-template-columns: 120px 1fr; gap: 15px; margin-bottom: 15px; align-items: start; }
-       .passport-box { text-align: center; }
-       .passport-preview { width: 100px; height: 120px; border: 2px dashed white; border-radius: 8px; object-fit: cover; background: rgba(0,0,0,0.2); }
-        label { font-weight: bold; font-size: 13px; color: white; }
-        input, select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.9); }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; background: white; border-radius: 8px; overflow: hidden; }
-        th { background: #2563eb; color: white; padding: 10px; }
-        td { padding: 8px; border: 1px solid #ddd; text-align: center; }
-      .btn { color:white; padding:10px 18px; border-radius:10px; border:none; cursor:pointer; font-weight: bold; margin:5px; transition: 0.3s; backdrop-filter: blur(5px); }
-      .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-      .btn-add { background:rgba(16,185,129,0.8); width: 100%; }
-      .btn-del { background:rgba(239,68,68,0.8); }
-      .btn-send { background:rgba(37,211,102,0.8); }
-      .btn-pdf { background:rgba(239,68,68,0.8); }
-      .btn-excel { background:rgba(34,197,94,0.8); }
-      .summary-box { background: rgba(219,234,254,0.3); padding: 15px; border-radius: 10px; margin-top: 15px; display: flex; justify-content: space-around; font-weight: bold; color: white; flex-wrap: wrap; }
-      .position-badge { background: gold; color: #333; padding: 5px 12px; border-radius: 20px; }
-      .class-header { text-align:center; color:white; margin-top:20px; background:rgba(37,99,235,0.5); padding:12px; border-radius:10px; font-size:18px; }
-      .hidden { display: none; }
+        :root{
+          --paper:#FAF6ED;
+          --paper-line:#DCD4BC;
+          --ink:#1E2A4A;
+          --ink-soft:#4A5578;
+          --red:#B33A3A;
+          --red-soft:#E8D3D0;
+          --gold:#C9973E;
+          --gold-soft:#F3E4C4;
+          --green:#3B6255;
+          --green-soft:#DCE7E0;
+          --card:#FFFFFF;
+          --shadow: 0 1px 2px rgba(30,42,74,0.06), 0 4px 14px rgba(30,42,74,0.08);
+        }
+        *{box-sizing:border-box;}
+        body {
+            background:
+              repeating-linear-gradient(var(--paper) 0 31px, var(--paper-line) 31px 32px),
+              var(--paper);
+            padding: 20px;
+            font-family: 'Avenir Next','Segoe UI',ui-sans-serif,system-ui,sans-serif;
+            min-height: 100vh;
+            color: var(--ink);
+        }
+        h1,h2,h3,h4{ font-family:'Iowan Old Style','Georgia','Palatino Linotype',serif; }
+
+        .glass {
+            background: var(--card);
+            border: 1px solid var(--paper-line);
+            box-shadow: var(--shadow);
+        }
+        .container { padding: 26px; border-radius: 16px; max-width: 1100px; margin: auto; }
+
+        .login-box { max-width: 380px; margin: 100px auto; padding: 34px 30px; border-radius: 16px; text-align: center; border-top: 4px solid var(--gold); }
+        .login-box h2{ color: var(--ink); font-size: 22px; letter-spacing: .02em; margin-bottom: 4px; }
+        .login-box input { margin: 8px 0; }
+        .login-box p{ color: var(--ink-soft); font-size: 12px; margin-top: 10px; }
+
+        .topbar{ text-align:center; margin-bottom: 4px; }
+        .topbar h1{ font-size: 26px; margin: 0; letter-spacing: .01em; }
+        .topbar p{ font-family:'Avenir Next',sans-serif; text-transform:uppercase; letter-spacing:.16em; font-size:11px; font-weight:700; color: var(--gold); margin: 2px 0 0; }
+
+        .school-header {
+            text-align: center; color: #fff; padding: 22px 18px 20px; margin: 18px 0 22px;
+            background: var(--ink); border-radius: 14px; position: relative; overflow: hidden;
+        }
+        .school-header::before{
+            content:""; position:absolute; inset:0;
+            background: radial-gradient(circle at 88% -10%, rgba(201,151,62,0.35), transparent 55%);
+            pointer-events:none;
+        }
+        .school-header h2 { margin: 0; font-size: 24px; text-shadow: none; position:relative; }
+        .school-header p{ color:#C9CEE0; font-size:13px; margin:6px 0 0; position:relative; }
+
+        .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; align-items:center; }
+
+        .student-card { border-radius: 14px; padding: 22px; margin-bottom: 22px; border-top: 4px solid var(--ink); }
+        .student-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; color: var(--ink); }
+        .student-header h3{ font-size: 18px; margin:0; }
+        .student-header .role-label{ font-family:'Avenir Next',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:.1em; color: var(--ink-soft); font-weight:700; display:block; }
+
+        .info-grid { display: grid; grid-template-columns: 110px 1fr; gap: 16px; margin-bottom: 16px; align-items: start; }
+        .passport-box { text-align: center; }
+        .passport-preview { width: 100px; height: 120px; border: 2px dashed var(--paper-line); border-radius: 8px; object-fit: cover; background: var(--paper); }
+        .passport-box input[type=file]{ margin-top:8px; font-size:11px; }
+
+        label { font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing:.07em; color: var(--ink-soft); font-family:'Avenir Next',sans-serif; display:block; margin-bottom:3px; }
+        input, select {
+            width: 100%; padding: 9px 10px; border-radius: 7px; border: 1.5px solid var(--paper-line);
+            background: var(--paper); color: var(--ink); font-family:'Avenir Next',sans-serif; font-size: 13.5px;
+        }
+        input:focus, select:focus{ outline:none; border-color: var(--gold); }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13.5px; background: #fff; border-radius: 8px; overflow: hidden; font-family:'Avenir Next',sans-serif; }
+        th { background: var(--ink); color: #fff; padding: 9px 8px; font-size: 11.5px; text-transform:uppercase; letter-spacing:.05em; font-weight:700; }
+        td { padding: 7px 8px; border: 1px solid var(--paper-line); text-align: center; }
+        td input{ padding:5px 6px; }
+
+        .btn { color:#fff; padding:10px 16px; border-radius:8px; border:none; cursor:pointer; font-weight: 600; margin:4px 4px 4px 0; transition: transform .08s ease, filter .15s ease; font-family:'Avenir Next',sans-serif; font-size:13.5px; }
+        .btn:hover { filter: brightness(1.07); }
+        .btn:active{ transform: scale(0.97); }
+        .btn-add { background: var(--green); }
+        .btn-del { background: var(--red); }
+        .btn-send { background: #2FA36B; }
+        .btn-pdf { background: var(--red); }
+        .btn-excel { background: var(--green); }
+
+        .summary-box {
+            background: var(--paper); border: 1px solid var(--paper-line); padding: 14px 16px; border-radius: 10px;
+            margin-top: 16px; display: flex; justify-content: space-around; font-weight: 700; color: var(--ink);
+            flex-wrap: wrap; gap: 10px; font-family:'Avenir Next',sans-serif;
+        }
+        .position-badge {
+            display:inline-flex; align-items:center; justify-content:center;
+            background: var(--gold); color: #2b2106; padding: 0; width:42px; height:42px; border-radius: 50%;
+            border: 2px dashed rgba(43,33,6,0.5); transform: rotate(-6deg); font-size:13px;
+        }
+        .class-header {
+            text-align:center; color:#fff; margin-top:26px; margin-bottom:14px;
+            background: var(--ink); padding:11px; border-radius:8px; font-size:13px;
+            font-family:'Avenir Next',sans-serif; text-transform:uppercase; letter-spacing:.12em; font-weight:700;
+        }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
 <div id="loginPage" class="container glass login-box">
-    <h2 style="color:white;">SCHOOLEASE LOGIN</h2>
+    <h2>SCHOOLEASE LOGIN</h2>
     <input type="text" id="username" placeholder="Username: admin">
     <input type="password" id="password" placeholder="Password: 1234">
-    <button class="btn btn-add" onclick="login()">Login</button>
-    <p style="color:white; font-size:12px;">Default: admin / 1234</p>
+    <button class="btn btn-add" onclick="login()" style="width:100%; margin-top:6px;">Login</button>
+    <p>Default: admin / 1234</p>
 </div>
 
 <div id="mainApp" class="container glass hidden">
@@ -66,7 +140,7 @@
             <option value="3rd Term">3rd Term</option>
         </select>
         <button class="btn btn-add" onclick="addStudent()">+ Add New Student</button>
-        <button class="btn" onclick="calculateAllPositions()" style="background:rgba(245,158,11,0.8);">🏆 Calculate Positions</button>
+        <button class="btn" onclick="calculateAllPositions()" style="background:var(--gold); color:#2b2106;">🏆 Calculate Positions</button>
         <button class="btn btn-pdf" onclick="exportToPDF()">📄 Export PDF</button>
         <button class="btn btn-excel" onclick="exportToExcel()">📊 Export Excel</button>
         <button class="btn btn-del" onclick="logout()">Logout</button>
@@ -115,7 +189,7 @@ function addStudent(existingData = null) {
     studentDiv.id = `student-${studentId}`;
     studentDiv.innerHTML = `
         <div class="student-header">
-            <h3>Student Record</h3>
+            <div><span class="role-label">Student Record</span></div>
             <button class="btn btn-del" onclick="deleteStudent(${studentId})">Delete</button>
         </div>
         <div class="info-grid">
@@ -130,10 +204,10 @@ function addStudent(existingData = null) {
                 <div><label>Parent WhatsApp</label><input type="text" id="phone-${studentId}" value="${existingData?.phone || ''}"></div>
             </div>
         </div>
-        <h4 style="color:white;">Subjects</h4>
+        <h4 style="color:var(--ink); font-size:13px; text-transform:uppercase; letter-spacing:.08em; font-family:'Avenir Next',sans-serif;">Subjects</h4>
         <table id="table-${studentId}"><thead><tr><th>#</th><th>Subject</th><th>Total</th><th>Obtained</th><th>Grade</th><th>Remark</th><th>X</th></tr></thead><tbody></tbody></table>
         <button class="btn btn-add" onclick="addSubject(${studentId})">+ Add Subject</button>
-        <button class="btn" onclick="saveStudent(${studentId})" style="background:rgba(37,99,235,0.8);">💾 Save & Calculate</button>
+        <button class="btn" onclick="saveStudent(${studentId})" style="background:var(--ink);">💾 Save & Calculate</button>
         <button class="btn btn-send" onclick="sendToParent(${studentId})">📤 Send to Parent</button>
         <div class="summary-box" id="summary-${studentId}" style="display:${existingData? 'flex' : 'none'};">
             <span>Total: <b id="total-${studentId}">${existingData?.total || 0}</b></span>
@@ -260,4 +334,5 @@ function exportToExcel() {
 }
 </script>
 </body>
-</html> 
+</html>
+ 
