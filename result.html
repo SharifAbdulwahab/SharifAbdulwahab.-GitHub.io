@@ -1,105 +1,190 @@
- <!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>SchoolEase - Results</title>
+    <title>SchoolEase - Report Card</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f4ff; padding: 20px; }
-        header { text-align: center; color: #1d4ed8; }
-        .container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .btn { background:#2563eb; color:white; padding:10px 15px; border-radius:8px; text-decoration:none; display:inline-block; margin-right:10px; }
-        .btn-send { background:#25D366; color:white; border:none; padding:10px 15px; border-radius:8px; cursor:pointer; margin-top:10px; font-weight:bold; }
-        input { width: 90%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; margin-bottom:10px; }
+        body { background: #f0f4ff; padding: 20px; }
+        .container { background: white; padding: 20px; border-radius: 10px; max-width: 900px; margin: auto; }
+        .school-header { text-align: center; color: #dc2626; }
+        .school-header h2 { margin: 5px; }
+        .school-header p { margin: 2px; font-size: 14px; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { background: #2563eb; color: white; padding: 10px; text-align: left; }
+        td { padding: 10px; border: 1px solid #ddd; }
+        input { width: 80px; padding: 5px; }
+        .btn { background:#2563eb; color:white; padding:10px 15px; border-radius:8px; border:none; cursor:pointer; margin:5px; }
+        .btn-send { background:#25D366; }
+        .grading-system { margin-top: 20px; font-size: 14px; }
+        .signatures { display: flex; justify-content: space-around; margin-top: 40px; }
+        .sig-box { border: 1px solid #ccc; width: 30%; height: 60px; text-align: center; padding-top: 40px; }
     </style>
 </head>
 <body>
 
 <header class="topbar">
     <h1>SCHOOLEASE</h1>
-    <p>Student Results</p>
+    <p>Student Report Card</p>
 </header>
 
 <a href="Dashboard.html" class="back-btn">← Back to Dashboard</a>
 
-<div class="container">
+<div class="container" id="reportCard">
+    <div class="school-header">
+        <h2>SCHOOLEASE PRIMARY & SECONDARY SCHOOL</h2>
+        <p>Azare, Bauchi State, Nigeria</p>
+        <p><b>Term Report Card - Academic Year 2025-2026</b></p>
+    </div>
 
-<h2>Enter Student Result</h2>
+    <div class="info-grid">
+        <div><b>Student Name:</b> <input type="text" id="studentName" placeholder="Enter Name"></div>
+        <div><b>Class & Div:</b> <input type="text" id="class" placeholder="e.g. JSS 2A"></div>
+        <div><b>Roll No:</b> <input type="text" id="rollNo" placeholder="01"></div>
+        <div><b>Attendance:</b> <input type="text" id="attendance" placeholder="85/90"></div>
+    </div>
 
-<input type="text" id="student" placeholder="Student Name"><br>
+    <h3>Enter Subjects & Scores</h3>
+    <table id="subjectTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Subject</th>
+                <th>Total Marks</th>
+                <th>Marks Obtained</th>
+                <th>Grade</th>
+                <th>Remarks</th>
+            </tr>
+        </thead>
+        <tbody id="subjectBody">
+            <!-- JS will add rows here -->
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2"><b>TOTAL</b></td>
+                <td id="totalMarks">0</td>
+                <td id="totalObtained">0</td>
+                <td colspan="2" id="percentage"></td>
+            </tr>
+        </tfoot>
+    </table>
+    <button class="btn" onclick="addSubject()">+ Add Subject</button>
+    <button class="btn" onclick="calculateAndSave()">Calculate & Save Result</button>
 
-<input type="text" id="parentPhone" placeholder="Parent WhatsApp Number e.g. 2348012345678"><br>
+    <div id="finalResult" style="display:none;">
+        <h3>Result Summary</h3>
+        <p><b>Overall Percentage:</b> <span id="finalPercent"></span>%</p>
+        <p><b>Class Position:</b> <span id="finalRank"></span></p>
+        
+        <div class="grading-system">
+            <h4>Grading System</h4>
+            <table>
+                <tr><th>70-100</th><th>60-69</th><th>50-59</th><th>45-49</th><th>40-44</th><th>0-39</th></tr>
+                <tr><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td><td>F</td></tr>
+            </table>
+        </div>
 
-<input type="number" id="ca" placeholder="Continuous Assessment (40)" max="40"><br>
-
-<input type="number" id="exam" placeholder="Exam Score (60)" max="60"><br>
-
-<button onclick="calculateResult()">Calculate Result</button>
-
-<h3 id="result"></h3>
-
-<button class="btn-send" onclick="sendResultToParent()">📤 Send Result to Parent via WhatsApp</button>
-
+        <div class="signatures">
+            <div class="sig-box">Class Teacher</div>
+            <div class="sig-box">Principal</div>
+            <div class="sig-box">Parent</div>
+        </div>
+        
+        <button class="btn btn-send" onclick="sendReportToParent()">📤 Send to Parent via WhatsApp</button>
+    </div>
 </div>
 
 <script>
-let currentResult = {};
+let subjects = [];
+let studentData = {};
 
-function calculateResult() {
-    const student = document.getElementById('student').value.trim();
-    const ca = parseFloat(document.getElementById('ca').value) || 0;
-    const exam = parseFloat(document.getElementById('exam').value) || 0;
-    const resultDiv = document.getElementById('result');
-
-    if(!student) {
-        resultDiv.innerText = "Please enter student name";
-        resultDiv.style.color = "red";
-        return;
-    }
-
-    const total = ca + exam;
-    let grade = "";
-    if(total >= 70) grade = "A";
-    else if(total >= 60) grade = "B";
-    else if(total >= 50) grade = "C";
-    else if(total >= 45) grade = "D";
-    else if(total >= 40) grade = "E";
-    else grade = "F";
-
-    currentResult = {student, ca, exam, total, grade};
-
-    resultDiv.innerHTML = `
-        <b>Student:</b> ${student} <br>
-        <b>CA:</b> ${ca}/40 <br>
-        <b>Exam:</b> ${exam}/60 <br>
-        <b>Total:</b> ${total}/100 <br>
-        <b>Grade:</b> ${grade}
+function addSubject() {
+    const tbody = document.getElementById('subjectBody');
+    const rowNum = tbody.rows.length + 1;
+    const row = tbody.insertRow();
+    row.innerHTML = `
+        <td>${rowNum}</td>
+        <td><input type="text" placeholder="e.g. Mathematics"></td>
+        <td><input type="number" value="100" class="total"></td>
+        <td><input type="number" class="obtained" onkeyup="updateTotals()"></td>
+        <td class="grade"></td>
+        <td class="remark"></td>
     `;
-    resultDiv.style.color = "green";
-
-    // Save to localStorage
-    let results = JSON.parse(localStorage.getItem('results')) || [];
-    results.push({...currentResult, date: new Date().toLocaleDateString()});
-    localStorage.setItem('results', JSON.stringify(results));
 }
 
-function sendResultToParent() {
-    const phone = document.getElementById('parentPhone').value.trim();
-    
-    if(!currentResult.student) {
-        alert("Please calculate result first");
-        return;
-    }
-    if(!phone) {
-        alert("Please enter parent WhatsApp number");
-        return;
-    }
-
-    const message = `SCHOOLEASE RESULT NOTIFICATION\nStudent: ${currentResult.student}\nCA: ${currentResult.ca}/40\nExam: ${currentResult.exam}/60\nTotal: ${currentResult.total}/100\nGrade: ${currentResult.grade}\n\nThank you.`;
-    
-    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+function getGrade(score, total) {
+    const percent = (score/total)*100;
+    if(percent >= 70) return {grade: "A", remark: "Excellent"};
+    if(percent >= 60) return {grade: "B", remark: "Very Good"};
+    if(percent >= 50) return {grade: "C", remark: "Good"};
+    if(percent >= 45) return {grade: "D", remark: "Pass"};
+    if(percent >= 40) return {grade: "E", remark: "Pass"};
+    return {grade: "F", remark: "Fail"};
 }
+
+function updateTotals() {
+    let totalMarks = 0;
+    let totalObtained = 0;
+    const rows = document.getElementById('subjectBody').rows;
+    
+    for(let i=0; i<rows.length; i++) {
+        const total = parseFloat(rows[i].cells[2].querySelector('input').value) || 0;
+        const obtained = parseFloat(rows[i].cells[3].querySelector('input').value) || 0;
+        const g = getGrade(obtained, total);
+        
+        rows[i].cells[4].innerText = g.grade;
+        rows[i].cells[5].innerText = g.remark;
+        
+        totalMarks += total;
+        totalObtained += obtained;
+    }
+    
+    document.getElementById('totalMarks').innerText = totalMarks;
+    document.getElementById('totalObtained').innerText = totalObtained;
+    document.getElementById('percentage').innerText = totalMarks > 0 ? ((totalObtained/totalMarks)*100).toFixed(2) + "%" : "0%";
+}
+
+function calculateAndSave() {
+    updateTotals();
+    const studentName = document.getElementById('studentName').value;
+    const totalObtained = parseFloat(document.getElementById('totalObtained').innerText);
+    
+    if(!studentName) { alert("Enter student name"); return; }
+    
+    studentData = {
+        name: studentName,
+        class: document.getElementById('class').value,
+        total: totalObtained,
+        date: new Date().toLocaleDateString()
+    };
+    
+    // Save and calculate position
+    let allResults = JSON.parse(localStorage.getItem('allResults')) || [];
+    allResults = allResults.filter(r => r.name !== studentName); // remove old
+    allResults.push(studentData);
+    localStorage.setItem('allResults', JSON.stringify(allResults));
+    
+    // Sort by total score to get position
+    allResults.sort((a,b) => b.total - a.total);
+    const position = allResults.findIndex(r => r.name === studentName) + 1;
+    
+    document.getElementById('finalPercent').innerText = document.getElementById('percentage').innerText;
+    document.getElementById('finalRank').innerText = position + " out of " + allResults.length;
+    document.getElementById('finalResult').style.display = "block";
+    
+    alert("Result saved! Position: " + position);
+}
+
+function sendReportToParent() {
+    const phone = prompt("Enter Parent WhatsApp number with country code: e.g. 2348012345678");
+    if(!phone) return;
+    
+    const message = `SCHOOLEASE REPORT CARD\nStudent: ${studentData.name}\nClass: ${studentData.class}\nTotal: ${studentData.total}\nPercentage: ${document.getElementById('finalPercent').innerText}%\nPosition: ${document.getElementById('finalRank').innerText}\n\nThank you.`;
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+}
+
+// Add 5 default subjects
+for(let i=0; i<5; i++) addSubject();
 </script>
-
 </body>
-</html>
+</html> 
