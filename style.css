@@ -1,4 +1,4 @@
- /* ===== GENERAL ===== */
+/* ===== GENERAL ===== */
 * {
     margin: 0;
     padding: 0;
@@ -12,6 +12,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px; /* Added for mobile spacing */
 }
 
 /* ===== LOGIN BOX ===== */
@@ -23,6 +24,7 @@ body {
 .login-box {
     background: white;
     max-width: 400px;
+    width: 100%; /* Added for mobile */
     margin: auto;
     padding: 40px 30px;
     border-radius: 20px;
@@ -61,7 +63,7 @@ body {
     margin-bottom: 15px;
     border: 2px solid #d1d5db;
     border-radius: 10px;
-    font-size: 15px;
+    font-size: 16px; /* Increased for mobile */
     transition: 0.3s;
 }
 
@@ -73,31 +75,4 @@ body {
 
 .container button {
     width: 100%;
-    padding: 14px;
-    background: linear-gradient(90deg, #1e3a8a, #3b82f6);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.container button:hover {
-    background: linear-gradient(90deg, #1d4ed8, #2563eb);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
-}
-
-#loginMsg {
-    margin-top: 15px;
-    font-weight: bold;
-    min-height: 20px;
-}
-
-small {
-    color: #6b7280;
-    display: block;
-    margin-top: 15px;
-}
+    padding: 16px; /* Increased for mobile tap */ 
