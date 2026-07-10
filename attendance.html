@@ -1,41 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SchoolEase - Attendance</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .present { background: #4CAF50; color: white; }
+        .absent { background: #f44336; color: white; }
+        .attendance-btn { padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; margin: 0 5px; font-weight: bold; }
+        .date-picker { padding: 10px; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 15px; }
+    </style>
 </head>
 <body>
 
-<header>
+<header class="topbar">
     <h1>SCHOOLEASE</h1>
-    <p>Student Attendance</p>
+    <p>Mark Attendance</p>
 </header>
 
+<a href="Dashboard.html" class="back-btn">← Back to Dashboard</a>
+
 <div class="container">
+    <h2>Take Attendance</h2>
 
-    <h2>Mark Attendance</h2>
-<input type="strings" id="student" placeholder="Student id"><br><br>
-    <input type="text" id="student" placeholder="Student Name"><br><br>
+    <label>Select Date:</label><br>
+    <input type="date" id="attendanceDate" class="date-picker"><br><br>
 
-    <select id="status">
-        <option value="Present">Present</option>
-        <option value="Absent">Absent</option>
-        <option value="Late">Late</option>
-    </select>
+    <label>Select Class:</label><br>
+    <input type="text" id="className" placeholder="e.g. JSS1A" class="date-picker"><br><br>
 
-    <br><br>
-
-    <button onclick="markAttendance()">Save Attendance</button>
-
+    <button onclick="loadStudents()" class="btn">Load Students</button>
+    
     <h3 id="message"></h3>
 
-    <br>
+    <table id="attendanceTable" style="width:100%; margin-top:20px; display:none;">
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Student Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="attendanceList">
+        </tbody>
+    </table>
 
-    <a href="dashboard.html" class="btn">Back to Dashboard</a>
-
+    <button onclick="saveAttendance()" class="btn" id="saveBtn" style="display:none; margin-top:20px;">Save Attendance</button>
 </div>
 
-<script src="attendance.js"></script>
+<script>
+let students = JSON.parse(localStorage.getItem('students')) || [];
+let attendanceData = [];
 
-</body>
-</html>
+document.getElementById('attendanceDate').valueAsDate = new Date();
+
+function loadStudents() {
+    const className = document.getElementById('className').value.trim();
+    const tbody = document.getElementById('attendanceList');
+    const msg = document.getElementById('message');
+    
+    if(!className) {
+        msg.innerText = "Please enter class name 
