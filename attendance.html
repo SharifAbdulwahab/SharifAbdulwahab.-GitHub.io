@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SchoolEase - Attendance</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>SCHOOLEASE</h1>
+    <p>Student Attendance</p>
+</header>
+
+<div class="container">
+
+    <h2>Mark Attendance</h2>
+<input type="strings" id="student" placeholder="Student id"><br><br>
+    <input type="text" id="student" placeholder="Student Name"><br><br>
+
+    <select id="status">
+        <option value="Present">Present</option>
+        <option value="Absent">Absent</option>
+        <option value="Late">Late</option>
+    </select>
+
+    <br><br>
+
+    <button onclick="markAttendance()">Save Attendance</button>
+
+    <h3 id="message"></h3>
+
+    <br>
+
+    <a href="dashboard.html" class="btn">Back to Dashboard</a>
+
+</div>
+
+<script src="attendance.js"></script>
+
+</body>
+</html>
