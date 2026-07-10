@@ -1,0 +1,50 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolEase - Students</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>SCHOOLEASE</h1>
+    <p>Student Registration</p>
+</header>
+
+<div class="container">
+
+<h2>Register Student</h2>
+
+<input type="text" id="studentId" placeholder="Student ID"><br><br>
+
+<input type="text" id="studentName" placeholder="Student Name"><br><br>
+
+<input type="number" id="studentAge" placeholder="Age"><br><br>
+
+<select id="studentGender">
+    <option value="">Select Gender</option>
+    <option>Male</option>
+    <option>Female</option>
+</select><br><br>
+
+<input type="text" id="studentClass" placeholder="Class"><br><br>
+
+<button onclick="registerStudent()">Register Student</button>
+
+<h3 id="message"></h3>
+
+<br>
+<h3>Registered Students</h3>
+<table id="studentTable" border="1" style="width:100%; margin-top:10px; border-collapse:collapse;">
+</table>
+
+<br>
+<a href="dashboard.html" class="btn">Back to Dashboard</a>
+
+</div>
+
+<script src="student.js"></script>
+</body>
+</html>
