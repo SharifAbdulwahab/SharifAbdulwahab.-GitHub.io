@@ -1,338 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>SchoolEase - Report Manager
-tt<<o</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <style>
-        :root{
-          --paper:#FAF6ED;
-          --paper-line:#DCD4BC;
-          --ink:#1E2A4A;
-          --ink-soft:#4A5578;
-          --red:#B33A3A;
-          --red-soft:#E8D3D0;
-          --gold:#C9973E;
-          --gold-soft:#F3E4C4;
-          --green:#3B6255;
-          --green-soft:#DCE7E0;
-          --card:#FFFFFF;
-          --shadow: 0 1px 2px rgba(30,42,74,0.06), 0 4px 14px rgba(30,42,74,0.08);
-        }
-        *{box-sizing:border-box;}
-        body {
-            background:
-              repeating-linear-gradient(var(--paper) 0 31px, var(--paper-line) 31px 32px),
-              var(--paper);
-            padding: 20px;
-            font-family: 'Avenir Next','Segoe UI',ui-sans-serif,system-ui,sans-serif;
-            min-height: 100vh;
-            color: var(--ink);
-        }
-        h1,h2,h3,h4{ font-family:'Iowan Old Style','Georgia','Palatino Linotype',serif; }
-
-        .glass {
-            background: var(--card);
-            border: 1px solid var(--paper-line);
-            box-shadow: var(--shadow);
-        }
-        .container { padding: 26px; border-radius: 16px; max-width: 1100px; margin: auto; }
-
-        .login-box { max-width: 380px; margin: 100px auto; padding: 34px 30px; border-radius: 16px; text-align: center; border-top: 4px solid var(--gold); }
-        .login-box h2{ color: var(--ink); font-size: 22px; letter-spacing: .02em; margin-bottom: 4px; }
-        .login-box input { margin: 8px 0; }
-        .login-box p{ color: var(--ink-soft); font-size: 12px; margin-top: 10px; }
-
-        .topbar{ text-align:center; margin-bottom: 4px; }
-        .topbar h1{ font-size: 26px; margin: 0; letter-spacing: .01em; }
-        .topbar p{ font-family:'Avenir Next',sans-serif; text-transform:uppercase; letter-spacing:.16em; font-size:11px; font-weight:700; color: var(--gold); margin: 2px 0 0; }
-
-        .school-header {
-            text-align: center; color: #fff; padding: 22px 18px 20px; margin: 18px 0 22px;
-            background: var(--ink); border-radius: 14px; position: relative; overflow: hidden;
-        }
-        .school-header::before{
-            content:""; position:absolute; inset:0;
-            background: radial-gradient(circle at 88% -10%, rgba(201,151,62,0.35), transparent 55%);
-            pointer-events:none;
-        }
-        .school-header h2 { margin: 0; font-size: 24px; text-shadow: none; position:relative; }
-        .school-header p{ color:#C9CEE0; font-size:13px; margin:6px 0 0; position:relative; }
-
-        .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; align-items:center; }
-
-        .student-card { border-radius: 14px; padding: 22px; margin-bottom: 22px; border-top: 4px solid var(--ink); }
-        .student-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; color: var(--ink); }
-        .student-header h3{ font-size: 18px; margin:0; }
-        .student-header .role-label{ font-family:'Avenir Next',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:.1em; color: var(--ink-soft); font-weight:700; display:block; }
-
-        .info-grid { display: grid; grid-template-columns: 110px 1fr; gap: 16px; margin-bottom: 16px; align-items: start; }
-        .passport-box { text-align: center; }
-        .passport-preview { width: 100px; height: 120px; border: 2px dashed var(--paper-line); border-radius: 8px; object-fit: cover; background: var(--paper); }
-        .passport-box input[type=file]{ margin-top:8px; font-size:11px; }
-
-        label { font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing:.07em; color: var(--ink-soft); font-family:'Avenir Next',sans-serif; display:block; margin-bottom:3px; }
-        input, select {
-            width: 100%; padding: 9px 10px; border-radius: 7px; border: 1.5px solid var(--paper-line);
-            background: var(--paper); color: var(--ink); font-family:'Avenir Next',sans-serif; font-size: 13.5px;
-        }
-        input:focus, select:focus{ outline:none; border-color: var(--gold); }
-
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13.5px; background: #fff; border-radius: 8px; overflow: hidden; font-family:'Avenir Next',sans-serif; }
-        th { background: var(--ink); color: #fff; padding: 9px 8px; font-size: 11.5px; text-transform:uppercase; letter-spacing:.05em; font-weight:700; }
-        td { padding: 7px 8px; border: 1px solid var(--paper-line); text-align: center; }
-        td input{ padding:5px 6px; }
-
-        .btn { color:#fff; padding:10px 16px; border-radius:8px; border:none; cursor:pointer; font-weight: 600; margin:4px 4px 4px 0; transition: transform .08s ease, filter .15s ease; font-family:'Avenir Next',sans-serif; font-size:13.5px; }
-        .btn:hover { filter: brightness(1.07); }
-        .btn:active{ transform: scale(0.97); }
-        .btn-add { background: var(--green); }
-        .btn-del { background: var(--red); }
-        .btn-send { background: #2FA36B; }
-        .btn-pdf { background: var(--red); }
-        .btn-excel { background: var(--green); }
-
-        .summary-box {
-            background: var(--paper); border: 1px solid var(--paper-line); padding: 14px 16px; border-radius: 10px;
-            margin-top: 16px; display: flex; justify-content: space-around; font-weight: 700; color: var(--ink);
-            flex-wrap: wrap; gap: 10px; font-family:'Avenir Next',sans-serif;
-        }
-        .position-badge {
-            display:inline-flex; align-items:center; justify-content:center;
-            background: var(--gold); color: #2b2106; padding: 0; width:42px; height:42px; border-radius: 50%;
-            border: 2px dashed rgba(43,33,6,0.5); transform: rotate(-6deg); font-size:13px;
-        }
-        .class-header {
-            text-align:center; color:#fff; margin-top:26px; margin-bottom:14px;
-            background: var(--ink); padding:11px; border-radius:8px; font-size:13px;
-            font-family:'Avenir Next',sans-serif; text-transform:uppercase; letter-spacing:.12em; font-weight:700;
-        }
-        .hidden { display: none; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schoolease — Report Card Manager</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --paper:#FAF6ED;
+    --paper-line:#DCD4BC;
+    --ink:#1E2A4A;
+    --ink-soft:#4A5578;
+    --red:#B33A3A;
+    --red-soft:#E8D3D0;
+    --gold:#C9973E;
+    --gold-soft:#F3E4C4;
+    --green:#3B6255;
+    --green-soft:#DCE7E0;
+    --card:#FFFFFF;
+    --shadow: 0 1px 2px rgba(30,42,74,0.06), 0 4px 14px rgba(30,42,74,0.06);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: repeating-linear-gradient(var(--paper) 0 31px, var(--paper-line) 31px 32px), var(--paper);
+    font-family: 'Iowan Old Style','Georgia','Palatino Linotype', serif;
+    color:var(--ink);
+    min-height:100vh;
+  }
+ .util{font-family: 'Avenir Next','Segoe UI',ui-sans-serif,system-ui,sans-serif;}
+ .app{max-width:1180px;margin:0 auto;padding:20px 16px 60px;}
+ .masthead{ background:var(--ink); color:var(--paper); border-radius:14px; padding:22px 26px; box-shadow:var(--shadow); position:relative; overflow:hidden; }
+ .masthead::before{ content:""; position:absolute; inset:0; background: radial-gradient(circle at 90% -10%, rgba(201,151,62,0.35), transparent 55%); pointer-events:none; }
+ .brand-row{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+ .brand-eyebrow{ font-family:'Avenir Next',sans-serif; letter-spacing:.16em; font-size:11px; text-transform:uppercase; color:var(--gold); font-weight:700; margin:0 0 4px; }
+ .brand-title{font-size:28px; margin:0; font-weight:700; letter-spacing:.01em;}
+ .brand-sub{margin:4px 0 0; color:#C9CEE0; font-size:13px; font-family:'Avenir Next',sans-serif;}
+ .seal{ width:64px;height:64px;border-radius:50%; border:2px solid var(--gold); color:var(--gold); display:flex; align-items:center; justify-content:center; font-family:'Avenir Next',sans-serif; font-weight:800; font-size:10px; letter-spacing:.05em; text-align:center; line-height:1.15; flex:none; transform:rotate(-8deg); position:relative; }
+ .seal::after{content:"";position:absolute;inset:5px;border:1px dashed var(--gold);border-radius:50%;opacity:.6;}
+ .school-edit{ display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:14px; }
+ .school-edit input{ background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#fff; border-radius:8px; padding:8px 10px; font-family:'Avenir Next',sans-serif; font-size:13px; }
+ .controls-row{display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; align-items:center;}
+  select.term-select{ background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.25); padding:9px 12px; border-radius:8px; font-family:'Avenir Next',sans-serif; font-size:13.5px; }
+ .btn{ font-family:'Avenir Next',sans-serif; font-weight:600; font-size:13.5px; border:none; border-radius:8px; padding:10px 16px; cursor:pointer; display:inline-flex; align-items:center; gap:7px; transition:transform.08s ease, filter.15s ease; }
+ .btn:active{transform:scale(0.97);}.btn:hover{filter:brightness(1.06);}
+ .btn-green{background:var(--green); color:#fff;}.btn-gold{background:var(--gold); color:#2b2106;}.btn-red{background:var(--red); color:#fff;}.btn-ink{background:var(--ink); color:#fff;}
+ .btn-outline-ink{background:transparent; border:1.5px solid var(--ink); color:var(--ink);}
+ .btn-sm{padding:6px 11px; font-size:12.5px; border-radius:6px;}
+ .toolbar{display:flex; gap:10px; flex-wrap:wrap; margin:18px 0;}
+ .stats-row{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:18px; }
+ .stat-card{ background:var(--card); border-radius:10px; padding:14px 16px; box-shadow:var(--shadow); border-left:4px solid var(--gold); }
+ .stat-card.label{font-family:'Avenir Next',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); font-weight:700;}
+ .stat-card.value{font-size:24px; font-weight:700; margin-top:4px;}
+ .tabs{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:6px;}
+ .tab{ font-family:'Avenir Next',sans-serif; font-weight:600; font-size:13px; background:var(--card); border:1.5px solid var(--paper-line); color:var(--ink-soft); padding:8px 14px; border-radius:20px; cursor:pointer; }
+ .tab.active{background:var(--ink); color:#fff; border-color:var(--ink);}
+ .section-divider{ background:var(--ink); color:#fff; text-align:center; font-family:'Avenir Next',sans-serif; letter-spacing:.1em; font-size:12.5px; font-weight:700; text-transform:uppercase; padding:10px; border-radius:8px; margin:20px 0 14px; }
+ .search-bar{ display:flex; gap:8px; margin-bottom:14px; }
+ .search-bar input{ flex:1; padding:10px 14px; border-radius:8px; border:1.5px solid var(--paper-line); font-family:'Avenir Next',sans-serif; font-size:13.5px; background:var(--card); }
+ .student-card{ background:var(--card); border-radius:14px; padding:20px; margin-bottom:18px; box-shadow:var(--shadow); border-top:4px solid var(--ink); position:relative; }
+ .student-head{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:16px; flex-wrap:wrap;}
+ .student-head h3{margin:0; font-size:19px; font-family:'Avenir Next',sans-serif; font-weight:700;}
+ .student-head.role-label{font-family:'Avenir Next',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-soft); font-weight:700;}
+ .photo-block{display:flex; flex-direction:column; align-items:center; gap:8px; width:120px; flex:none;}
+ .photo-frame{ width:110px;height:130px;border-radius:6px; object-fit:cover; border:2px solid var(--ink); background:var(--paper); box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+ .photo-placeholder{ width:110px;height:130px;border-radius:6px; border:2px dashed var(--ink-soft); display:flex; align-items:center; justify-content:center; color:var(--ink-soft); font-family:'Avenir Next',sans-serif; font-size:11px; text-align:center; background:var(--paper); }
+ .field-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; flex:1; min-width:260px;}
+ .field label{ display:block; font-family:'Avenir Next',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); font-weight:700; margin-bottom:4px; }
+ .field input{ width:100%; padding:9px 10px; border-radius:7px; border:1.5px solid var(--paper-line); font-family:'Avenir Next',sans-serif; font-size:13.5px; background:var(--paper); }
+  table.subjects{width:100%; border-collapse:collapse; margin-top:6px; font-family:'Avenir Next',sans-serif;}
+  table.subjects thead th{ background:var(--ink); color:#fff; font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; padding:9px 8px; text-align:left; font-weight:700; }
+  table.subjects tbody td{padding:6px 8px; border-bottom:1px solid var(--paper-line); font-size:13.5px;}
+  table.subjects tbody tr:nth-child(odd){background:#FCFAF3;}
+  table.subjects input{ width:100%; border:1px solid transparent; background:transparent; padding:4px 6px; border-radius:5px; font-size:13.5px; font-family:'Avenir Next',sans-serif; }
+ .grade-pill{ display:inline-block; padding:2px 9px; border-radius:20px; font-weight:700; font-size:12px; }
+ .grade-A{background:var(--green-soft); color:var(--green);}.grade-B{background:#DDE8F2; color:#2C5A82;}.grade-C{background:var(--gold-soft); color:#8A6316;}.grade-D{background:#F1E4CE; color:#8A5A16;}.grade-E{background:#F3DCC8; color:#9A4B16;}.grade-F{background:var(--red-soft); color:var(--red);}
+ .x-btn{background:none;border:none;color:var(--red);cursor:pointer;font-size:15px;font-weight:700;}
+ .subject-actions{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
+ .summary-strip{ display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; background:var(--paper); border-radius:10px; padding:12px 16px; margin-top:14px; border:1px solid var(--paper-line); }
+ .summary-item{font-family:'Avenir Next',sans-serif;}
+ .summary-item.label{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); font-weight:700;}
+ .summary-item.val{font-size:19px; font-weight:800;}
+ .position-stamp{ display:inline-flex; align-items:center; justify-content:center; background:var(--gold); color:#2b2106; font-weight:800; border-radius:50%; width:46px; height:46px; font-size:14px; border:2px dashed #2b2106aa; transform:rotate(-6deg); }
+ .toast{ position:fixed; bottom:22px; left:50%; transform:translateX(-50%); background:var(--ink); color:#fff; padding:11px 20px; border-radius:30px; font-family:'Avenir Next',sans-serif; font-size:13.5px; box-shadow:var(--shadow); z-index:999; opacity:0; pointer-events:none; transition:opacity.25s ease, bottom.25s ease; }
+ .toast.show{opacity:1; bottom:32px;}
+ .modal-overlay{ position:fixed; inset:0; background:rgba(30,42,74,0.55); display:flex; align-items:center; justify-content:center; z-index:1000; padding:16px; }
+ .modal-box{ background:#fff; border-radius:14px; padding:24px; max-width:420px; width:100%; box-shadow:var(--shadow); font-family:'Avenir Next',sans-serif; }
+  @media (max-width:600px){.field-grid{grid-template-columns:1fr;}.student-head{flex-direction:column;}.brand-title{font-size:22px;} }
+  @media print{ body{background:#fff;}.no-print{display:none!important;}.app{max-width:100%; padding:0;}.student-card{box-shadow:none; border:1px solid #999; page-break-after:always; border-radius:0;}.masthead{border-radius:0;} }
+</style>
 </head>
 <body>
-
-<div id="loginPage" class="container glass login-box">
-    <h2>SCHOOLEASE LOGIN</h2>
-    <input type="text" id="username" placeholder="Username: admin">
-    <input type="password" id="password" placeholder="Password: 1234">
-    <button class="btn btn-add" onclick="login()" style="width:100%; margin-top:6px;">Login</button>
-    <p>Default: admin / 1234</p>
-</div>
-
-<div id="mainApp" class="container glass hidden">
-    <header class="topbar">
-        <h1>SCHOOLEASE</h1>
-        <p>Report Card Manager Pro</p>
-    </header>
-
-    <div class="school-header">
-        <h2>SCHOOLEASE PRIMARY & SECONDARY SCHOOL</h2>
-        <p>Azare, Bauchi State</p>
-    </div>
-
-    <div class="controls">
-        <select id="termSelect" onchange="loadStudents()">
-            <option value="1st Term">1st Term</option>
-            <option value="2nd Term">2nd Term</option>
-            <option value="3rd Term">3rd Term</option>
-        </select>
-        <button class="btn btn-add" onclick="addStudent()">+ Add New Student</button>
-        <button class="btn" onclick="calculateAllPositions()" style="background:var(--gold); color:#2b2106;">🏆 Calculate Positions</button>
-        <button class="btn btn-pdf" onclick="exportToPDF()">📄 Export PDF</button>
-        <button class="btn btn-excel" onclick="exportToExcel()">📊 Export Excel</button>
-        <button class="btn btn-del" onclick="logout()">Logout</button>
-    </div>
-
-    <div id="allStudents"></div>
-</div>
+<div id="root" class="app"></div>
+<div id="toast" class="toast"></div>
 
 <script>
-const { jsPDF } = window.jspdf;
-let allStudentsData = [];
-let currentTerm = "1st Term";
+(function(){
+  "use strict";
+  var state = {
+    settings: { schoolName:"Schoolease Primary & Secondary School", schoolAddress:"Azare, Bauchi State", term:"1st Term", session:"2025/2026" },
+    students: [],
+    activeClass: "All",
+    search: ""
+  };
+  var loaded = false;
+  var STORE_KEY = "schoolease-app-data";
+  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+  function defaultSubjects(){ return [ { id: uid(), name:"Mathematics", total:100, obtained:"" }, { id: uid(), name:"English Language", total:100, obtained:"" }, { id: uid(), name:"Basic Science", total:100, obtained:"" } ]; }
+  function gradeFor(pct){ if(pct===null || isNaN(pct)) return {grade:"-", remark:"-", cls:""}; if(pct>=70) return {grade:"A", remark:"Excellent", cls:"grade-A"}; if(pct>=60) return {grade:"B", remark:"Very Good", cls:"grade-B"}; if(pct>=50) return {grade:"C", remark:"Good", cls:"grade-C"}; if(pct>=45) return {grade:"D", remark:"Pass", cls:"grade-D"}; if(pct>=40) return {grade:"E", remark:"Fair", cls:"grade-E"}; return {grade:"F", remark:"Fail", cls:"grade-F"}; }
+  function ordinal(n){ var s=["th","st","nd","rd"], v=n%100; return n + (s[(v-20)%10] || s[v] || s[0]); }
+  function studentTotals(st){ var totalMax=0, totalObt=0; (st.subjects||[]).forEach(function(su){ var t=parseFloat(su.total), o=parseFloat(su.obtained); if(!isNaN(t)){ totalMax+=t; } if(!isNaN(o)){ totalObt+=o; } }); var pct = totalMax>0? (totalObt/totalMax*100) : null; return { totalMax:totalMax, totalObt:totalObt, pct:pct }; }
+  function classKey(st){ return (st.className||"Unassigned") + "||" + (st.term||state.settings.term) + "||" + (st.session||state.settings.session); }
+  function computePositions(){ var groups = {}; state.students.forEach(function(st){ var k = classKey(st); groups[k] = groups[k] || []; groups[k].push(st); }); Object.keys(groups).forEach(function(k){ var arr = groups[k].slice().sort(function(a,b){ var pa = studentTotals(a).pct, pb = studentTotals(b).pct; if(pa===null) pa=-1; if(pb===null) pb=-1; return pb-pa; }); var rank=0, prevPct=null, seen=0; arr.forEach(function(st){ seen++; var pct = studentTotals(st).pct; if(pct===null){ st._position = null; return; } if(prevPct===null || pct < prevPct){ rank = seen; } prevPct = pct; st._position = rank; }); }); }
+  function formatPhone(p){ p = (p||"").replace(/[^0-9]/g,""); if(p.startsWith("0")) p = "234" + p.slice(1); return p; }
 
-function login() {
-    const user = document.getElementById('username').value;
-    const pass = document.getElementById('password').value;
-    if(user === "admin" && pass === "1234") {
-        document.getElementById('loginPage').classList.add('hidden');
-        document.getElementById('mainApp').classList.remove('hidden');
-        loadStudents();
-    } else { alert("Wrong username or password"); }
-}
+  // FIXED: USE LOCALSTORAGE SO DATA SAVES
+  function save(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify({settings:state.settings, students:state.students})); }catch(e){ console.error("save err",e); showToast("Save failed"); } }
+  function load(){ var res = localStorage.getItem(STORE_KEY); if(res){ try{ var data = JSON.parse(res); if(data.settings) state.settings = data.settings; if(data.students) state.students = data.students; }catch(e){ console.error(e); } } loaded=true; render(); }
 
-function logout() {
-    document.getElementById('mainApp').classList.add('hidden');
-    document.getElementById('loginPage').classList.remove('hidden');
-}
-
-function loadStudents() {
-    currentTerm = document.getElementById('termSelect').value;
-    allStudentsData = JSON.parse(localStorage.getItem(`allStudentsData_${currentTerm}`)) || [];
-    document.getElementById('allStudents').innerHTML = '';
-    if(allStudentsData.length === 0) addStudent();
-    else allStudentsData.forEach(s => addStudent(s));
-    calculateAllPositions();
-}
-
-function saveToStorage() {
-    localStorage.setItem(`allStudentsData_${currentTerm}`, JSON.stringify(allStudentsData));
-}
-
-function addStudent(existingData = null) {
-    const studentId = existingData? existingData.id : Date.now();
-    const studentDiv = document.createElement('div');
-    studentDiv.className = 'student-card glass';
-    studentDiv.id = `student-${studentId}`;
-    studentDiv.innerHTML = `
-        <div class="student-header">
-            <div><span class="role-label">Student Record</span></div>
-            <button class="btn btn-del" onclick="deleteStudent(${studentId})">Delete</button>
-        </div>
-        <div class="info-grid">
-            <div class="passport-box">
-                <img id="passport-${studentId}" class="passport-preview" src="${existingData?.passport || ''}">
-                <input type="file" accept="image/*" id="upload-${studentId}" onchange="previewPassport(${studentId})">
-            </div>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                <div><label>Student Name</label><input type="text" id="name-${studentId}" value="${existingData?.name || ''}"></div>
-                <div><label>Class</label><input type="text" id="class-${studentId}" value="${existingData?.class || ''}" placeholder="Primary 1"></div>
-                <div><label>Roll No</label><input type="text" id="roll-${studentId}" value="${existingData?.roll || ''}"></div>
-                <div><label>Parent WhatsApp</label><input type="text" id="phone-${studentId}" value="${existingData?.phone || ''}"></div>
-            </div>
-        </div>
-        <h4 style="color:var(--ink); font-size:13px; text-transform:uppercase; letter-spacing:.08em; font-family:'Avenir Next',sans-serif;">Subjects</h4>
-        <table id="table-${studentId}"><thead><tr><th>#</th><th>Subject</th><th>Total</th><th>Obtained</th><th>Grade</th><th>Remark</th><th>X</th></tr></thead><tbody></tbody></table>
-        <button class="btn btn-add" onclick="addSubject(${studentId})">+ Add Subject</button>
-        <button class="btn" onclick="saveStudent(${studentId})" style="background:var(--ink);">💾 Save & Calculate</button>
-        <button class="btn btn-send" onclick="sendToParent(${studentId})">📤 Send to Parent</button>
-        <div class="summary-box" id="summary-${studentId}" style="display:${existingData? 'flex' : 'none'};">
-            <span>Total: <b id="total-${studentId}">${existingData?.total || 0}</b></span>
-            <span>%: <b id="percent-${studentId}">${existingData?.percent || '0%'}</b></span>
-            <span>Position: <b class="position-badge" id="position-${studentId}">-</b></span>
-        </div>
-    `;
-    document.getElementById('allStudents').appendChild(studentDiv);
-    if(!existingData){ addSubject(studentId); addSubject(studentId); }
-}
-
-function previewPassport(studentId) {
-    const file = document.getElementById(`upload-${studentId}`).files[0];
-    if(file) { const reader = new FileReader(); reader.onload = e => document.getElementById(`passport-${studentId}`).src = e.target.result; reader.readAsDataURL(file); }
-}
-
-function addSubject(studentId) {
-    const tbody = document.querySelector(`#table-${studentId} tbody`);
-    const rowNum = tbody.rows.length + 1;
-    tbody.insertRow().innerHTML = `<td>${rowNum}</td><td><input type="text" placeholder="Math"></td><td><input type="number" value="100"></td><td><input type="number" onkeyup="calculateStudent(${studentId})"></td><td class="grade">-</td><td class="remark">-</td><td><button onclick="this.parentElement.parentElement.remove(); calculateStudent(${studentId})">X</button></td>`;
-}
-
-function getGrade(score, total) {
-    const percent = total > 0? (score/total)*100 : 0;
-    if(percent >= 70) return {grade: "A", remark: "Excellent"};
-    if(percent >= 60) return {grade: "B", remark: "Very Good"};
-    if(percent >= 50) return {grade: "C", remark: "Good"};
-    if(percent >= 45) return {grade: "D", remark: "Pass"};
-    if(percent >= 40) return {grade: "E", remark: "Pass"};
-    return {grade: "F", remark: "Fail"};
-}
-
-function calculateStudent(studentId) {
-    const rows = document.querySelectorAll(`#table-${studentId} tbody tr`);
-    let totalMarks = 0; let totalObtained = 0;
-    rows.forEach(row => {
-        const total = parseFloat(row.cells[2].querySelector('input').value) || 0;
-        const obtained = parseFloat(row.cells[3].querySelector('input').value) || 0;
-        const g = getGrade(obtained, total);
-        row.cells[4].innerText = g.grade; row.cells[5].innerText = g.remark;
-        totalMarks += total; totalObtained += obtained;
-    });
-    const percent = totalMarks > 0? ((totalObtained/totalMarks)*100).toFixed(2) : 0;
-    document.getElementById(`total-${studentId}`).innerText = totalObtained;
-    document.getElementById(`percent-${studentId}`).innerText = percent + "%";
-    document.getElementById(`summary-${studentId}`).style.display = "flex";
-    return {total: totalObtained, percent: percent + "%"};
-}
-
-function getSuffix(num) {
-    if (num > 3 && num < 21) return 'th';
-    switch (num % 10) { case 1: return "st"; case 2: return "nd"; case 3: return "rd"; default: return "th"; }
-}
-
-function calculateAllPositions() {
-    document.querySelectorAll('.class-header').forEach(h => h.remove());
-    let classes = {};
-    allStudentsData.forEach(student => {
-        if(!student.class) student.class = "No Class";
-        if(!classes[student.class]) classes[student.class] = [];
-        classes[student.class].push(student);
-    });
-    for(let className in classes) {
-        const header = document.createElement('div'); header.className = 'class-header'; header.innerText = `--- ${className} RESULTS ---`;
-        document.getElementById('allStudents').appendChild(header);
-        let studentsInClass = classes[className].sort((a,b) => b.total - a.total);
-        let currentRank = 1;
-        for(let i=0; i<studentsInClass.length; i++) {
-            if(i > 0 && studentsInClass[i].total < studentsInClass[i-1].total) currentRank = i + 1; // TIE LOGIC
-            const posElement = document.getElementById(`position-${studentsInClass[i].id}`);
-            if(posElement) posElement.innerText = `${currentRank}${getSuffix(currentRank)}`;
-            document.getElementById('allStudents').appendChild(document.getElementById(`student-${studentsInClass[i].id}`));
-        }
-    }
-    saveToStorage();
-}
-
-function saveStudent(studentId) {
-    const data = calculateStudent(studentId);
-    const student = {
-        id: studentId, name: document.getElementById(`name-${studentId}`).value, class: document.getElementById(`class-${studentId}`).value,
-        roll: document.getElementById(`roll-${studentId}`).value, phone: document.getElementById(`phone-${studentId}`).value,
-        passport: document.getElementById(`passport-${studentId}`).src, total: data.total, percent: data.percent
-    };
-    allStudentsData = allStudentsData.filter(s => s.id!== studentId); allStudentsData.push(student);
-    saveToStorage(); calculateAllPositions(); alert(`${student.name} saved for ${currentTerm}!`);
-}
-
-function deleteStudent(studentId) {
-    if(confirm("Delete this student?")) {
-        document.getElementById(`student-${studentId}`).remove();
-        allStudentsData = allStudentsData.filter(s => s.id!== studentId);
-        saveToStorage(); calculateAllPositions();
-    }
-}
-
-function sendToParent(studentId) {
-    const name = document.getElementById(`name-${studentId}`).value;
-    const phone = document.getElementById(`phone-${studentId}`).value;
-    const total = document.getElementById(`total-${studentId}`).innerText;
-    const percent = document.getElementById(`percent-${studentId}`).innerText;
-    const position = document.getElementById(`position-${studentId}`).innerText;
-    if(!phone) { alert("Enter parent WhatsApp number"); return; }
-    const message = `SCHOOLEASE REPORT CARD - ${currentTerm}\n\nStudent: ${name}\nTotal: ${total}\n%: ${percent}\nPosition: ${position}\n\nCongratulations!`;
-    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
-}
-
-function exportToPDF() {
-    const doc = new jsPDF();
-    doc.text(`SCHOOLEASE REPORT - ${currentTerm}`, 10, 10);
-    let y = 20;
-    allStudentsData.sort((a,b) => b.total - a.total).forEach((s, i) => {
-        doc.text(`${i+1}. ${s.name} - ${s.class} - Total: ${s.total} - ${s.percent}`, 10, y);
-        y += 10;
-    });
-    doc.save(`SchoolEase_Report_${currentTerm}.pdf`);
-}
-
-function exportToExcel() {
-    const ws = XLSX.utils.json_to_sheet(allStudentsData);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, currentTerm);
-    XLSX.writeFile(wb, `SchoolEase_Report_${currentTerm}.xlsx`);
-}
+  function showToast(msg){ var t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(showToast._tm); showToast._tm = setTimeout(function(){ t.classList.remove("show"); }, 2200); }
+  function addStudent(){ var s = { id: uid(), name:"New Student", className: state.activeClass!=="All"? state.activeClass : "Primary 1", rollNo:"", parentWhatsapp:"", photo:"", term: state.settings.term, session: state.settings.session, subjects: defaultSubjects() }; state.students.unshift(s); save(); render(); showToast("Student added"); }
+  var pendingDelete = null; function askDelete(id){ pendingDelete = id; render(true); } function cancelDelete(){ pendingDelete = null; render(true); } function confirmDelete(){ state.students = state.students.filter(function(s){ return s.id!==pendingDelete; }); pendingDelete = null; save(); render(); showToast("Student deleted"); }
+  function updateStudentField(id, field, value){ var s = state.students.find(function(x){ return x.id===id; }); if(!s) return; s[field]=value; save(); }
+  function addSubject(id){ var s = state.students.find(function(x){ return x.id===id; }); if(!s) return; s.subjects.push({ id: uid(), name:"New Subject", total:100, obtained:"" }); save(); render(); }
+  function removeSubject(sid, subId){ var s = state.students.find(function(x){ return x.id===sid; }); if(!s) return; s.subjects = s.subjects.filter(function(su){ return su.id!==subId; }); save(); render(); }
+  function updateSubjectField(sid, subId, field, value){ var s = state.students.find(function(x){ return x.id===sid; }); if(!s) return; var su = s.subjects.find(function(x){ return x.id===subId; }); if(!su) return; su[field]=value; save(); renderSummaryOnly(sid); }
+  function saveAndCalculate(id){ computePositions(); save(); render(); showToast("Saved & calculated"); }
+  function calculateAllPositions(){ computePositions(); save(); render(); showToast("Positions recalculated"); }
+  function sendToParent(id){ var s = state.students.find(function(x){ return x.id===id; }); if(!s) return; var t = studentTotals(s); var g = gradeFor(t.pct); var lines = [ "*"+state.settings.schoolName+"*", state.settings.term+" — "+state.settings.session, "", "Student: "+s.name, "Class: "+s.className, "Total: "+t.totalObt+"/"+t.totalMax, "Percentage: "+(t.pct!==null? t.pct.toFixed(1)+"%":"—"), "Position: "+(s._position? ordinal(s._position): "—"), "Overall Grade: "+g.grade+" ("+g.remark+")" ]; var msg = encodeURIComponent(lines.join("\n")); var phone = formatPhone(s.parentWhatsapp); if(!phone){ showToast("Add parent WhatsApp first"); return; } var url = "https://wa.me/"+phone+"?text="+msg; window.open(url, "_blank"); }
+  function handlePhoto(id, file){ if(!file) return; var reader = new FileReader(); reader.onload = function(e){ updateStudentField(id, "photo", e.target.result); render(); }; reader.readAsDataURL(file); }
+  function exportExcel(){ var rows = []; filteredStudents().forEach(function(s){ var t = studentTotals(s); var base = { "Student Name": s.name, "Class": s.className, "Roll No": s.rollNo, "Term": s.term, "Session": s.session, "Total Obtained": t.totalObt, "Total Obtainable": t.totalMax, "Percentage": t.pct!==null? t.pct.toFixed(2)+"%":"", "Position": s._position? ordinal(s._position):"" }; (s.subjects||[]).forEach(function(su){ base[su.name+" (Obt)"] = su.obtained; base[su.name+" (Total)"] = su.total; }); rows.push(base); }); if(rows.length===0){ showToast("No students to export"); return; } var ws = XLSX.utils.json_to_sheet(rows); var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "Report"); XLSX.writeFile(wb, "Schoolease_" + state.activeClass.replace(/\s+/g,"_") + ".xlsx"); showToast("Excel downloaded"); }
+  function exportPDF(){ window.print(); } function backupData(){ var blob = new Blob([JSON.stringify({settings:state.settings, students:state.students}, null, 2)], {type:"application/json"}); var url = URL.createObjectURL(blob); var a = document.createElement("a"); a.href = url; a.download = "schoolease-backup.json"; a.click(); setTimeout(function(){ URL.revokeObjectURL(url); }, 1000); showToast("Backup downloaded"); }
+  function restoreData(file){ var reader = new FileReader(); reader.onload = function(e){ try{ var data = JSON.parse(e.target.result); if(data.settings) state.settings = data.settings; if(data.students) state.students = data.students; save(); render(); showToast("Data restored"); }catch(err){ showToast("Invalid backup file"); } }; reader.readAsText(file); }
+  function filteredStudents(){ return state.students.filter(function(s){ var matchClass = state.activeClass==="All" || s.className===state.activeClass; var q = state.search.trim().toLowerCase(); var matchSearch =!q || (s.name||"").toLowerCase().indexOf(q)>-1 || (s.rollNo||"").toLowerCase().indexOf(q)>-1; return matchClass && matchSearch; }); }
+  function allClasses(){ var set = {}; state.students.forEach(function(s){ set[s.className||"Unassigned"]=true; }); return Object.keys(set).sort(); }
+  function esc(v){ return (v===undefined||v===null)? "" : String(v).replace(/"/g,"&quot;"); }
+  function renderSummaryOnly(sid){ computePositions(); var el = document.getElementById("sum-"+sid); var s = state.students.find(function(x){ return x.id===sid; }); if(!el ||!s) return; var t = studentTotals(s); el.innerHTML = summaryHTML(s,t); }
+  function summaryHTML(s,t){ return '<div class="summary-item"><div class="label">Total</div><div class="val">'+t.totalObt+' / '+t.totalMax+'</div></div><div class="summary-item"><div class="label">Percentage</div><div class="val">'+(t.pct!==null? t.pct.toFixed(1)+'%':'—')+'</div></div><div class="summary-item"><div class="label">Overall Grade</div><div class="val">'+(t.pct!==null? gradeFor(t.pct).grade:'—')+'</div></div><div class="position-stamp">'+(s._position? ordinal(s._position): '—')+'</div>'; }
+  function studentCardHTML(s){ var t = studentTotals(s); var rowsHTML = (s.subjects||[]).map(function(su){ var pct = (su.total!=="" && su.obtained!=="" &&!isNaN(su.total) &&!isNaN(su.obtained))? (parseFloat(su.obtained)/parseFloat(su.total)*100) : null; var g = gradeFor(pct); return '<tr><td><input value="'+esc(su.name)+'" onchange="App.updateSubject(\''+s.id+'\',\''+su.id+'\',\'name\',this.value)"/></td><td><input type="number" value="'+esc(su.total)+'" style="max-width:70px" onchange="App.updateSubject(\''+s.id+'\',\''+su.id+'\',\'total\',this.value)"/></td><td><input type="number" value="'+esc(su.obtained)+'" style="max-width:70px" onchange="App.updateSubject(\''+s.id+'\',\''+su.id+'\',\'obtained\',this.value)"/></td><td class="grade-cell"><span class="grade-pill '+g.cls+'">'+g.grade+'</span></td><td class="remark-cell">'+g.remark+'</td><td><button class="x-btn" onclick="App.removeSubject(\''+s.id+'\',\''+su.id+'\')">×</button></td></tr>'; }).join(""); var photoHTML = s.photo? '<img class="photo-frame" src="'+s.photo+'"/>' : '<div class="photo-placeholder">PASSPORT<br/>PHOTO</div>'; return '<div class="student-card" data-id="'+s.id+'"><div class="student-head"><div><div class="role-label">Student Record</div><h3>'+esc(s.name||"Unnamed")+'</h3></div><button class="btn btn-red btn-sm no-print" onclick="App.askDelete(\''+s.id+'\')">Delete</button></div><div style="display:flex; gap:16px; flex-wrap:wrap;"><div class="photo-block no-print">'+photoHTML+'<label class="btn btn-outline-ink btn-sm" style="cursor:pointer; width:100%; font-size:11px;">Choose Photo<input type="file" accept="image/*" style="display:none" onchange="App.handlePhoto(\''+s.id+'\', this.files[0])"/></label></div><div class="field-grid"><div class="field"><label>Student Name</label><input value="'+esc(s.name)+'" onchange="App.updateField(\''+s.id+'\',\'name\',this.value)"/></div><div class="field"><label>Class</label><input value="'+esc(s.className)+'" onchange="App.updateField(\''+s.id+'\',\'className\',this.value)"/></div><div class="field"><label>Roll No.</label><input value="'+esc(s.rollNo)+'" onchange="App.updateField(\''+s.id+'\',\'rollNo\',this.value)"/></div><div class="field"><label>Parent WhatsApp</label><input value="'+esc(s.parentWhatsapp)+'" onchange="App.updateField(\''+s.id+'\',\'parentWhatsapp\',this.value)"/></div></div></div><div style="margin-top:16px;"><div class="role-label" style="margin-bottom:6px;">Subjects</div><table class="subjects" id="tbl-'+s.id+'"><thead><tr><th>Subject</th><th>Total</th><th>Obtained</th><th>Grade</th><th>Remark</th><th class="no-print"></th></tr></thead><tbody>'+rowsHTML+'</tbody></table><div class="subject-actions no-print"><button class="btn btn-green btn-sm" onclick="App.addSubject(\''+s.id+'\')">+ Add Subject</button><button class="btn btn-ink btn-sm" onclick="App.saveAndCalculate(\''+s.id+'\')">Save & Calculate</button><button class="btn btn-gold btn-sm" onclick="App.sendToParent(\''+s.id+'\')">Send to Parent</button></div></div><div class="summary-strip" id="sum-'+s.id+'">'+summaryHTML(s,t)+'</div></div>'; }
+  function classAverage(list){ var pcts = list.map(function(s){ return studentTotals(s).pct; }).filter(function(p){ return p!==null; }); if(pcts.length===0) return null; return pcts.reduce(function(a,b){return a+b;},0)/pcts.length; }
+  function render(skipCompute){ if(!loaded){ document.getElementById("root").innerHTML = '<div style="text-align:center; padding:80px;"><div style="font-size:40px;">📘</div>Loading...</div>'; return; } if(!skipCompute) computePositions(); var root = document.getElementById("root"); var classes = ["All"].concat(allClasses()); var list = filteredStudents(); var avg = classAverage(list); var tabsHTML = classes.map(function(c){ return '<button class="tab '+(state.activeClass===c?'active':'')+'" onclick="App.setClass(\''+esc(c)+'\')">'+esc(c)+'</button>'; }).join(""); var studentsHTML = list.length? list.map(studentCardHTML).join("") : '<div style="text-align:center; padding:50px;"><div style="font-size:40px;">🗂️</div>No students yet</div>'; root.innerHTML = '<div class="masthead"><div class="brand-row"><div><div class="brand-eyebrow">Schoolease · Report Card Manager Pro</div><h1 class="brand-title">'+esc(state.settings.schoolName)+'</h1><p class="brand-sub">'+esc(state.settings.schoolAddress)+'</p></div><div class="seal">OFFICIAL<br/>RECORD</div></div><div class="school-edit no-print"><input placeholder="School name" value="'+esc(state.settings.schoolName)+'" onchange="App.updateSettings(\'schoolName\',this.value)"/><input placeholder="School address" value="'+esc(state.settings.schoolAddress)+'" onchange="App.updateSettings(\'schoolAddress\',this.value)"/></div><div class="controls-row no-print"><select class="term-select" onchange="App.updateSettings(\'term\',this.value)">'+['1st Term','2nd Term','3rd Term'].map(function(t){return '<option '+(state.settings.term===t?'selected':'')+'>'+t+'</option>';}).join("")+'</select><input class="term-select" style="width:120px" value="'+esc(state.settings.session)+'" onchange="App.updateSettings(\'session\',this.value)"/></div></div><div class="toolbar no-print"><button class="btn btn-green" onclick="App.addStudent()">+ Add New Student</button><button class="btn btn-gold" onclick="App.calculatePositions()">🏆 Calculate Positions</button><button class="btn btn-red" onclick="App.exportPDF()">📄 Export / Print PDF</button><button class="btn btn-green" onclick="App.exportExcel()">📊 Export Excel</button><button class="btn btn-ink" onclick="App.backupData()">⬇ Backup Data</button><label class="btn btn-outline-ink" style="cursor:pointer;">⬆ Restore Data<input type="file" accept="application/json" style="display:none" onchange="App.restoreData(this.files[0])"/></label></div><div class="stats-row no-print"><div class="stat-card"><div class="label">Students shown</div><div class="value">'+list.length+'</div></div><div class="stat-card"><div class="label">Classes</div><div class="value">'+(classes.length-1)+'</div></div><div class="stat-card"><div class="label">Class average</div><div class="value">'+(avg!==null? avg.toFixed(1)+'%':'—')+'</div></div><div class="stat-card"><div class="label">Term</div><div class="value" style="font-size:16px;">'+esc(state.settings.term)+'</div></div></div><div class="tabs no-print">'+tabsHTML+'</div><div class="search-bar no-print"><input placeholder="Search by name or roll no…" value="'+esc(state.search)+'" oninput="App.setSearch(this.value)"/></div><div class="section-divider">— '+esc(state.activeClass)+' Results —</div>'+studentsHTML+(pendingDelete? '<div class="modal-overlay no-print"><div class="modal-box"><h4>Delete student record?</h4><p>This will permanently remove this student\'s record.</p><div style="display:flex; gap:10px; margin-top:18px; justify-content:flex-end;"><button class="btn btn-outline-ink" onclick="App.cancelDelete()">Cancel</button><button class="btn btn-red" onclick="App.confirmDelete()">Delete</button></div></div></div>' : ''); }
+  window.App = { addStudent: addStudent, askDelete: askDelete, cancelDelete: cancelDelete, confirmDelete: confirmDelete, updateField: function(id,f,v){ updateStudentField(id,f,v); }, updateSubject: updateSubjectField, addSubject: addSubject, removeSubject: removeSubject, saveAndCalculate: saveAndCalculate, calculatePositions: calculateAllPositions, sendToParent: sendToParent, handlePhoto: handlePhoto, exportExcel: exportExcel, exportPDF: exportPDF, backupData: backupData, restoreData: restoreData, setClass: function(c){ state.activeClass=c; render(); }, setSearch: function(v){ state.search=v; render(); }, updateSettings: function(f,v){ state.settings[f]=v; save(); render(); } };
+  load();
+})();
 </script>
 </body>
-</html>
- 
+</html> 
