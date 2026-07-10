@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -61,4 +61,79 @@ function loadStudents() {
     const msg = document.getElementById('message');
     
     if(!className) {
-        msg.innerText = "Please enter class name 
+        msg.innerText = "Please enter class name";
+        msg.style.color = "red";
+        return;
+    }
+
+    const classStudents = students.filter(s => s.class.toLowerCase() === className.toLowerCase());
+    
+    if(classStudents.length === 0) {
+        msg.innerText = "No students found in this class";
+        msg.style.color = "red";
+        document.getElementById('attendanceTable').style.display = "none";
+        document.getElementById('saveBtn').style.display = "none";
+        return;
+    }
+
+    msg.innerText = "";
+    attendanceData = [];
+    tbody.innerHTML = "";
+
+    classStudents.forEach(s => {
+        attendanceData.push({id: s.id, name: s.name, status: "Present"});
+        tbody.innerHTML += `
+            <tr>
+                <td>${s.id}</td>
+                <td>${s.name}</td>
+                <td>
+                    <button class="attendance-btn present" onclick="markStatus(${s.id}, 'Present', this)">Present</button>
+                    <button class="attendance-btn" onclick="markStatus(${s.id}, 'Absent', this)">Absent</button>
+                </td>
+            </tr>
+        `;
+    });
+
+    document.getElementById('attendanceTable').style.display = "table";
+    document.getElementById('saveBtn').style.display = "inline-block";
+}
+
+function markStatus(id, status, btn) {
+    const record = attendanceData.find(a => a.id === id);
+    if(record) record.status = status;
+    
+    const row = btn.closest('tr');
+    const buttons = row.querySelectorAll('.attendance-btn');
+    buttons.forEach(b => {
+        b.classList.remove('present', 'absent');
+        b.style.background = "#ddd";
+        b.style.color = "#333";
+    });
+    
+    if(status === "Present") {
+        btn.classList.add('present');
+    } else {
+        btn.classList.add('absent');
+    }
+}
+
+function saveAttendance() {
+    const date = document.getElementById('attendanceDate').value;
+    const className = document.getElementById('className').value;
+    const msg = document.getElementById('message');
+    
+    let allAttendance = JSON.parse(localStorage.getItem('attendance')) || [];
+    
+    // Remove old attendance for same date + class
+    allAttendance = allAttendance.filter(a => !(a.date === date && a.class === className));
+    
+    allAttendance.push({date, class: className, records: attendanceData});
+    localStorage.setItem('attendance', JSON.stringify(allAttendance));
+    
+    msg.innerText = "Attendance saved successfully!";
+    msg.style.color = "green";
+}
+</script>
+
+</body>
+</html>
