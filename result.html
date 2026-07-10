@@ -6,18 +6,20 @@
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f0f4ff; padding: 20px; }
         header { text-align: center; color: #1d4ed8; }
-        .container { background: white; padding: 20px; border-radius: 10px; }
-        .btn { background:#2563eb; color:white; padding:10px 15px; border-radius:8px; text-decoration:none; display:inline-block; }
+        .container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .btn { background:#2563eb; color:white; padding:10px 15px; border-radius:8px; text-decoration:none; display:inline-block; margin-right:10px; }
         .btn-send { background:#25D366; color:white; border:none; padding:10px 15px; border-radius:8px; cursor:pointer; margin-top:10px; font-weight:bold; }
         input { width: 90%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; margin-bottom:10px; }
     </style>
 </head>
 <body>
 
-<header>
+<header class="topbar">
     <h1>SCHOOLEASE</h1>
     <p>Student Results</p>
 </header>
+
+<a href="Dashboard.html" class="back-btn">← Back to Dashboard</a>
 
 <div class="container">
 
@@ -25,23 +27,79 @@
 
 <input type="text" id="student" placeholder="Student Name"><br>
 
-<input type="number" id="ca" placeholder="Continuous Assessment (40)"><br>
+<input type="text" id="parentPhone" placeholder="Parent WhatsApp Number e.g. 2348012345678"><br>
 
-<input type="number" id="exam" placeholder="Exam Score (60)"><br>
+<input type="number" id="ca" placeholder="Continuous Assessment (40)" max="40"><br>
+
+<input type="number" id="exam" placeholder="Exam Score (60)" max="60"><br>
 
 <button onclick="calculateResult()">Calculate Result</button>
 
 <h3 id="result"></h3>
 
-<!-- BUTTON IS NOW ALWAYS HERE -->
-<button class="btn-send" onclick="sendResultToParent()">📤 Send Result to Parent</button>
-
-<br><br>
-<a href="dashboard.html" class="btn">Back to Dashboard</a>
+<button class="btn-send" onclick="sendResultToParent()">📤 Send Result to Parent via WhatsApp</button>
 
 </div>
 
-<script src="results.js"></script>
+<script>
+let currentResult = {};
+
+function calculateResult() {
+    const student = document.getElementById('student').value.trim();
+    const ca = parseFloat(document.getElementById('ca').value) || 0;
+    const exam = parseFloat(document.getElementById('exam').value) || 0;
+    const resultDiv = document.getElementById('result');
+
+    if(!student) {
+        resultDiv.innerText = "Please enter student name";
+        resultDiv.style.color = "red";
+        return;
+    }
+
+    const total = ca + exam;
+    let grade = "";
+    if(total >= 70) grade = "A";
+    else if(total >= 60) grade = "B";
+    else if(total >= 50) grade = "C";
+    else if(total >= 45) grade = "D";
+    else if(total >= 40) grade = "E";
+    else grade = "F";
+
+    currentResult = {student, ca, exam, total, grade};
+
+    resultDiv.innerHTML = `
+        <b>Student:</b> ${student} <br>
+        <b>CA:</b> ${ca}/40 <br>
+        <b>Exam:</b> ${exam}/60 <br>
+        <b>Total:</b> ${total}/100 <br>
+        <b>Grade:</b> ${grade}
+    `;
+    resultDiv.style.color = "green";
+
+    // Save to localStorage
+    let results = JSON.parse(localStorage.getItem('results')) || [];
+    results.push({...currentResult, date: new Date().toLocaleDateString()});
+    localStorage.setItem('results', JSON.stringify(results));
+}
+
+function sendResultToParent() {
+    const phone = document.getElementById('parentPhone').value.trim();
+    
+    if(!currentResult.student) {
+        alert("Please calculate result first");
+        return;
+    }
+    if(!phone) {
+        alert("Please enter parent WhatsApp number");
+        return;
+    }
+
+    const message = `SCHOOLEASE RESULT NOTIFICATION\nStudent: ${currentResult.student}\nCA: ${currentResult.ca}/40\nExam: ${currentResult.exam}/60\nTotal: ${currentResult.total}/100\nGrade: ${currentResult.grade}\n\nThank you.`;
+    
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+}
+</script>
 
 </body>
 </html>
