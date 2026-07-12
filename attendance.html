@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -19,8 +20,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 <header class="topbar">
 
 <div class="logo">
+
 <i class="fa-solid fa-school"></i>
+
 <h2>SchoolEase</h2>
+
 </div>
 
 <div class="header-right">
@@ -28,8 +32,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 <p id="currentDate"></p>
 
 <p>
+
 <i class="fa-solid fa-user"></i>
+
 <span id="teacherName">Teacher</span>
+
 </p>
 
 </div>
@@ -38,11 +45,20 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 
 <div class="container">
 
-<h1><i class="fa-solid fa-calendar-check"></i> Attendance Management</h1>
+<h1>
+
+<i class="fa-solid fa-calendar-check"></i>
+
+Attendance Management
+
+</h1>
 
 <p class="breadcrumb">
+
 Dashboard /
+
 <b>Attendance</b>
+
 </p>
 
 <div class="controls">
@@ -53,9 +69,9 @@ Dashboard /
 
 <select id="session">
 
-<option>2026/2027</option>
+<option value="2026/2027">2026/2027</option>
 
-<option>2027/2028</option>
+<option value="2027/2028">2027/2028</option>
 
 </select>
 
@@ -67,11 +83,11 @@ Dashboard /
 
 <select id="term">
 
-<option>First Term</option>
+<option value="First Term">First Term</option>
 
-<option>Second Term</option>
+<option value="Second Term">Second Term</option>
 
-<option>Third Term</option>
+<option value="Third Term">Third Term</option>
 
 </select>
 
@@ -85,29 +101,29 @@ Dashboard /
 
 <option value="">Select Class</option>
 
-<option>JSS1A</option>
+<option value="JSS1A">JSS1A</option>
 
-<option>JSS1B</option>
+<option value="JSS1B">JSS1B</option>
 
-<option>JSS2A</option>
+<option value="JSS2A">JSS2A</option>
 
-<option>JSS2B</option>
+<option value="JSS2B">JSS2B</option>
 
-<option>JSS3A</option>
+<option value="JSS3A">JSS3A</option>
 
-<option>JSS3B</option>
+<option value="JSS3B">JSS3B</option>
 
-<option>SS1A</option>
+<option value="SS1A">SS1A</option>
 
-<option>SS1B</option>
+<option value="SS1B">SS1B</option>
 
-<option>SS2A</option>
+<option value="SS2A">SS2A</option>
 
-<option>SS2B</option>
+<option value="SS2B">SS2B</option>
 
-<option>SS3A</option>
+<option value="SS3A">SS3A</option>
 
-<option>SS3B</option>
+<option value="SS3B">SS3B</option>
 
 </select>
 
@@ -147,4 +163,153 @@ Load Students
 
 </div>
 
-</div> 
+</div>
+  <!-- Search Student -->
+
+<div class="search-box">
+
+<label>Search Student</label>
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search by Student ID or Name">
+
+</div>
+
+<!-- Summary Cards -->
+
+<div class="summary">
+
+<div class="card">
+
+<h2 id="totalStudents">0</h2>
+
+<p>Total Students</p>
+
+</div>
+
+<div class="card green">
+
+<h2 id="presentCount">0</h2>
+
+<p>Present</p>
+
+</div>
+
+<div class="card yellow">
+
+<h2 id="lateCount">0</h2>
+
+<p>Late</p>
+
+</div>
+
+<div class="card red">
+
+<h2 id="absentCount">0</h2>
+
+<p>Absent</p>
+
+</div>
+
+</div>
+
+<!-- Attendance Table -->
+
+<div class="table-box">
+
+<table id="attendanceTable">
+
+<thead>
+
+<tr>
+
+<th>Passport</th>
+
+<th>Student ID</th>
+
+<th>Student Name</th>
+
+<th>Class</th>
+
+<th>Date</th>
+
+<th>Arrival Time</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody id="studentTable">
+
+<!-- Students will be loaded here by attendance.js -->
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- Attendance Information -->
+
+<div class="attendance-info">
+
+<p>
+
+<strong>Instructions:</strong>
+
+Select a class and click <b>Load Students</b>.
+Mark each student as <span style="color:green;">Present</span>,
+<span style="color:orange;">Late</span> or
+<span style="color:red;">Absent</span>.
+The arrival time will be recorded automatically.
+
+</p>
+
+</div>
+<!-- Action Buttons -->
+
+<div class="buttons">
+
+    <button id="saveAttendance" class="btn save-btn">
+        <i class="fa-solid fa-floppy-disk"></i>
+        Save Attendance
+    </button>
+
+    <button id="printAttendance" class="btn print-btn">
+        <i class="fa-solid fa-print"></i>
+        Print Attendance
+    </button>
+
+    <button id="exportAttendance" class="btn export-btn">
+        <i class="fa-solid fa-file-pdf"></i>
+        Export PDF
+    </button>
+
+    <button id="refreshAttendance" class="btn refresh-btn" onclick="location.reload();">
+        <i class="fa-solid fa-rotate-right"></i>
+        Refresh
+    </button>
+
+</div>
+
+</div>
+
+<footer class="footer">
+
+<p>
+
+© 2026 SchoolEase School Management System
+
+</p>
+
+</footer>
+
+<script src="attendance.js"></script>
+
+</body>
+
+  </html>
