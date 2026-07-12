@@ -1,50 +1,102 @@
  <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>SchoolEase Dashboard</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body class="dashboard-body">
 
 <header class="topbar">
-    <h1>SCHOOLEASE</h1>
-    <span>Welcome, Administrator</span>
+
+<h1>SCHOOLEASE</h1>
+
+<div class="user-info">
+
+<span id="welcomeUser">
+Welcome, Administrator
+</span>
+
+<button onclick="logout()" class="logout-btn">
+Logout
+</button>
+
+</div>
+
 </header>
 
 <div class="menu">
-    <a href="Students.html" class="menu-card">
-        <div class="icon">🎓</div>
-        Students
-    </a>
 
-    <a href="attendance.html" class="menu-card">
-        <div class="icon">📅</div>
-        Attendance
-    </a>
+<a href="Students.html" class="menu-card">
 
-    <a href="result.html" class="menu-card">
-        <div class="icon">📝</div>
-        Results
-    </a>
+<div class="icon">🎓</div>
 
-    <a href="Viewparents.html" class="menu-card">
-        <div class="icon">👨‍👩‍👧</div>
-        Parents
-    </a>
+Students
 
-    <a href="Settings.html" class="menu-card">
-        <div class="icon">⚙️</div>
-        Settings
-    </a>
+</a>
 
-    <a href="index.html" class="menu-card logout">
-        <div class="icon">🚪</div>
-        Logout
-    </a>
+<a href="attendance.html" class="menu-card">
+
+<div class="icon">📅</div>
+
+Attendance
+
+</a>
+
+<a href="result.html" class="menu-card">
+
+<div class="icon">📝</div>
+
+Results
+
+</a>
+
+<a href="Viewparents.html" class="menu-card">
+
+<div class="icon">👨‍👩‍👧</div>
+
+Parents
+
+</a>
+
+<a href="Settings.html" class="menu-card">
+
+<div class="icon">⚙️</div>
+
+Settings
+
+</a>
+
 </div>
 
+<script>
+
+// Protect Dashboard
+if(localStorage.getItem("loggedIn") !== "true"){
+
+window.location.href="index.html";
+
+}
+
+// Logout
+
+function logout(){
+
+localStorage.removeItem("loggedIn");
+
+window.location.href="index.html";
+
+}
+
+</script>
+
 </body>
+
 </html>
