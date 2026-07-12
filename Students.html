@@ -1,49 +1,290 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SchoolEase - Students</title>
-    <link rel="stylesheet" href="style.css">
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>SchoolEase | Student Registration</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 </head>
+
 <body>
 
 <header class="topbar">
-    <h1>SCHOOLEASE</h1>
-    <p>Student Registration</p>
+
+<h1>
+
+<i class="fa-solid fa-school"></i>
+
+SchoolEase
+
+</h1>
+
+<p>Student Registration</p>
+
 </header>
 
-<a href="Dashboard.html" class="back-btn">← Back to Dashboard</a>
+<a href="Dashboard.html" class="back-btn">
+
+← Back to Dashboard
+
+</a>
 
 <div class="container">
 
-<h2>Register Student</h2>
+<h2>
 
-<input type="text" id="studentId" placeholder="Student ID"><br><br>
+<i class="fa-solid fa-user-graduate"></i>
 
-<input type="text" id="studentName" placeholder="Student Name"><br><br>
+Register New Student
 
-<input type="number" id="studentAge" placeholder="Age"><br><br>
+</h2>
+
+<div class="student-form">
+
+<label>Student Passport</label>
+
+<input
+type="file"
+id="studentPhoto"
+accept="image/*">
+
+<label>Student ID</label>
+
+<input
+type="text"
+id="studentId"
+placeholder="Enter Student ID">
+
+<label>Student Name</label>
+
+<input
+type="text"
+id="studentName"
+placeholder="Enter Student Name">
+
+<label>Age</label>
+
+<input
+type="number"
+id="studentAge"
+placeholder="Enter Age">
+
+<label>Gender</label>
 
 <select id="studentGender">
-    <option value="">Select Gender</option>
-    <option>Male</option>
-    <option>Female</option>
-</select><br><br>
 
-<input type="text" id="studentClass" placeholder="Class"><br><br>
+<option value="">Select Gender</option>
 
-<button onclick="addStudent()">Register Student</button>
+<option>Male</option>
+
+<option>Female</option>
+
+</select>
+
+<label>Class</label>
+
+<select id="studentClass">
+
+<option value="">Select Class</option>
+
+<option>JSS1A</option>
+
+<option>JSS1B</option>
+
+<option>JSS2A</option>
+
+<option>JSS2B</option>
+
+<option>JSS3A</option>
+
+<option>JSS3B</option>
+
+<option>SS1A</option>
+
+<option>SS1B</option>
+
+<option>SS2A</option>
+
+<option>SS2B</option>
+
+<option>SS3A</option>
+
+<option>SS3B</option>
+
+</select>
+ <label>Parent/Guardian Name</label>
+
+<input
+type="text"
+id="parentName"
+placeholder="Enter Parent/Guardian Name">
+
+<label>Parent Phone Number</label>
+
+<input
+type="tel"
+id="parentPhone"
+placeholder="Enter Parent Phone Number">
+
+<label>Parent Email</label>
+
+<input
+type="email"
+id="parentEmail"
+placeholder="Enter Parent Email">
+
+<label>Home Address</label>
+
+<textarea
+id="studentAddress"
+rows="3"
+placeholder="Enter Home Address"></textarea>
+
+<div class="button-group">
+
+<button
+type="button"
+onclick="registerStudent()"
+class="btn">
+
+<i class="fa-solid fa-user-plus"></i>
+
+Register Student
+
+</button>
+
+<button
+type="reset"
+class="btn">
+
+<i class="fa-solid fa-eraser"></i>
+
+Clear Form
+
+</button>
+
+</div>
 
 <h3 id="message"></h3>
 
-<br>
-<h3>Registered Students</h3>
-<table id="studentTable" border="1" style="width:100%; margin-top:10px; border-collapse:collapse;">
+</div>
+
+<hr>
+
+<h2>
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+Search Student
+
+</h2>
+
+<input
+type="text"
+id="searchStudent"
+placeholder="Search by Student ID or Student Name">
+
+<hr>
+
+<div class="summary">
+
+<div class="card">
+
+<h2 id="totalStudents">0</h2>
+
+<p>Total Students</p>
+
+</div>
+
+<div class="card">
+
+<h2 id="maleStudents">0</h2>
+
+<p>Male</p>
+
+</div>
+
+<div class="card">
+
+<h2 id="femaleStudents">0</h2>
+
+<p>Female</p>
+
+</div>
+
+</div>
+
+<h2>
+
+<i class="fa-solid fa-table"></i>
+
+Registered Students
+
+ </h2>
+ <div class="table-container">
+
+<table id="studentTable">
+
+<thead>
+
+<tr>
+
+<th>Photo</th>
+
+<th>Student ID</th>
+
+<th>Student Name</th>
+
+<th>Age</th>
+
+<th>Gender</th>
+
+<th>Class</th>
+
+<th>Parent Name</th>
+
+<th>Phone</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<!-- Students will be loaded here by students.js -->
+
+</tbody>
+
 </table>
 
 </div>
 
-<script src="js/students.js"></script>
+<footer class="footer">
+
+<p>
+
+© 2026 SchoolEase School Management System
+
+</p>
+
+</footer>
+
+</div>
+
+<script src="students.js"></script>
+
 </body>
-</html>
+
+                               </html>
