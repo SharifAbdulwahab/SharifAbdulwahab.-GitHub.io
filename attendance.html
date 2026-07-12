@@ -1,15 +1,150 @@
-<select id="classSelect" required>
-    <option value="">-- Select Class --</option>
-    <option value="JSS1A">JSS1A</option>
-    <option value="JSS1B">JSS1B</option>
-    <option value="JSS2A">JSS2A</option>
-    <option value="JSS2B">JSS2B</option>
-    <option value="JSS3A">JSS3A</option>
-    <option value="JSS3B">JSS3B</option>
-    <option value="SS1A">SS1A</option>
-    <option value="SS1B">SS1B</option>
-    <option value="SS2A">SS2A</option>
-    <option value="SS2B">SS2B</option>
-    <option value="SS3A">SS3A</option>
-    <option value="SS3B">SS3B</option>
-</select> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SchoolEase | Attendance Management</title>
+
+<link rel="stylesheet" href="attendance.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+<div class="logo">
+<i class="fa-solid fa-school"></i>
+<h2>SchoolEase</h2>
+</div>
+
+<div class="header-right">
+
+<p id="currentDate"></p>
+
+<p>
+<i class="fa-solid fa-user"></i>
+<span id="teacherName">Teacher</span>
+</p>
+
+</div>
+
+</header>
+
+<div class="container">
+
+<h1><i class="fa-solid fa-calendar-check"></i> Attendance Management</h1>
+
+<p class="breadcrumb">
+Dashboard /
+<b>Attendance</b>
+</p>
+
+<div class="controls">
+
+<div class="control-group">
+
+<label>Academic Session</label>
+
+<select id="session">
+
+<option>2026/2027</option>
+
+<option>2027/2028</option>
+
+</select>
+
+</div>
+
+<div class="control-group">
+
+<label>Term</label>
+
+<select id="term">
+
+<option>First Term</option>
+
+<option>Second Term</option>
+
+<option>Third Term</option>
+
+</select>
+
+</div>
+
+<div class="control-group">
+
+<label>Class</label>
+
+<select id="classSelect">
+
+<option value="">Select Class</option>
+
+<option>JSS1A</option>
+
+<option>JSS1B</option>
+
+<option>JSS2A</option>
+
+<option>JSS2B</option>
+
+<option>JSS3A</option>
+
+<option>JSS3B</option>
+
+<option>SS1A</option>
+
+<option>SS1B</option>
+
+<option>SS2A</option>
+
+<option>SS2B</option>
+
+<option>SS3A</option>
+
+<option>SS3B</option>
+
+</select>
+
+</div>
+
+<div class="control-group">
+
+<label>Subject</label>
+
+<select id="subject">
+
+<option>Mathematics</option>
+
+<option>English</option>
+
+<option>Biology</option>
+
+<option>Chemistry</option>
+
+<option>Physics</option>
+
+<option>Computer Studies</option>
+
+</select>
+
+</div>
+
+<div class="control-group">
+
+<button id="loadBtn">
+
+<i class="fa-solid fa-users"></i>
+
+Load Students
+
+</button>
+
+</div>
+
+</div> 
