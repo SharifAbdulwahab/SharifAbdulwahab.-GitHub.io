@@ -1,139 +1,204 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SchoolEase - Attendance</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .present { background: #4CAF50; color: white; }
-        .absent { background: #f44336; color: white; }
-        .attendance-btn { padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; margin: 0 5px; font-weight: bold; }
-        .date-picker { padding: 10px; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 15px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SchoolEase | Attendance</title>
+
+<link rel="stylesheet" href="attendance.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 </head>
+
 <body>
 
 <header class="topbar">
-    <h1>SCHOOLEASE</h1>
-    <p>Mark Attendance</p>
-</header>
 
-<a href="Dashboard.html" class="back-btn">← Back to Dashboard</a>
+<div class="logo">
 
-<div class="container">
-    <h2>Take Attendance</h2>
+<i class="fa-solid fa-school"></i>
 
-    <label>Select Date:</label><br>
-    <input type="date" id="attendanceDate" class="date-picker"><br><br>
+<h2>SchoolEase</h2>
 
-    <label>Select Class:</label><br>
-    <input type="text" id="className" placeholder="e.g. JSS1A" class="date-picker"><br><br>
-
-    <button onclick="loadStudents()" class="btn">Load Students</button>
-    
-    <h3 id="message"></h3>
-
-    <table id="attendanceTable" style="width:100%; margin-top:20px; display:none;">
-        <thead>
-            <tr>
-                <th>Student ID</th>
-                <th>Student Name</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody id="attendanceList">
-        </tbody>
-    </table>
-
-    <button onclick="saveAttendance()" class="btn" id="saveBtn" style="display:none; margin-top:20px;">Save Attendance</button>
 </div>
 
-<script>
-let students = JSON.parse(localStorage.getItem('students')) || [];
-let attendanceData = [];
+<div class="today">
 
-document.getElementById('attendanceDate').valueAsDate = new Date();
+<span id="currentDate"></span>
 
-function loadStudents() {
-    const className = document.getElementById('className').value.trim();
-    const tbody = document.getElementById('attendanceList');
-    const msg = document.getElementById('message');
-    
-    if(!className) {
-        msg.innerText = "Please enter class name";
-        msg.style.color = "red";
-        return;
-    }
+</div>
 
-    const classStudents = students.filter(s => s.class.toLowerCase() === className.toLowerCase());
-    
-    if(classStudents.length === 0) {
-        msg.innerText = "No students found in this class";
-        msg.style.color = "red";
-        document.getElementById('attendanceTable').style.display = "none";
-        document.getElementById('saveBtn').style.display = "none";
-        return;
-    }
+</header>
 
-    msg.innerText = "";
-    attendanceData = [];
-    tbody.innerHTML = "";
 
-    classStudents.forEach(s => {
-        attendanceData.push({id: s.id, name: s.name, status: "Present"});
-        tbody.innerHTML += `
-            <tr>
-                <td>${s.id}</td>
-                <td>${s.name}</td>
-                <td>
-                    <button class="attendance-btn present" onclick="markStatus(${s.id}, 'Present', this)">Present</button>
-                    <button class="attendance-btn" onclick="markStatus(${s.id}, 'Absent', this)">Absent</button>
-                </td>
-            </tr>
-        `;
-    });
+<div class="container">
 
-    document.getElementById('attendanceTable').style.display = "table";
-    document.getElementById('saveBtn').style.display = "inline-block";
-}
+<h1>Attendance Management</h1>
 
-function markStatus(id, status, btn) {
-    const record = attendanceData.find(a => a.id === id);
-    if(record) record.status = status;
-    
-    const row = btn.closest('tr');
-    const buttons = row.querySelectorAll('.attendance-btn');
-    buttons.forEach(b => {
-        b.classList.remove('present', 'absent');
-        b.style.background = "#ddd";
-        b.style.color = "#333";
-    });
-    
-    if(status === "Present") {
-        btn.classList.add('present');
-    } else {
-        btn.classList.add('absent');
-    }
-}
+<div class="controls">
 
-function saveAttendance() {
-    const date = document.getElementById('attendanceDate').value;
-    const className = document.getElementById('className').value;
-    const msg = document.getElementById('message');
-    
-    let allAttendance = JSON.parse(localStorage.getItem('attendance')) || [];
-    
-    // Remove old attendance for same date + class
-    allAttendance = allAttendance.filter(a => !(a.date === date && a.class === className));
-    
-    allAttendance.push({date, class: className, records: attendanceData});
-    localStorage.setItem('attendance', JSON.stringify(allAttendance));
-    
-    msg.innerText = "Attendance saved successfully!";
-    msg.style.color = "green";
-}
-</script>
+<div>
+
+<label>Class</label>
+
+<select id="classSelect">
+
+<option value="">Select Class</option>
+
+<option>JSS1A</option>
+
+<option>JSS1B</option>
+
+<option>JSS2A</option>
+
+<option>JSS2B</option>
+
+<option>JSS3A</option>
+
+<option>JSS3B</option>
+
+<option>SS1A</option>
+
+<option>SS2A</option>
+
+<option>SS3A</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label>Search Student</label>
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search by Name or ID">
+
+</div>
+
+<div>
+
+<button id="loadBtn">
+
+<i class="fa-solid fa-users"></i>
+
+Load Students
+
+</button>
+
+</div>
+
+</div>
+
+
+<div class="summary">
+
+<div class="card">
+
+<h2 id="totalStudents">0</h2>
+
+<p>Total Students</p>
+
+</div>
+
+<div class="card green">
+
+<h2 id="presentCount">0</h2>
+
+<p>Present</p>
+
+</div>
+
+<div class="card yellow">
+
+<h2 id="lateCount">0</h2>
+
+<p>Late</p>
+
+</div>
+
+<div class="card red">
+
+<h2 id="absentCount">0</h2>
+
+<p>Absent</p>
+
+</div>
+
+</div>
+
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Student Name</th>
+
+<th>Class</th>
+
+<th>Date</th>
+
+<th>Arrival Time</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody id="studentTable">
+
+<!-- JavaScript loads students here -->
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="buttons">
+
+<button id="saveAttendance">
+
+<i class="fa-solid fa-floppy-disk"></i>
+
+Save Attendance
+
+</button>
+
+<button id="printAttendance">
+
+<i class="fa-solid fa-print"></i>
+
+Print
+
+</button>
+
+<button id="exportAttendance">
+
+<i class="fa-solid fa-file-pdf"></i>
+
+Export PDF
+
+</button>
+
+</div>
+
+</div>
+
+<script src="attendance.js"></script>
 
 </body>
-</html>
+</html> 
