@@ -11,12 +11,13 @@
         msg.style.color = "green";
         msg.textContent = "Login Successful! Redirecting...";
         
-        // Save login state so Dashboard knows you're logged in
-        localStorage.setItem('isLoggedIn', 'true');
+        // FIXED: Must match what dashboard.html checks
+        localStorage.setItem('loggedIn', 'true');
+        localStorage.setItem('user', username);
         
-        // Go to dashboard after 1 second
+        // FIXED: lowercase filename for mobile compatibility
         setTimeout(() => {
-            window.location.href = "Dashboard.html";
+            window.location.href = "dashboard.html";
         }, 1000);
         
     } else {
