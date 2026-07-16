@@ -1,0 +1,227 @@
+/* ===========================
+   SchoolEase Login Styles
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#333;
+}
+
+.login-body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+.login-container{
+    width:100%;
+    max-width:450px;
+    background:#fff;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
+}
+
+.login-icon{
+    width:80px;
+    height:80px;
+    margin:0 auto 20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#e8f1ff;
+    border-radius:20px;
+    font-size:40px;
+}
+
+h1{
+    text-align:center;
+    color:#0f172a;
+    margin-bottom:10px;
+}
+
+p{
+    text-align:center;
+    color:#666;
+    margin-bottom:25px;
+    line-height:1.5;
+}
+
+.back-link{
+    display:inline-block;
+    margin-bottom:20px;
+    color:#2563eb;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.back-link:hover{
+    text-decoration:underline;
+}
+
+/* ===========================
+   Role Cards
+=========================== */
+
+.role-buttons{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.role-card{
+    width:100%;
+    border:none;
+    border-radius:18px;
+    background:#fff;
+    padding:22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.role-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 18px rgba(0,0,0,.15);
+}
+
+.role-card .left{
+    font-size:34px;
+}
+
+.role-card .middle{
+    flex:1;
+    margin-left:20px;
+    text-align:left;
+    font-size:20px;
+    font-weight:bold;
+    color:#222;
+}
+
+.role-card .right{
+    font-size:24px;
+    color:#16a34a;
+}
+
+/* ===========================
+   Forms
+=========================== */
+
+label{
+    display:block;
+    margin-top:18px;
+    margin-bottom:8px;
+    font-weight:bold;
+}
+
+input,
+select{
+    width:100%;
+    padding:15px;
+    border:1px solid #d1d5db;
+    border-radius:12px;
+    font-size:16px;
+    outline:none;
+    transition:.3s;
+}
+
+input:focus,
+select:focus{
+    border-color:#16a34a;
+}
+
+button{
+    width:100%;
+    margin-top:25px;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:#16a34a;
+    color:#fff;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    background:#15803d;
+}
+
+/* ===========================
+   Forgot Password
+=========================== */
+
+.forgot-password{
+    text-align:center;
+    margin:18px 0;
+}
+
+.forgot-password a{
+    color:#2563eb;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.forgot-password a:hover{
+    text-decoration:underline;
+}
+
+/* ===========================
+   Demo Credentials
+=========================== */
+
+.demo-box{
+    margin-top:30px;
+    padding:18px;
+    border-radius:15px;
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+}
+
+.demo-box h3{
+    margin-bottom:15px;
+    text-align:center;
+    color:#0f172a;
+}
+
+.demo-box p{
+    margin:8px 0;
+    text-align:left;
+}
+
+/* ===========================
+   Mobile
+=========================== */
+
+@media(max-width:600px){
+
+.login-container{
+    padding:25px;
+}
+
+.role-card{
+    padding:18px;
+}
+
+.role-card .middle{
+    font-size:18px;
+}
+
+button{
+    font-size:17px;
+}
+
+}
