@@ -4,7 +4,7 @@
     const msg = document.getElementById('loginMsg');
 
     // Your login details
-    const correctUsername = "saas";
+    const correctUsername = "username";
     const correctPassword = "1234";
 
     if(username === correctUsername && password === correctPassword) {
