@@ -1,133 +1,121 @@
-/* ===========================
-   SCHOOLEASE DASHBOARD CSS
+ /* ===========================
+   SCHOOLEASE DASHBOARD
 =========================== */
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .dashboard-body{
-    background:#f5f5f5;
+    background:#f4f6f9;
     min-height:100vh;
     padding:20px;
 }
 
-/* ===== HEADER ===== */
+/* ===== TOP BAR ===== */
 
 .topbar{
     display:flex;
     justify-content:space-between;
     align-items:center;
     flex-wrap:wrap;
-    margin-bottom:30px;
+    margin-bottom:35px;
 }
 
 .topbar h1{
-    font-size:48px;
-    font-weight:bold;
-    color:#000;
+    font-size:42px;
+    color:#1e3a8a;
 }
 
 .user-info{
     display:flex;
     align-items:center;
     gap:15px;
-    font-size:22px;
+    font-size:18px;
 }
 
 .logout-btn{
-    background:#ffffff;
-    border:2px solid #d0d0d0;
-    padding:12px 22px;
-    border-radius:10px;
+    background:#1e3a8a;
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    border-radius:8px;
     cursor:pointer;
-    font-size:18px;
     transition:.3s;
 }
 
 .logout-btn:hover{
-    background:#1e3a8a;
-    color:#fff;
+    background:#d4af37;
+    color:#1e3a8a;
 }
 
-/* ===== DASHBOARD GRID ===== */
+/* ===== MENU GRID ===== */
 
 .menu{
     max-width:900px;
     margin:auto;
-
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:25px;
 }
 
-/* ===== CARDS ===== */
+/* ===== CARD ===== */
 
 .menu-card{
     background:#fff;
-    border:3px solid #dddddd;
-    border-radius:22px;
-
-    height:220px;
-
+    border-radius:20px;
+    height:200px;
+    text-decoration:none;
+    color:#333;
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
-
-    text-decoration:none;
-    color:#333;
-
-    font-size:20px;
+    font-size:22px;
     font-weight:bold;
-
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
     transition:.3s;
 }
 
 .menu-card:hover{
     transform:translateY(-6px);
-    box-shadow:0 8px 20px rgba(0,0,0,.18);
+    box-shadow:0 10px 20px rgba(0,0,0,.2);
 }
 
 .icon{
-    font-size:70px;
+    font-size:60px;
     margin-bottom:15px;
 }
 
-/* ===== Arrange Cards ===== */
+/* ===== ORDER ===== */
 
-/* Students */
 .menu a:nth-child(1){
     order:1;
 }
 
-/* Attendance */
 .menu a:nth-child(2){
     order:2;
 }
 
-/* Parents */
 .menu a:nth-child(4){
     order:3;
 }
 
-/* Settings */
 .menu a:nth-child(5){
     order:4;
 }
 
-/* Results */
 .menu a:nth-child(3){
     order:5;
     grid-column:1 / span 2;
-    width:50%;
     justify-self:center;
+    width:50%;
 }
 
-/* ===== Mobile ===== */
+/* ===== MOBILE ===== */
 
 @media(max-width:768px){
 
@@ -137,62 +125,14 @@
         gap:15px;
     }
 
-    .topbar h1{
-        font-size:42px;
-    }
-
-    .user-info{
-        width:100%;
-        justify-content:space-between;
-        font-size:18px;
-    }
-
     .menu{
         grid-template-columns:repeat(2,1fr);
-        gap:18px;
-    }
-
-    .menu-card{
-        height:170px;
-        font-size:18px;
-    }
-
-    .icon{
-        font-size:55px;
-    }
-
-    .menu a:nth-child(3){
-        width:70%;
-    }
-
-}
-
-@media(max-width:480px){
-
-    .dashboard-body{
-        padding:15px;
-    }
-
-    .topbar h1{
-        font-size:34px;
-    }
-
-    .user-info{
-        flex-wrap:wrap;
-        gap:10px;
-    }
-
-    .logout-btn{
-        width:100%;
-    }
-
-    .menu{
         gap:15px;
     }
 
     .menu-card{
-        height:150px;
-        font-size:16px;
+        height:160px;
+        font-size:18px;
     }
 
     .icon{
@@ -200,7 +140,35 @@
     }
 
     .menu a:nth-child(3){
-        width:80%;
+        width:70%;
+    }
+}
+
+@media(max-width:480px){
+
+    .topbar h1{
+        font-size:34px;
     }
 
+    .user-info{
+        width:100%;
+        justify-content:space-between;
+    }
+
+    .logout-btn{
+        padding:8px 15px;
+    }
+
+    .menu-card{
+        height:145px;
+        font-size:16px;
+    }
+
+    .icon{
+        font-size:40px;
+    }
+
+    .menu a:nth-child(3){
+        width:80%;
+    }
 }
