@@ -1,35 +1,58 @@
-<form id="principalLoginForm">
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Principal Login - SchoolEase</title>
 
-    <label>Staff ID</label>
-    <input
-        type="text"
-        id="staffId"
-        placeholder="e.g. PRIN-001"
-        required
-    >
+    <link rel="stylesheet" href="css/style1.css">
+</head>
 
-    <label>Password</label>
-    <input
-        type="password"
-        id="password"
-        placeholder="Enter Password"
-        required
-    >
+<body class="login-body">
 
-    <button type="submit">
-        Sign In
-    </button>
+<div class="login-container">
 
-</form>
+    <a href="index1.html" class="back-link">← Back to Roles</a>
 
-<div class="forgot-password">
-    <a href="forgot-password.html">Forgot Password?</a>
+    <div class="login-icon">
+        🏫
+    </div>
+
+    <h1>Principal Sign In</h1>
+
+    <p>Enter your credentials to access the Principal Portal.</p>
+
+    <form id="principalLoginForm">
+
+        <label for="staffId">Staff ID</label>
+        <input
+            type="text"
+            id="staffId"
+            placeholder="Enter your Staff ID"
+            required
+        >
+
+        <label for="password">Password</label>
+        <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            required
+        >
+
+        <button type="submit">
+            Sign In
+        </button>
+
+    </form>
+
+    <div class="forgot-password">
+        <a href="forgot-password.html">Forgot Password?</a>
+    </div>
+
 </div>
 
-<div class="demo-box">
-    <h3>Demo Credentials</h3>
+<script src="js/login.js"></script>
 
-    <p><strong>ID:</strong> PRIN-001</p>
-    <p><strong>Password:</strong> principal123</p>
-
-</div>
+</body>
+</html>
