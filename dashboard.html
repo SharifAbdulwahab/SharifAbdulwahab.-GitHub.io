@@ -1,102 +1,69 @@
  <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolEase Dashboard</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>SchoolEase Dashboard</title>
-
-<link rel="stylesheet" href="css/style.css">
-
+    <!-- Dashboard Styles -->
+    <link rel="stylesheet" href="dashboard.css">
 </head>
 
 <body class="dashboard-body">
 
-<header class="topbar">
+    <header class="topbar">
+        <h1>SCHOOLEASE</h1>
 
-<h1>SCHOOLEASE</h1>
+        <div class="user-info">
+            <span id="welcomeUser">Welcome, Administrator</span>
 
-<div class="user-info">
+            <button onclick="logout()" class="logout-btn">
+                Logout
+            </button>
+        </div>
+    </header>
 
-<span id="welcomeUser">
-Welcome, Administrator
-</span>
+    <div class="menu">
 
-<button onclick="logout()" class="logout-btn">
-Logout
-</button>
+        <a href="students.html" class="menu-card">
+            <div class="icon">🎓</div>
+            <span>Students</span>
+        </a>
 
-</div>
+        <a href="attendance.html" class="menu-card">
+            <div class="icon">📅</div>
+            <span>Attendance</span>
+        </a>
 
-</header>
+        <a href="result.html" class="menu-card">
+            <div class="icon">📝</div>
+            <span>Results</span>
+        </a>
 
-<div class="menu">
+        <a href="viewparents.html" class="menu-card">
+            <div class="icon">👨‍👩‍👧</div>
+            <span>Parents</span>
+        </a>
 
-<a href="students.html" class="menu-card">
+        <a href="settings.html" class="menu-card">
+            <div class="icon">⚙️</div>
+            <span>Settings</span>
+        </a>
 
-<div class="icon">🎓</div>
+    </div>
 
-Students
+    <script>
+        // Protect Dashboard
+        if (localStorage.getItem("loggedIn") !== "true") {
+            window.location.href = "index.html";
+        }
 
-</a>
-
-<a href="attendance.html" class="menu-card">
-
-<div class="icon">📅</div>
-
-Attendance
-
-</a>
-
-<a href="result.html" class="menu-card">
-
-<div class="icon">📝</div>
-
-Results
-
-</a>
-
-<a href="viewparents.html" class="menu-card">
-
-<div class="icon">👨‍👩‍👧</div>
-
-Parents
-
-</a>
-
-<a href="settings.html" class="menu-card">
-
-<div class="icon">⚙️</div>
-
-Settings
-
-</a>
-
-</div>
-
-<script>
-
-// Protect Dashboard
-if(localStorage.getItem("loggedIn") !== "true"){
-
-window.location.href="index.html";
-
-}
-
-// Logout
-
-function logout(){
-
-localStorage.removeItem("loggedIn");
-
-window.location.href="index.html";
-
-}
-
-</script>
+        // Logout
+        function logout() {
+            localStorage.removeItem("loggedIn");
+            window.location.href = "index.html";
+        }
+    </script>
 
 </body>
-
 </html>
