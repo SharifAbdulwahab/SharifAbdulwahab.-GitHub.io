@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - SchoolEase</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+<header class="topbar">
+    <h1>SCHOOLEASE</h1>
+
+    <div class="user-info">
+        <span>Welcome, Teacher</span>
+        <button onclick="logout()">Logout</button>
+    </div>
+</header>
+
+<main class="dashboard">
+
+    <h2>Teacher Dashboard</h2>
+
+    <div class="dashboard-grid">
+
+        <div class="card" onclick="location.href='attendance.html'">
+            <h3>📋 Attendance</h3>
+            <p>Take and manage class attendance.</p>
+        </div>
+
+        <div class="card" onclick="location.href='ca.html'">
+            <h3>📝 Continuous Assessment</h3>
+            <p>Record students' CA scores.</p>
+        </div>
+
+        <div class="card" onclick="location.href='exam.html'">
+            <h3>📊 Examination Scores</h3>
+            <p>Enter examination results.</p>
+        </div>
+
+        <div class="card" onclick="location.href='results.html'">
+            <h3>📄 Results</h3>
+            <p>View and print students' results.</p>
+        </div>
+
+        <div class="card" onclick="location.href='students.html'">
+            <h3>👨‍🎓 Students</h3>
+            <p>View registered students.</p>
+        </div>
+
+    </div>
+
+</main>
+
+<script>
+function logout() {
+    if (confirm("Are you sure you want to logout?")) {
+        window.location.href = "index1.html";
+    }
+}
+</script>
+
+</body>
+</html>
