@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login - SchoolEase</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="login-body">
+
+<div class="login-container">
+
+    <a href="index.html" class="back-link">
+        ← Back to Roles
+    </a>
+
+    <div class="login-icon">
+        🎓
+    </div>
+
+    <h1>Student Sign In</h1>
+    <p>Enter your credentials to access your student portal.</p>
+
+    <form id="studentLoginForm">
+
+        <label>Student ID</label>
+        <input
+            type="text"
+            id="studentId"
+            placeholder="e.g. STU-001"
+            required
+        >
+
+        <label>Password</label>
+        <input
+            type="password"
+            id="password"
+            placeholder="Enter Password"
+            required
+        >
+
+        <button type="submit">
+            Sign In
+        </button>
+
+    </form>
+
+    <div class="forgot-password">
+        <a href="forgot-password.html">Forgot Password?</a>
+    </div>
+
+    <div class="demo-box">
+        <h3>Demo Credentials</h3>
+
+        <p><strong>Student ID:</strong> STU-001</p>
+        <p><strong>Password:</strong> student123</p>
+    </div>
+
+</div>
+
+<script src="js/login.js"></script>
+
+</body>
+  </html>
