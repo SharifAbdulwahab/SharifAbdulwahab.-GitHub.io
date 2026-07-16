@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - SchoolEase</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+<header class="topbar">
+    <h1>SCHOOLEASE</h1>
+
+    <div class="user-info">
+        <span>Welcome, Student</span>
+        <button onclick="logout()">Logout</button>
+    </div>
+</header>
+
+<main class="dashboard">
+
+    <h2>Student Dashboard</h2>
+
+    <div class="dashboard-grid">
+
+        <div class="card" onclick="location.href='student-profile.html'">
+            <h3>👤 My Profile</h3>
+            <p>View your personal information.</p>
+        </div>
+
+        <div class="card" onclick="location.href='results.html'">
+            <h3>📊 My Results</h3>
+            <p>View your CA and examination results.</p>
+        </div>
+
+        <div class="card" onclick="location.href='attendance.html'">
+            <h3>📋 Attendance</h3>
+            <p>View your attendance record.</p>
+        </div>
+
+        <div class="card" onclick="location.href='timetable.html'">
+            <h3>📅 Timetable</h3>
+            <p>View your class timetable.</p>
+        </div>
+
+        <div class="card" onclick="location.href='notifications.html'">
+            <h3>🔔 Notifications</h3>
+            <p>Receive school announcements.</p>
+        </div>
+
+    </div>
+
+</main>
+
+<script>
+function logout(){
+    if(confirm("Logout from SchoolEase?")){
+        window.location.href="index1.html";
+    }
+}
+</script>
+
+</body>
+</html>
