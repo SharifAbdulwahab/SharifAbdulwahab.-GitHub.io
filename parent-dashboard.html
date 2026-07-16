@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Dashboard - SchoolEase</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+<header class="topbar">
+
+    <h1>SCHOOLEASE</h1>
+
+    <div class="user-info">
+        <span>Welcome, Parent</span>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+</header>
+
+<main class="dashboard">
+
+    <h2>Parent Dashboard</h2>
+
+    <div class="dashboard-grid">
+
+        <div class="card" onclick="location.href='student-results.html'">
+            <h3>📊 Child's Results</h3>
+            <p>View examination and continuous assessment results.</p>
+        </div>
+
+        <div class="card" onclick="location.href='attendance.html'">
+            <h3>📋 Child's Attendance</h3>
+            <p>Check your child's attendance records.</p>
+        </div>
+
+        <div class="card" onclick="location.href='fees.html'">
+            <h3>💳 School Fees</h3>
+            <p>View payment history and outstanding fees.</p>
+        </div>
+
+        <div class="card" onclick="location.href='announcements.html'">
+            <h3>📢 Announcements</h3>
+            <p>Read important school notices.</p>
+        </div>
+
+        <div class="card" onclick="location.href='messages.html'">
+            <h3>💬 Messages</h3>
+            <p>Communicate with teachers and school management.</p>
+        </div>
+
+        <div class="card" onclick="location.href='profile.html'">
+            <h3>👤 My Profile</h3>
+            <p>View and update your profile information.</p>
+        </div>
+
+    </div>
+
+</main>
+
+<script>
+function logout() {
+    if (confirm("Are you sure you want to logout?")) {
+        window.location.href = "index1.html";
+    }
+}
+</script>
+
+</body>
+</html>
