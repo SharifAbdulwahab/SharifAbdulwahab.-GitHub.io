@@ -2,7 +2,57 @@
 // SchoolEase Student Management
 // Part 1
 // ===============================
+/* ============================================================
+   SCHOOLEASE STUDENT ID GENERATOR
+   ------------------------------------------------------------
+   Purpose:
+   Automatically generates a unique Admission Number for every
+   newly registered student.
 
+   Example IDs:
+   SE-2026-000001
+   SE-2026-000002
+   SE-2026-000003
+
+   How it works:
+   1. Reads the last student number saved in localStorage.
+   2. If this is the first student, it starts from 1.
+   3. Increments the number by one.
+   4. Saves the updated number for the next registration.
+   5. Combines:
+      - School Prefix (SE)
+      - Current Year
+      - Six-digit running number
+   6. Returns the completed Admission Number.
+
+   NOTE:
+   In the future, when SchoolEase uses a real database,
+   localStorage will be replaced by MySQL, but the admission
+   number format can remain the same.
+============================================================ */
+
+function generateStudentID() {
+
+    // Retrieve the last admission number from storage
+    let lastNumber = localStorage.getItem("lastStudentNumber");
+
+    // If no student has been registered yet, start from zero
+    if (!lastNumber) {
+        lastNumber = 0;
+    }
+
+    // Increase the counter by one for the new student
+    lastNumber = parseInt(lastNumber) + 1;
+
+    // Save the updated counter for the next registration
+    localStorage.setItem("lastStudentNumber", lastNumber);
+
+    // Get the current year automatically
+    const year = new Date().getFullYear();
+
+    // Return the formatted Admission Number
+    return `SE-${year}-${String(lastNumber).padStart(6, "0")}`;
+}
 // Protect page
 if (localStorage.getItem("loggedIn") !== "true") {
     window.location.href = "index.html";
