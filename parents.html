@@ -2,15 +2,92 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.90">
-    <a href="viewparents.html" class="back-btn">
-← Back to View parent
-</a>
-    <h1>SCHOOLEASE</h1>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parents - SchoolEase</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f4ff;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #1d4ed8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-btn:hover { text-decoration: underline; }
+
+        h1 {
+            text-align: center;
+            color: #1d4ed8;
+            margin: 10px 0;
+        }
+
+        header {
+            text-align: center;
+            color: #2563eb;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .container h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px; /* prevents iOS auto-zoom on focus */
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover { background: #1d4ed8; }
+
+        #message {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Phones */
+        @media (max-width: 480px) {
+            body { padding: 10px; }
+            .container { padding: 18px; border-radius: 8px; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
 </head>
 <body>
+
+<a href="viewparents.html" class="back-btn">← Back to View parent</a>
+<h1>SCHOOLEASE</h1>
 
 <header>
     <p>Parents Information</p>
@@ -40,4 +117,4 @@
 <script src="parents.js"></script>
 
 </body>
-</html>
+</html> 
