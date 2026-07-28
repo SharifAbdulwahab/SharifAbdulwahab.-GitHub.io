@@ -15,7 +15,35 @@
             border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.4);
             text-align: center; border-top: 6px solid #fbbf24;
         }
-        .login-box h1 { color: #1d4ed8; font-size: 30px; margin-bottom: 5px; }
+
+        .login-box h1 {
+            font-size: 30px;
+            margin-bottom: 5px;
+            overflow: hidden;
+            white-space: nowrap;
+            display: block;
+        }
+
+        .login-box h1 span.scroll-text {
+            display: inline-block;
+            animation:
+                scrollText 8s linear infinite,
+                colorCycle 4s linear infinite;
+        }
+
+        @keyframes scrollText {
+            0%   { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @keyframes colorCycle {
+            0%   { color: #1d4ed8; } /* blue */
+            25%  { color: #fbbf24; } /* gold */
+            50%  { color: #dc2626; } /* red */
+            75%  { color: #059669; } /* green */
+            100% { color: #1d4ed8; }
+        }
+
         .login-box p.subtitle { color: #6b7280; font-size: 14px; margin-bottom: 25px; }
         .login-box h2 { color: #1d4ed8; margin-bottom: 20px; }
         .login-box input {
@@ -36,8 +64,7 @@
 </head>
 <body>
 <div class="login-box">
-    <h1>📚 <b>NUHU WABI NURSERY AND PRIMARY 
- </b>SCHOOLEASE</h1>
+    <h1><span class="scroll-text">📚 NUHU WABI NURSERY AND PRIMARY SCHOOLEASE</span></h1>
     <p class="subtitle">Smart School Management System</p>
 
     <h2>Welcome Back</h2>
