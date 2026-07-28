@@ -1,54 +1,114 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
- <a href="dashboard.html" class="back-btn">
-← Back to Dashboard
-</a>
- <title>View Parents - SchoolEase</title>
- <head>
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.90">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Parents - SchoolEase</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', sans-serif; background: #f0f4ff; padding: 20px; }
         header { text-align: center; color: #1d4ed8; margin-bottom: 20px; }
-        .container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .search-box { width: 80%; padding: 10px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ccc; }
-        
-        table { width: 80%; border-collapse: collapse; margin-top: 10px; }
-        th { background: #2563eb; color: white; padding: 12px; text-align: left; }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #1d4ed8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-btn:hover { text-decoration: underline; }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 1000px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px; /* prevents iOS auto-zoom on focus */
+        }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; min-width: 600px; }
+        th { background: #2563eb; color: white; padding: 12px; text-align: left; white-space: nowrap; }
         td { padding: 12px; border-bottom: 1px solid #eee; }
         tr:hover { background: #f8fafc; }
 
-        .btn { display: inline-block; padding: 10px 15px; background: #2563eb; color: white; text-decoration: none; border-radius: 8px; margin-right: 10px; margin-top: 10px; }
-        .btn-small { padding: 6px 12px; border: none; border-radius: 5px; cursor: pointer; margin-right: 5px; color: white; font-weight: bold; }
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+        .btn-small {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 5px;
+            color: white;
+            font-weight: bold;
+        }
         .edit-btn { background: #f59e0b; }
         .delete-btn { background: #ef4444; }
+
+        /* Tablet and below */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 15px; border-radius: 8px; }
+            h2 { font-size: 1.3rem; }
+        }
+
+        /* Phones */
+        @media (max-width: 480px) {
+            .search-box { max-width: 100%; }
+            .btn { width: 100%; text-align: center; margin-right: 0; }
+            .btn-small { padding: 8px 10px; font-size: 0.85rem; }
+            th, td { padding: 8px; font-size: 0.85rem; }
+        }
     </style>
 </head>
 <body>
 
-<header class="topbar">
-</header>
+<a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+
+<header class="topbar"></header>
 
 <div class="container">
     <h2>Parents List</h2>
 
     <input type="text" id="searchInput" class="search-box" placeholder="🔍 Search parent or student name..." onkeyup="searchParents()">
-    
-    <table id="parentsTable">
-        <thead>
-            <tr>
-                <th>Student Name</th>
-                <th>Parent Name</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="parentsList">
-        </tbody>
-    </table>
-    
+
+    <div style="overflow-x:auto;">
+        <table id="parentsTable">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Parent Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="parentsList">
+            </tbody>
+        </table>
+    </div>
+
     <a href="parents.html" class="btn">+ Add New Parent</a>
 </div>
 
@@ -109,4 +169,4 @@
 </script>
 
 </body>
-</html>
+</html> 
