@@ -4,16 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SchoolEase - Login</title>
+
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
         body {
             background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
+
         .login-box {
-            background: white; width: 100%; max-width: 380px; padding: 35px 25px;
-            border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-            text-align: center; border-top: 6px solid #fbbf24;
+            background: white;
+            width: 100%;
+            max-width: 380px;
+            padding: 35px 25px;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            text-align: center;
+            border-top: 6px solid #fbbf24;
         }
 
         .login-box h1 {
@@ -21,60 +38,140 @@
             margin-bottom: 5px;
             overflow: hidden;
             white-space: nowrap;
-            display: block;
+            width: 100%;
         }
 
-        .login-box h1 span.scroll-text {
+        /* ===== Seamless Scrolling Animation ===== */
+
+        .scroll-wrapper {
+            display: inline-flex;
+            white-space: nowrap;
+            animation: marquee 10s linear infinite;
+        }
+
+        .scroll-text {
             display: inline-block;
-            animation:
-                scrollText 8s linear infinite,
-                colorCycle 4s linear infinite;
+            padding-right: 80px;
+            animation: colorCycle 4s linear infinite;
         }
 
-        @keyframes scrollText {
-            0%   { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+        @keyframes marquee {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
         }
 
         @keyframes colorCycle {
-            0%   { color: #1d4ed8; } /* blue */
-            25%  { color: #fbbf24; } /* gold */
-            50%  { color: #dc2626; } /* red */
-            75%  { color: #059669; } /* green */
-            100% { color: #1d4ed8; }
+            0% {
+                color: #1d4ed8;
+            }
+
+            25% {
+                color: #fbbf24;
+            }
+
+            50% {
+                color: #dc2626;
+            }
+
+            75% {
+                color: #059669;
+            }
+
+            100% {
+                color: #1d4ed8;
+            }
         }
 
-        .login-box p.subtitle { color: #6b7280; font-size: 14px; margin-bottom: 25px; }
-        .login-box h2 { color: #1d4ed8; margin-bottom: 20px; }
+        .login-box p.subtitle {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .login-box h2 {
+            color: #1d4ed8;
+            margin-bottom: 20px;
+        }
+
         .login-box input {
-            width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #e5e7eb;
-            border-radius: 10px; font-size: 16px;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 16px;
         }
+
         .login-box input:focus {
-            border-color: #2563eb; outline: none; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+            border-color: #2563eb;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+        }        .login-box button {
+            width: 100%;
+            padding: 15px;
+            background: #fbbf24;
+            color: #1d4ed8;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
         }
-        .login-box button {
-            width: 100%; padding: 15px; background: #fbbf24; color: #1d4ed8;
-            border: none; border-radius: 10px; font-size: 17px; font-weight: bold; cursor: pointer;
+
+        .login-box button:hover {
+            background: #f59e0b;
         }
-        .login-box button:hover { background: #f59e0b; }
-        #loginMsg { margin-top: 15px; font-weight: bold; min-height: 20px; }
-        .hint { color: #6b7280; display: block; margin-top: 15px; font-size: 13px; }
+
+        #loginMsg {
+            margin-top: 15px;
+            font-weight: bold;
+            min-height: 20px;
+        }
+
+        .hint {
+            color: #6b7280;
+            display: block;
+            margin-top: 15px;
+            font-size: 13px;
+        }
     </style>
 </head>
+
 <body>
+
 <div class="login-box">
-    <h1><span class="scroll-text">📚 NUHU WABI NURSERY AND PRIMARY SCHOOLEASE</span></h1>
+
+    <h1>
+        <div class="scroll-wrapper">
+            <span class="scroll-text">📚 NUHU WABI NURSERY AND PRIMARY SCHOOLEASE</span>
+            <span class="scroll-text">📚 NUHU WABI NURSERY AND PRIMARY SCHOOLEASE</span>
+        </div>
+    </h1>
+
     <p class="subtitle">Smart School Management System</p>
 
     <h2>Welcome Back</h2>
+
     <input type="text" id="username" placeholder="Enter Username">
+
     <input type="password" id="password" placeholder="Enter Password">
+
     <button onclick="login()">Login</button>
+
     <p id="loginMsg"></p>
-    <span class="hint">Hint: Password & username is <b>1234 & username </b></span>
+
+    <span class="hint">
+        Hint: Password & username is <b>1234 & username</b>
+    </span>
+
 </div>
 
 <script src="login.js"></script>
+
 </body>
 </html>
