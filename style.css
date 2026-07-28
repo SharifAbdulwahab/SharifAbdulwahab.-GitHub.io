@@ -1,4 +1,4 @@
-/* ===== GENERAL ===== */
+ /* ===== GENERAL ===== */
 * {
     margin: 0;
     padding: 0;
@@ -63,11 +63,34 @@ body {
 }
 
 /* ===== HEADER ===== */
+.login-box header {
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
 .login-box header h1 {
-    color: #1e3a8a; /* Navy ink */
+    display: inline-block;
     font-size: 28px;
     letter-spacing: 0.5px;
     margin-bottom: 5px;
+    white-space: nowrap;
+    animation:
+        scrollText 8s linear infinite,
+        colorCycle 4s linear infinite;
+}
+
+@keyframes scrollText {
+    0%   { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+@keyframes colorCycle {
+    0%   { color: #1e3a8a; } /* navy */
+    25%  { color: #d4af37; } /* gold */
+    50%  { color: #dc2626; } /* red */
+    75%  { color: #1e40af; } /* blue */
+    100% { color: #1e3a8a; }
 }
 
 .login-box header p {
@@ -129,4 +152,4 @@ body {
     background: #d4af37;
     border-color: #d4af37;
     color: #1e3a8a;
-} 
+}
