@@ -1,4 +1,4 @@
- /* ===== GENERAL ===== */
+/* ===== GENERAL ===== */
 * {
     margin: 0;
     padding: 0;
@@ -35,7 +35,7 @@ body {
 .login-box {
     background: #fffdf7;
     max-width: 500px;
-    width: 100%; /* was 300% — fixed overflow bug that pushed layout off-screen */
+    width: 100%;
     margin: auto;
     padding: 40px 30px;
     border-radius: 4px;
@@ -107,9 +107,13 @@ body {
     box-shadow: none;
 }
 
+/* Buttons — moderate size, centered, applies to every page using .container */
 .container button {
-    width: 100%; /* was 300% — same overflow bug */
-    padding: 16px; /* Increased for mobile tap */
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    margin: 10px auto 0;
+    padding: 14px 16px;
     background: #1e3a8a;
     color: #fdf6e3;
     border: 1px solid #1e3a8a;
@@ -125,4 +129,4 @@ body {
     background: #d4af37;
     border-color: #d4af37;
     color: #1e3a8a;
-}
+} 
