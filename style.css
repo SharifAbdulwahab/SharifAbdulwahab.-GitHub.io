@@ -17,7 +17,7 @@ body {
         ),
         linear-gradient(90deg, rgba(220,38,38,0.15) 0px, rgba(220,38,38,0.15) 2px, transparent 2px);
     background-position: 0 0, 60px 0;
-    min-height: 100vh;
+    min-height: 1000vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,14 +26,14 @@ body {
 
 /* ===== LOGIN BOX ===== */
 .login-wrapper {
-    width: 100%;
+    width: 1000%;
     padding: 20px;
 }
 
 .login-box {
     background: #fffdf7;
-    max-width: 400px;
-    width: 100%; /* Added for mobile */
+    max-width: 800px;
+    width: 500%; /* Added for mobile */
     margin: auto;
     padding: 40px 30px;
     border-radius: 4px;
@@ -100,14 +100,14 @@ body {
 }
 
 .container button {
-    width: 100%;
+    width: 500%;
     padding: 16px; /* Increased for mobile tap */
     background: #1e3a8a;
     color: #fdf6e3;
     border: 1px solid #1e3a8a;
     border-radius: 4px;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.5px;
     cursor: pointer;
     transition: 0.25s;
