@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,39 +7,74 @@
     <link rel="stylesheet" href="style.css">
     <style>
         * { box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f4ff; padding: 20px; }
-        header { text-align: center; color: #1d4ed8; margin-bottom: 20px; }
+
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f4ff;
+            padding: 20px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            float: none !important;
+            position: static !important;
+        }
+
+        header {
+            text-align: center;
+            color: #1d4ed8;
+            margin-bottom: 20px;
+            width: 100%;
+            float: none !important;
+            position: static !important;
+        }
 
         .back-btn {
-            display: inline-block;
+            display: block;
+            width: 100%;
+            max-width: 1000px;
             margin-bottom: 15px;
             color: #1d4ed8;
             text-decoration: none;
             font-weight: bold;
+            float: none !important;
+            position: static !important;
         }
         .back-btn:hover { text-decoration: underline; }
 
         .container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            max-width: 1000px;
-            margin: 0 auto;
+            background: white !important;
+            padding: 20px !important;
+            border-radius: 10px !important;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
+            width: 100% !important;
+            max-width: 1000px !important;
+            margin: 0 auto !important;
             overflow-x: auto;
+            float: none !important;
+            position: static !important;
+            top: auto !important;
+            right: auto !important;
+            left: auto !important;
         }
 
         .search-box {
-            width: 100%;
+            width: 100% !important;
             max-width: 400px;
             padding: 10px;
             margin-bottom: 15px;
             border-radius: 8px;
             border: 1px solid #ccc;
-            font-size: 16px; /* prevents iOS auto-zoom on focus */
+            font-size: 16px;
+            float: none !important;
         }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; min-width: 600px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th { background: #2563eb; color: white; padding: 12px; text-align: left; white-space: nowrap; }
         td { padding: 12px; border-bottom: 1px solid #eee; }
         tr:hover { background: #f8fafc; }
@@ -53,6 +88,7 @@
             border-radius: 8px;
             margin-right: 10px;
             margin-top: 10px;
+            float: none !important;
         }
         .btn-small {
             padding: 6px 12px;
@@ -68,17 +104,61 @@
 
         /* Tablet and below */
         @media (max-width: 768px) {
-            body { padding: 10px; }
-            .container { padding: 15px; border-radius: 8px; }
+            body { padding: 10px !important; }
+            .container { padding: 15px !important; border-radius: 8px; }
             h2 { font-size: 1.3rem; }
         }
 
-        /* Phones */
-        @media (max-width: 480px) {
-            .search-box { max-width: 100%; }
+        /* Phones: table becomes a stack of vertical cards */
+        @media (max-width: 600px) {
+            .search-box { max-width: 100% !important; }
+
+            table, thead, tbody, th, td, tr {
+                display: block;
+                width: 100%;
+            }
+
+            thead {
+                display: none; /* hide the horizontal header row */
+            }
+
+            tbody tr {
+                border: 1px solid #e2e8f0;
+                border-radius: 10px;
+                margin-bottom: 15px;
+                padding: 10px;
+                background: #f9fafc;
+            }
+
+            tbody td {
+                border-bottom: none;
+                padding: 8px 6px;
+                text-align: left;
+                position: relative;
+                padding-left: 45%;
+            }
+
+            tbody td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 6px;
+                width: 40%;
+                font-weight: bold;
+                color: #1d4ed8;
+                white-space: nowrap;
+            }
+
+            tbody td:last-child {
+                padding-left: 6px;
+                text-align: center;
+            }
+            tbody td:last-child::before {
+                content: "";
+                position: static;
+            }
+
             .btn { width: 100%; text-align: center; margin-right: 0; }
             .btn-small { padding: 8px 10px; font-size: 0.85rem; }
-            th, td { padding: 8px; font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -127,11 +207,11 @@
         list.forEach(p => {
             tbody.innerHTML += `
                 <tr>
-                    <td>${p.studentName}</td>
-                    <td>${p.parentName}</td>
-                    <td>${p.phone}</td>
-                    <td>${p.email}</td>
-                    <td>
+                    <td data-label="Student Name">${p.studentName}</td>
+                    <td data-label="Parent Name">${p.parentName}</td>
+                    <td data-label="Phone">${p.phone}</td>
+                    <td data-label="Email">${p.email}</td>
+                    <td data-label="Action">
                         <button class="btn-small edit-btn" onclick="editParent(${p.id})">Edit</button>
                         <button class="btn-small delete-btn" onclick="deleteParent(${p.id})">Delete</button>
                     </td>
@@ -169,4 +249,4 @@
 </script>
 
 </body>
-</html> 
+</html>
