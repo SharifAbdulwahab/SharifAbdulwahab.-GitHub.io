@@ -28,12 +28,14 @@ body {
 .login-wrapper {
     width: 100%;
     padding: 20px;
+    display: flex;
+    justify-content: center;
 }
 
 .login-box {
     background: #fffdf7;
     max-width: 500px;
-    width: 300%; /* Added for mobile */
+    width: 100%; /* was 300% — fixed overflow bug that pushed layout off-screen */
     margin: auto;
     padding: 40px 30px;
     border-radius: 4px;
@@ -75,6 +77,12 @@ body {
 }
 
 /* ===== FORM ===== */
+.container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
 .container h2 {
     color: #1e3a8a;
     margin-bottom: 20px;
@@ -100,7 +108,7 @@ body {
 }
 
 .container button {
-    width: 300%;
+    width: 100%; /* was 300% — same overflow bug */
     padding: 16px; /* Increased for mobile tap */
     background: #1e3a8a;
     color: #fdf6e3;
