@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -454,4 +454,150 @@ th{
 
 }
 
-td
+td{
+
+    padding:15px;
+
+    text-align:center;
+
+    border-bottom:1px solid #e8eefc;
+
+}
+
+tbody tr{
+
+    transition:.3s;
+
+}
+
+tbody tr:nth-child(even){
+
+    background:#f8fbff;
+
+}
+
+tbody tr:hover{
+
+    background:#edf4ff;
+
+}
+
+td img{
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:3px solid #2563eb;
+
+}
+
+/*======================
+FOOTER
+=======================*/
+
+.footer{
+
+    margin-top:40px;
+
+    text-align:center;
+
+    color:#666;
+
+    font-size:15px;
+
+    padding-top:20px;
+
+    border-top:1px solid #ddd;
+
+}
+
+/*======================
+ANIMATIONS
+=======================*/
+
+.container{
+
+    animation:fadeUp .8s ease;
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(25px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/*======================
+RESPONSIVE
+=======================*/
+
+@media(max-width:768px){
+
+.topbar h1{
+
+    font-size:1.8rem;
+
+}
+
+.container{
+
+    padding:20px;
+
+}
+
+.container h2{
+
+    font-size:24px;
+
+}
+
+.button-group{
+
+    flex-direction:column;
+
+}
+
+.btn{
+
+    width:100%;
+
+}
+
+.card h2{
+
+    font-size:30px;
+
+}
+
+th,td{
+
+    font-size:13px;
+
+    padding:12px;
+
+}
+
+}
+
+</style>
+
+</head> 
