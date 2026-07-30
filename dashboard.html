@@ -1,479 +1,69 @@
   <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolEase Dashboard</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>SchoolEase Dashboard</title>
-
-<link rel="stylesheet" href="dashboard.css">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+    <!-- Dashboard Styles -->
+    <link rel="stylesheet" href="dashboard.css">
 </head>
 
-<body>
+<body class="dashboard-body">
 
-<div class="dashboard">
+    <header class="topbar">
+        <h1>SCHOOLEASE</h1>
 
-    <!-- Sidebar -->
+        <div class="user-info">
+            <span id="welcomeUser">Welcome,Dev.<h1>SHERIFFDEEN</h1> SHARIF ABDULWAHAB </span>
 
-    <aside class="sidebar" id="sidebar">
-
-        <div class="sidebar-header">
-
-            <i class="fas fa-school"></i>
-
-            <h2>SchoolEase</h2>
-
+            <button onclick="logout()" class="logout-btn">
+                Logout
+            </button>
         </div>
+    </header>
 
-        <ul>
+    <div class="menu">
 
-            <li class="active">
-                <a href="dashboard.html">
-                    <i class="fas fa-home"></i>
-                    Dashboard
-                </a>
-            </li>
+        <a href="students.html" class="menu-card">
+            <div class="icon">🎓</div>
+            <span>Students</span>
+        </a>
 
-            <li>
-                <a href="students.html">
-                    <i class="fas fa-user-graduate"></i>
-                    Student Registration
-                </a>
-            </li>
+        <a href="attendance.html" class="menu-card">
+            <div class="icon">📅</div>
+            <span>Attendance</span>
+        </a>
 
-            <li>
-                <a href="subjects.html">
-                    <i class="fas fa-book"></i>
-                    Subjects
-                </a>
-            </li>
+        <a href="result.html" class="menu-card">
+            <div class="icon">📝</div>
+            <span>Results</span>
+        </a>
 
-            <li>
-                <a href="result.html">
-                    <i class="fas fa-chart-column"></i>
-                    Result Management
-                </a>
-            </li>
+        <a href="viewparents.html" class="menu-card">
+            <div class="icon">👨‍👩‍👧</div>
+            <span>Parents</span>
+        </a>
 
-            <li>
-                <a href="attendance.html">
-                    <i class="fas fa-calendar-check"></i>
-                    Attendance
-                </a>
-            </li>
-
-            <li>
-                <a href="teachers.html">
-                    <i class="fas fa-chalkboard-user"></i>
-                    Teachers
-                </a>
-            </li>
-
-            <li>
-                <a href="viewparents.html">
-                    <i class="fas fa-users"></i>
-                    Parents
-                </a>
-            </li>
-
-            <li>
-                <a href="settings.html">
-                    <i class="fas fa-gear"></i>
-                    Settings
-                </a>
-            </li>
-
-            <li>
-                <a href="#" onclick="logout()">
-                    <i class="fas fa-right-from-bracket"></i>
-                    Logout
-                </a>
-            </li>
-
-        </ul>
-
-    </aside>
-
-    <!-- Main Content -->
-
-    <div class="main">
-
-        <!-- Top Navigation -->
-
-        <header class="topbar">
-
-            <div class="left">
-
-                <button id="menuBtn">
-
-                    <i class="fas fa-bars"></i>
-
-                </button>
-
-                <h2>Dashboard</h2>
-
-            </div>
-
-            <div class="right">
-
-                <div class="profile">
-
-                    <img src="https://via.placeholder.com/45">
-
-                    <div>
-
-                        <h4 id="welcomeUser">
-
-                            SHERIFFDEEN SHARIF ABDULWAHAB
-
-                        </h4>
-
-                        <small id="todayDate"></small>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </header>
-
-        <!-- Hero -->
-
-        <section class="hero">
-
-            <div>
-
-                <h1>
-
-                    SchoolEase School Management System
-
-                </h1>
-
-                <p>
-
-                    Manage students, attendance,
-                    examination records,
-                    teachers, parents and school
-                    reports from one dashboard.
-
-                </p>
-
-            </div>
-
-        </section>
-
-        <!-- Statistics Cards Start -->
-
-        <section class="stats">    <!-- Statistics Cards -->
-
-    <div class="stat-card">
-
-        <i class="fas fa-user-graduate"></i>
-
-        <div>
-
-            <h2 id="studentCount">0</h2>
-
-            <p>Students</p>
-
-        </div>
+        <a href="settings.html" class="menu-card">
+            <div class="icon">⚙️</div>
+            <span>Settings</span>
+        </a>
 
     </div>
 
-    <div class="stat-card">
-
-        <i class="fas fa-chalkboard-user"></i>
-
-        <div>
-
-            <h2 id="teacherCount">0</h2>
-
-            <p>Teachers</p>
-
-        </div>
-
-    </div>
-
-    <div class="stat-card">
-
-        <i class="fas fa-calendar-check"></i>
-
-        <div>
-
-            <h2 id="attendanceRate">0%</h2>
-
-            <p>Attendance</p>
-
-        </div>
-
-    </div>
-
-    <div class="stat-card">
-
-        <i class="fas fa-square-poll-vertical"></i>
-
-        <div>
-
-            <h2 id="resultCount">0</h2>
-
-            <p>Results</p>
-
-        </div>
-
-    </div>
-
-    <div class="stat-card">
-
-        <i class="fas fa-users"></i>
-
-        <div>
-
-            <h2 id="parentCount">0</h2>
-
-            <p>Parents</p>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- Quick Actions -->
-
-<section class="quick-actions">
-
-    <div class="action-card"
-    onclick="location.href='students.html'">
-
-        <i class="fas fa-user-plus"></i>
-
-        <h3>Register Student</h3>
-
-        <p>Add a new student into the school database.</p>
-
-    </div>
-
-    <div class="action-card"
-    onclick="location.href='attendance.html'">
-
-        <i class="fas fa-calendar-check"></i>
-
-        <h3>Attendance</h3>
-
-        <p>Take daily attendance quickly.</p>
-
-    </div>
-
-    <div class="action-card"
-    onclick="location.href='result.html'">
-
-        <i class="fas fa-file-lines"></i>
-
-        <h3>Results</h3>
-
-        <p>Manage examination results.</p>
-
-    </div>
-
-    <div class="action-card"
-    onclick="location.href='subjects.html'">
-
-        <i class="fas fa-book"></i>
-
-        <h3>Subjects</h3>
-
-        <p>Manage school subjects.</p>
-
-    </div>
-
-</section>
-
-<!-- Bottom Grid -->
-
-<section class="dashboard-grid">
-
-    <div class="panel">
-
-        <h2>
-
-            <i class="fas fa-clock"></i>
-
-            Recent Activities
-
-        </h2>
-
-        <ul class="activity-list">
-
-            <li>✅ Student Registration Completed</li>
-
-            <li>📅 Attendance Recorded</li>
-
-            <li>📝 Results Updated</li>
-
-            <li>📊 Positions Calculated</li>
-
-            <li>📨 Parent Notification Sent</li>
-
-        </ul>
-
-    </div>
-
-    <div class="panel">
-
-        <h2>
-
-            <i class="fas fa-server"></i>
-
-            System Status
-
-        </h2>
-
-        <div class="status">
-
-            <p>
-
-                Database
-
-                <span class="online">
-
-                    Online
-
-                </span>
-
-            </p>
-
-            <p>
-
-                Attendance
-
-                <span class="online">
-
-                    Active
-
-                </span>
-
-            </p>
-
-            <p>
-
-                Results
-
-                <span class="online">
-
-                    Ready
-
-                </span>
-
-            </p>
-
-            <p>
-
-                Parent Portal
-
-                <span class="online">
-
-                    Connected
-
-                </span>
-
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-<footer>
-
-    © 2026 SchoolEase School Management System
-
-</footer>
-
-</div>
-
-</div>
-
-<script>
-
-if(localStorage.getItem("loggedIn")!="true"){
-
-    window.location.href="index.html";
-
-}
-
-function logout(){
-
-    localStorage.removeItem("loggedIn");
-
-    window.location.href="index.html";
-
-}
-
-document.getElementById("todayDate").innerHTML =
-new Date().toDateString();
-
-const menuBtn=document.getElementById("menuBtn");
-
-const sidebar=document.getElementById("sidebar");
-
-menuBtn.onclick=function(){
-
-    sidebar.classList.toggle("show");
-
-};
-
-function loadDashboard(){
-
-let students=
-JSON.parse(localStorage.getItem("schoolEaseStudents"))||[];
-
-document.getElementById("studentCount").innerHTML=
-students.length;
-
-let teachers=
-JSON.parse(localStorage.getItem("teachers"))||[];
-
-document.getElementById("teacherCount").innerHTML=
-teachers.length;
-
-let parents=
-students.filter(s=>s.parentName).length;
-
-document.getElementById("parentCount").innerHTML=
-parents;
-
-let attendance=
-JSON.parse(localStorage.getItem("attendance"))||[];
-
-document.getElementById("attendanceRate").innerHTML=
-attendance.length;
-
-let results=
-JSON.parse(localStorage.getItem("schoolease-reportcards"))||{};
-
-let total=0;
-
-Object.keys(results).forEach(function(term){
-
-total+=Object.keys(results[term]).length;
-
-});
-
-document.getElementById("resultCount").innerHTML=total;
-
-}
-
-loadDashboard();
-
-</script>
+    <script>
+        // Protect Dashboard
+        if (localStorage.getItem("loggedIn") !== "true") {
+            window.location.href = "index.html";
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem("loggedIn");
+            window.location.href = "index.html";
+        }
+    </script>
 
 </body>
-
 </html>
