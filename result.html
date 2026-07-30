@@ -1,14 +1,9 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<a href="dashboard.html" class="back-btn">
-
-← Back to Dashboard
-
-</a>
-  <title>Schoolease — Report Card Manager</title>
+<title>Schoolease — Report Card Manager</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
   :root{
@@ -33,121 +28,280 @@
     color:var(--ink);
     min-height:100vh;
   }
- .util{font-family: 'Avenir Next','Segoe UI',ui-sans-serif,system-ui,sans-serif;}
- .app{max-width:1180px;margin:0 auto;padding:20px 16px 60px;}
- .masthead{ background:var(--ink); color:var(--paper); border-radius:14px; padding:22px 26px; box-shadow:var(--shadow); position:relative; overflow:hidden; }
- .masthead::before{ content:""; position:absolute; inset:0; background: radial-gradient(circle at 90% -10%, rgba(201,151,62,0.35), transparent 55%); pointer-events:none; }
- .brand-row{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap;}
- .brand-eyebrow{ font-family:'Avenir Next',sans-serif; letter-spacing:.16em; font-size:11px; text-transform:uppercase; color:var(--gold); font-weight:700; margin:0 0 4px; }
- .brand-title{font-size:28px; margin:0; font-weight:700; letter-spacing:.01em;}
- .brand-sub{margin:4px 0 0; color:#C9CEE0; font-size:13px; font-family:'Avenir Next',sans-serif;}
- .seal{ width:64px;height:64px;border-radius:50%; border:2px solid var(--gold); color:var(--gold); display:flex; align-items:center; justify-content:center; font-family:'Avenir Next',sans-serif; font-weight:800; font-size:10px; letter-spacing:.05em; text-align:center; line-height:1.15; flex:none; transform:rotate(-8deg); position:relative; }
- .seal::after{content:"";position:absolute;inset:5px;border:1px dashed var(--gold);border-radius:50%;opacity:.6;}
- .school-edit{ display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:14px; }
- .school-edit input{ background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#fff; border-radius:8px; padding:8px 10px; font-family:'Avenir Next',sans-serif; font-size:13px; }
- .controls-row{display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; align-items:center;}
+  .util{font-family: 'Avenir Next','Segoe UI',ui-sans-serif,system-ui,sans-serif;}
+  .app{max-width:1180px;margin:0 auto;padding:20px 16px 60px;}
+  .back-btn{ display:inline-block; margin-bottom:12px; font-family:'Avenir Next',sans-serif; font-size:13px; color:var(--ink-soft); text-decoration:none; font-weight:600; }
+  .back-btn:hover{color:var(--ink);}
+  .masthead{ background:var(--ink); color:var(--paper); border-radius:14px; padding:22px 26px; box-shadow:var(--shadow); position:relative; overflow:hidden; }
+  .masthead::before{ content:""; position:absolute; inset:0; background: radial-gradient(circle at 90% -10%, rgba(201,151,62,0.35), transparent 55%); pointer-events:none; }
+  .brand-row{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+  .brand-eyebrow{ font-family:'Avenir Next',sans-serif; letter-spacing:.16em; font-size:11px; text-transform:uppercase; color:var(--gold); font-weight:700; margin:0 0 4px; }
+  .brand-title{font-size:28px; margin:0; font-weight:700; letter-spacing:.01em;}
+  .brand-sub{margin:4px 0 0; color:#C9CEE0; font-size:13px; font-family:'Avenir Next',sans-serif;}
+  .seal{ width:64px;height:64px;border-radius:50%; border:2px solid var(--gold); color:var(--gold); display:flex; align-items:center; justify-content:center; font-family:'Avenir Next',sans-serif; font-weight:800; font-size:10px; letter-spacing:.05em; text-align:center; line-height:1.15; flex:none; transform:rotate(-8deg); position:relative; }
+  .seal::after{content:"";position:absolute;inset:5px;border:1px dashed var(--gold);border-radius:50%;opacity:.6;}
+  .school-edit{ display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:14px; }
+  .school-edit input{ background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#fff; border-radius:8px; padding:8px 10px; font-family:'Avenir Next',sans-serif; font-size:13px; }
+  .controls-row{display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; align-items:center;}
   select.term-select{ background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.25); padding:9px 12px; border-radius:8px; font-family:'Avenir Next',sans-serif; font-size:13.5px; }
- .btn{ font-family:'Avenir Next',sans-serif; font-weight:600; font-size:13.5px; border:none; border-radius:8px; padding:10px 16px; cursor:pointer; display:inline-flex; align-items:center; gap:7px; transition:transform.08s ease, filter.15s ease; }
- .btn:active{transform:scale(0.97);}.btn:hover{filter:brightness(1.06);}
- .btn-green{background:var(--green); color:#fff;}.btn-gold{background:var(--gold); color:#2b2106;}.btn-red{background:var(--red); color:#fff;}.btn-ink{background:var(--ink); color:#fff;}
- .btn-outline-ink{background:transparent; border:1.5px solid var(--ink); color:var(--ink);}
- .btn-sm{padding:6px 11px; font-size:12.5px; border-radius:6px;}
- .toolbar{display:flex; gap:10px; flex-wrap:wrap; margin:18px 0;}
- .stats-row{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:18px; }
- .stat-card{ background:var(--card); border-radius:10px; padding:14px 16px; box-shadow:var(--shadow); border-left:4px solid var(--gold); }
- .stat-card.label{font-family:'Avenir Next',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); font-weight:700;}
- .stat-card.value{font-size:24px; font-weight:700; margin-top:4px;}
- .tabs{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:6px;}
- .tab{ font-family:'Avenir Next',sans-serif; font-weight:600; font-size:13px; background:var(--card); border:1.5px solid var(--paper-line); color:var(--ink-soft); padding:8px 14px; border-radius:20px; cursor:pointer; }
- .tab.active{background:var(--ink); color:#fff; border-color:var(--ink);}
- .section-divider{ background:var(--ink); color:#fff; text-align:center; font-family:'Avenir Next',sans-serif; letter-spacing:.1em; font-size:12.5px; font-weight:700; text-transform:uppercase; padding:10px; border-radius:8px; margin:20px 0 14px; }
- .search-bar{ display:flex; gap:8px; margin-bottom:14px; }
- .search-bar input{ flex:1; padding:10px 14px; border-radius:8px; border:1.5px solid var(--paper-line); font-family:'Avenir Next',sans-serif; font-size:13.5px; background:var(--card); }
- .student-card{ background:var(--card); border-radius:14px; padding:20px; margin-bottom:18px; box-shadow:var(--shadow); border-top:4px solid var(--ink); position:relative; }
- .student-head{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:16px; flex-wrap:wrap;}
- .student-head h3{margin:0; font-size:19px; font-family:'Avenir Next',sans-serif; font-weight:700;}
- .student-head.role-label{font-family:'Avenir Next',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-soft); font-weight:700;}
- .photo-block{display:flex; flex-direction:column; align-items:center; gap:8px; width:120px; flex:none;}
- .photo-frame{ width:110px;height:130px;border-radius:6px; object-fit:cover; border:2px solid var(--ink); background:var(--paper); box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
- .photo-placeholder{ width:110px;height:130px;border-radius:6px; border:2px dashed var(--ink-soft); display:flex; align-items:center; justify-content:center; color:var(--ink-soft); font-family:'Avenir Next',sans-serif; font-size:11px; text-align:center; background:var(--paper); }
- .field-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; flex:1; min-width:260px;}
- .field label{ display:block; font-family:'Avenir Next',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); font-weight:700; margin-bottom:4px; }
- .field input{ width:100%; padding:9px 10px; border-radius:7px; border:1.5px solid var(--paper-line); font-family:'Avenir Next',sans-serif; font-size:13.5px; background:var(--paper); }
+  .btn{ font-family:'Avenir Next',sans-serif; font-weight:600; font-size:13.5px; border:none; border-radius:8px; padding:10px 16px; cursor:pointer; display:inline-flex; align-items:center; gap:7px; transition:transform .08s ease, filter .15s ease; }
+  .btn:active{transform:scale(0.97);} .btn:hover{filter:brightness(1.06);}
+  .btn-green{background:var(--green); color:#fff;} .btn-gold{background:var(--gold); color:#2b2106;} .btn-red{background:var(--red); color:#fff;} .btn-ink{background:var(--ink); color:#fff;}
+  .btn-outline-ink{background:transparent; border:1.5px solid var(--ink); color:var(--ink);}
+  .btn-sm{padding:6px 11px; font-size:12.5px; border-radius:6px;}
+  .toolbar{display:flex; gap:10px; flex-wrap:wrap; margin:18px 0; align-items:center;}
+  .roster-note{ font-family:'Avenir Next',sans-serif; font-size:12px; color:var(--ink-soft); }
+  .stats-row{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:18px; }
+  .stat-card{ background:var(--card); border-radius:10px; padding:14px 16px; box-shadow:var(--shadow); border-left:4px solid var(--gold); }
+  .stat-card.label{font-family:'Avenir Next',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); font-weight:700;}
+  .stat-card.value{font-size:24px; font-weight:700; margin-top:4px;}
+  .tabs{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:6px;}
+  .tab{ font-family:'Avenir Next',sans-serif; font-weight:600; font-size:13px; background:var(--card); border:1.5px solid var(--paper-line); color:var(--ink-soft); padding:8px 14px; border-radius:20px; cursor:pointer; }
+  .tab.active{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .section-divider{ background:var(--ink); color:#fff; text-align:center; font-family:'Avenir Next',sans-serif; letter-spacing:.1em; font-size:12.5px; font-weight:700; text-transform:uppercase; padding:10px; border-radius:8px; margin:20px 0 14px; }
+  .search-bar{ display:flex; gap:8px; margin-bottom:14px; }
+  .search-bar input{ flex:1; padding:10px 14px; border-radius:8px; border:1.5px solid var(--paper-line); font-family:'Avenir Next',sans-serif; font-size:13.5px; background:var(--card); }
+  .student-card{ background:var(--card); border-radius:14px; padding:20px; margin-bottom:18px; box-shadow:var(--shadow); border-top:4px solid var(--ink); position:relative; }
+  .student-head{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:16px; flex-wrap:wrap;}
+  .student-head h3{margin:0; font-size:19px; font-family:'Avenir Next',sans-serif; font-weight:700;}
+  .role-label{font-family:'Avenir Next',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-soft); font-weight:700;}
+  .synced-badge{ display:inline-flex; align-items:center; gap:4px; font-family:'Avenir Next',sans-serif; font-size:10.5px; font-weight:700; color:var(--green); background:var(--green-soft); padding:3px 8px; border-radius:20px; margin-left:8px; text-transform:none; letter-spacing:0; vertical-align:middle; }
+  .photo-block{display:flex; flex-direction:column; align-items:center; gap:8px; width:120px; flex:none;}
+  .photo-frame{ width:110px;height:130px;border-radius:6px; object-fit:cover; border:2px solid var(--ink); background:var(--paper); box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+  .photo-placeholder{ width:110px;height:130px;border-radius:6px; border:2px dashed var(--ink-soft); display:flex; align-items:center; justify-content:center; color:var(--ink-soft); font-family:'Avenir Next',sans-serif; font-size:11px; text-align:center; background:var(--paper); }
+  .field-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; flex:1; min-width:260px;}
+  .field label{ display:block; font-family:'Avenir Next',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); font-weight:700; margin-bottom:4px; }
+  .field .field-value{ width:100%; padding:9px 10px; border-radius:7px; border:1.5px solid var(--paper-line); font-family:'Avenir Next',sans-serif; font-size:13.5px; background:var(--paper); min-height:36px; display:flex; align-items:center; color:var(--ink); }
   table.subjects{width:100%; border-collapse:collapse; margin-top:6px; font-family:'Avenir Next',sans-serif;}
   table.subjects thead th{ background:var(--ink); color:#fff; font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; padding:9px 8px; text-align:left; font-weight:700; }
   table.subjects tbody td{padding:6px 8px; border-bottom:1px solid var(--paper-line); font-size:13.5px;}
   table.subjects tbody tr:nth-child(odd){background:#FCFAF3;}
   table.subjects input{ width:100%; border:1px solid transparent; background:transparent; padding:4px 6px; border-radius:5px; font-size:13.5px; font-family:'Avenir Next',sans-serif; }
- .grade-pill{ display:inline-block; padding:2px 9px; border-radius:20px; font-weight:700; font-size:12px; }
- .grade-A{background:var(--green-soft); color:var(--green);}.grade-B{background:#DDE8F2; color:#2C5A82;}.grade-C{background:var(--gold-soft); color:#8A6316;}.grade-D{background:#F1E4CE; color:#8A5A16;}.grade-E{background:#F3DCC8; color:#9A4B16;}.grade-F{background:var(--red-soft); color:var(--red);}
- .x-btn{background:none;border:none;color:var(--red);cursor:pointer;font-size:15px;font-weight:700;}
- .subject-actions{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
- .summary-strip{ display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; background:var(--paper); border-radius:10px; padding:12px 16px; margin-top:14px; border:1px solid var(--paper-line); }
- .summary-item{font-family:'Avenir Next',sans-serif;}
- .summary-item.label{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); font-weight:700;}
- .summary-item.val{font-size:19px; font-weight:800;}
- .position-stamp{ display:inline-flex; align-items:center; justify-content:center; background:var(--gold); color:#2b2106; font-weight:800; border-radius:50%; width:46px; height:46px; font-size:14px; border:2px dashed #2b2106aa; transform:rotate(-6deg); }
- .toast{ position:fixed; bottom:22px; left:50%; transform:translateX(-50%); background:var(--ink); color:#fff; padding:11px 20px; border-radius:30px; font-family:'Avenir Next',sans-serif; font-size:13.5px; box-shadow:var(--shadow); z-index:999; opacity:0; pointer-events:none; transition:opacity.25s ease, bottom.25s ease; }
- .toast.show{opacity:1; bottom:32px;}
- .modal-overlay{ position:fixed; inset:0; background:rgba(30,42,74,0.55); display:flex; align-items:center; justify-content:center; z-index:1000; padding:16px; }
- .modal-box{ background:#fff; border-radius:14px; padding:24px; max-width:420px; width:100%; box-shadow:var(--shadow); font-family:'Avenir Next',sans-serif; }
+  .grade-pill{ display:inline-block; padding:2px 9px; border-radius:20px; font-weight:700; font-size:12px; }
+  .grade-A{background:var(--green-soft); color:var(--green);} .grade-B{background:#DDE8F2; color:#2C5A82;} .grade-C{background:var(--gold-soft); color:#8A6316;} .grade-D{background:#F1E4CE; color:#8A5A16;} .grade-E{background:#F3DCC8; color:#9A4B16;} .grade-F{background:var(--red-soft); color:var(--red);}
+  .x-btn{background:none;border:none;color:var(--red);cursor:pointer;font-size:15px;font-weight:700;}
+  .subject-actions{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
+  .summary-strip{ display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; background:var(--paper); border-radius:10px; padding:12px 16px; margin-top:14px; border:1px solid var(--paper-line); }
+  .summary-item{font-family:'Avenir Next',sans-serif;}
+  .summary-item.label{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); font-weight:700;}
+  .summary-item.val{font-size:19px; font-weight:800;}
+  .position-stamp{ display:inline-flex; align-items:center; justify-content:center; background:var(--gold); color:#2b2106; font-weight:800; border-radius:50%; width:46px; height:46px; font-size:14px; border:2px dashed #2b2106aa; transform:rotate(-6deg); }
+  .toast{ position:fixed; bottom:22px; left:50%; transform:translateX(-50%); background:var(--ink); color:#fff; padding:11px 20px; border-radius:30px; font-family:'Avenir Next',sans-serif; font-size:13.5px; box-shadow:var(--shadow); z-index:999; opacity:0; pointer-events:none; transition:opacity .25s ease, bottom .25s ease; }
+  .toast.show{opacity:1; bottom:32px;}
+  .modal-overlay{ position:fixed; inset:0; background:rgba(30,42,74,0.55); display:flex; align-items:center; justify-content:center; z-index:1000; padding:16px; }
+  .modal-box{ background:#fff; border-radius:14px; padding:24px; max-width:420px; width:100%; box-shadow:var(--shadow); font-family:'Avenir Next',sans-serif; }
+  .empty-state{ text-align:center; padding:50px; font-family:'Avenir Next',sans-serif; color:var(--ink-soft); }
   @media (max-width:600px){.field-grid{grid-template-columns:1fr;}.student-head{flex-direction:column;}.brand-title{font-size:22px;} }
   @media print{ body{background:#fff;}.no-print{display:none!important;}.app{max-width:100%; padding:0;}.student-card{box-shadow:none; border:1px solid #999; page-break-after:always; border-radius:0;}.masthead{border-radius:0;} }
 </style>
 </head>
 <body>
+<a href="dashboard.html" class="back-btn no-print">← Back to Dashboard</a>
 <div id="root" class="app"></div>
 <div id="toast" class="toast"></div>
 
 <script>
 (function(){
   "use strict";
+
+  // Registration system's storage (source of truth for who students ARE)
+  var ROSTER_KEY = "schoolEaseStudents";
+  // This app's storage — only report-card data (who students ARE goes to Registration)
+  var REPORT_KEY = "schoolease-reportcards";
+  var SETTINGS_KEY = "schoolease-report-settings";
+
   var state = {
     settings: { schoolName:"Schoolease Primary & Secondary School", schoolAddress:"Azare, Bauchi State", term:"1st Term", session:"2025/2026" },
-    students: [],
+    roster: [],       // read-only, sourced from Registration
+    reportData: {},   // { "<term>||<session>": { "<studentId>": { subjects:[...] } } }
     activeClass: "All",
     search: ""
   };
   var loaded = false;
-  var STORE_KEY = "schoolease-app-data";
   function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
   function defaultSubjects(){ return [ { id: uid(), name:"Mathematics", total:100, obtained:"" }, { id: uid(), name:"English Language", total:100, obtained:"" }, { id: uid(), name:"Basic Science", total:100, obtained:"" } ]; }
   function gradeFor(pct){ if(pct===null || isNaN(pct)) return {grade:"-", remark:"-", cls:""}; if(pct>=70) return {grade:"A", remark:"Excellent", cls:"grade-A"}; if(pct>=60) return {grade:"B", remark:"Very Good", cls:"grade-B"}; if(pct>=50) return {grade:"C", remark:"Good", cls:"grade-C"}; if(pct>=45) return {grade:"D", remark:"Pass", cls:"grade-D"}; if(pct>=40) return {grade:"E", remark:"Fair", cls:"grade-E"}; return {grade:"F", remark:"Fail", cls:"grade-F"}; }
   function ordinal(n){ var s=["th","st","nd","rd"], v=n%100; return n + (s[(v-20)%10] || s[v] || s[0]); }
-  function studentTotals(st){ var totalMax=0, totalObt=0; (st.subjects||[]).forEach(function(su){ var t=parseFloat(su.total), o=parseFloat(su.obtained); if(!isNaN(t)){ totalMax+=t; } if(!isNaN(o)){ totalObt+=o; } }); var pct = totalMax>0? (totalObt/totalMax*100) : null; return { totalMax:totalMax, totalObt:totalObt, pct:pct }; }
-  function classKey(st){ return (st.className||"Unassigned") + "||" + (st.term||state.settings.term) + "||" + (st.session||state.settings.session); }
-  function computePositions(){ var groups = {}; state.students.forEach(function(st){ var k = classKey(st); groups[k] = groups[k] || []; groups[k].push(st); }); Object.keys(groups).forEach(function(k){ var arr = groups[k].slice().sort(function(a,b){ var pa = studentTotals(a).pct, pb = studentTotals(b).pct; if(pa===null) pa=-1; if(pb===null) pb=-1; return pb-pa; }); var rank=0, prevPct=null, seen=0; arr.forEach(function(st){ seen++; var pct = studentTotals(st).pct; if(pct===null){ st._position = null; return; } if(prevPct===null || pct < prevPct){ rank = seen; } prevPct = pct; st._position = rank; }); }); }
+  function termKey(){ return state.settings.term + "||" + state.settings.session; }
   function formatPhone(p){ p = (p||"").replace(/[^0-9]/g,""); if(p.startsWith("0")) p = "234" + p.slice(1); return p; }
 
-  // FIXED: USE LOCALSTORAGE SO DATA SAVES
-  function save(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify({settings:state.settings, students:state.students})); }catch(e){ console.error("save err",e); showToast("Save failed"); } }
-  function load(){ var res = localStorage.getItem(STORE_KEY); if(res){ try{ var data = JSON.parse(res); if(data.settings) state.settings = data.settings; if(data.students) state.students = data.students; }catch(e){ console.error(e); } } loaded=true; render(); }
+  // ---------- Roster (read from Registration, never written here) ----------
+  function loadRoster(){
+    try{ state.roster = JSON.parse(localStorage.getItem(ROSTER_KEY)) || []; }
+    catch(e){ console.error("roster load err", e); state.roster = []; }
+  }
+
+  // ---------- Report data (owned by this app) ----------
+  function loadReportData(){
+    try{ state.reportData = JSON.parse(localStorage.getItem(REPORT_KEY)) || {}; }
+    catch(e){ console.error("report load err", e); state.reportData = {}; }
+  }
+  function saveReportData(){
+    try{ localStorage.setItem(REPORT_KEY, JSON.stringify(state.reportData)); }
+    catch(e){ console.error("report save err", e); showToast("Save failed"); }
+  }
+  function getReport(studentId){
+    var bucket = state.reportData[termKey()];
+    if(!bucket){ bucket = {}; state.reportData[termKey()] = bucket; }
+    if(!bucket[studentId]){ bucket[studentId] = { subjects: defaultSubjects() }; }
+    return bucket[studentId];
+  }
+
+  function loadSettings(){
+    try{ var s = JSON.parse(localStorage.getItem(SETTINGS_KEY)); if(s) state.settings = Object.assign(state.settings, s); }catch(e){}
+  }
+  function saveSettings(){ try{ localStorage.setItem(SETTINGS_KEY, JSON.stringify(state.settings)); }catch(e){} }
+
+  function loadAll(){ loadRoster(); loadReportData(); loadSettings(); loaded = true; render(); }
+
+  // Stay in sync if Registration (or another tab) changes the roster
+  window.addEventListener("storage", function(e){
+    if(e.key === ROSTER_KEY){ loadRoster(); render(); showToast("Roster updated"); }
+    if(e.key === REPORT_KEY){ loadReportData(); render(); }
+  });
+
+  function studentTotals(report){ var totalMax=0, totalObt=0; (report.subjects||[]).forEach(function(su){ var t=parseFloat(su.total), o=parseFloat(su.obtained); if(!isNaN(t)){ totalMax+=t; } if(!isNaN(o)){ totalObt+=o; } }); var pct = totalMax>0? (totalObt/totalMax*100) : null; return { totalMax:totalMax, totalObt:totalObt, pct:pct }; }
+
+  function computePositions(list){
+    var groups = {};
+    list.forEach(function(entry){ var k = entry.roster.class || "Unassigned"; groups[k] = groups[k] || []; groups[k].push(entry); });
+    Object.keys(groups).forEach(function(k){
+      var arr = groups[k].slice().sort(function(a,b){ var pa=a.totals.pct, pb=b.totals.pct; if(pa===null) pa=-1; if(pb===null) pb=-1; return pb-pa; });
+      var rank=0, prevPct=null, seen=0;
+      arr.forEach(function(entry){ seen++; var pct = entry.totals.pct; if(pct===null){ entry.position=null; return; } if(prevPct===null || pct < prevPct){ rank = seen; } prevPct = pct; entry.position = rank; });
+    });
+  }
 
   function showToast(msg){ var t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(showToast._tm); showToast._tm = setTimeout(function(){ t.classList.remove("show"); }, 2200); }
-  function addStudent(){ var s = { id: uid(), name:"New Student", className: state.activeClass!=="All"? state.activeClass : "Primary 1", rollNo:"", parentWhatsapp:"", photo:"", term: state.settings.term, session: state.settings.session, subjects: defaultSubjects() }; state.students.unshift(s); save(); render(); showToast("Student added"); }
-  var pendingDelete = null; function askDelete(id){ pendingDelete = id; render(true); } function cancelDelete(){ pendingDelete = null; render(true); } function confirmDelete(){ state.students = state.students.filter(function(s){ return s.id!==pendingDelete; }); pendingDelete = null; save(); render(); showToast("Student deleted"); }
-  function updateStudentField(id, field, value){ var s = state.students.find(function(x){ return x.id===id; }); if(!s) return; s[field]=value; save(); }
-  function addSubject(id){ var s = state.students.find(function(x){ return x.id===id; }); if(!s) return; s.subjects.push({ id: uid(), name:"New Subject", total:100, obtained:"" }); save(); render(); }
-  function removeSubject(sid, subId){ var s = state.students.find(function(x){ return x.id===sid; }); if(!s) return; s.subjects = s.subjects.filter(function(su){ return su.id!==subId; }); save(); render(); }
-  function updateSubjectField(sid, subId, field, value){ var s = state.students.find(function(x){ return x.id===sid; }); if(!s) return; var su = s.subjects.find(function(x){ return x.id===subId; }); if(!su) return; su[field]=value; save(); renderSummaryOnly(sid); }
-  function saveAndCalculate(id){ computePositions(); save(); render(); showToast("Saved & calculated"); }
-  function calculateAllPositions(){ computePositions(); save(); render(); showToast("Positions recalculated"); }
-  function sendToParent(id){ var s = state.students.find(function(x){ return x.id===id; }); if(!s) return; var t = studentTotals(s); var g = gradeFor(t.pct); var lines = [ "*"+state.settings.schoolName+"*", state.settings.term+" — "+state.settings.session, "", "Student: "+s.name, "Class: "+s.className, "Total: "+t.totalObt+"/"+t.totalMax, "Percentage: "+(t.pct!==null? t.pct.toFixed(1)+"%":"—"), "Position: "+(s._position? ordinal(s._position): "—"), "Overall Grade: "+g.grade+" ("+g.remark+")" ]; var msg = encodeURIComponent(lines.join("\n")); var phone = formatPhone(s.parentWhatsapp); if(!phone){ showToast("Add parent WhatsApp first"); return; } var url = "https://wa.me/"+phone+"?text="+msg; window.open(url, "_blank"); }
-  function handlePhoto(id, file){ if(!file) return; var reader = new FileReader(); reader.onload = function(e){ updateStudentField(id, "photo", e.target.result); render(); }; reader.readAsDataURL(file); }
-  function exportExcel(){ var rows = []; filteredStudents().forEach(function(s){ var t = studentTotals(s); var base = { "Student Name": s.name, "Class": s.className, "Roll No": s.rollNo, "Term": s.term, "Session": s.session, "Total Obtained": t.totalObt, "Total Obtainable": t.totalMax, "Percentage": t.pct!==null? t.pct.toFixed(2)+"%":"", "Position": s._position? ordinal(s._position):"" }; (s.subjects||[]).forEach(function(su){ base[su.name+" (Obt)"] = su.obtained; base[su.name+" (Total)"] = su.total; }); rows.push(base); }); if(rows.length===0){ showToast("No students to export"); return; } var ws = XLSX.utils.json_to_sheet(rows); var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "Report"); XLSX.writeFile(wb, "Schoolease_" + state.activeClass.replace(/\s+/g,"_") + ".xlsx"); showToast("Excel downloaded"); }
-  function exportPDF(){ window.print(); } function backupData(){ var blob = new Blob([JSON.stringify({settings:state.settings, students:state.students}, null, 2)], {type:"application/json"}); var url = URL.createObjectURL(blob); var a = document.createElement("a"); a.href = url; a.download = "schoolease-backup.json"; a.click(); setTimeout(function(){ URL.revokeObjectURL(url); }, 1000); showToast("Backup downloaded"); }
-  function restoreData(file){ var reader = new FileReader(); reader.onload = function(e){ try{ var data = JSON.parse(e.target.result); if(data.settings) state.settings = data.settings; if(data.students) state.students = data.students; save(); render(); showToast("Data restored"); }catch(err){ showToast("Invalid backup file"); } }; reader.readAsText(file); }
-  function filteredStudents(){ return state.students.filter(function(s){ var matchClass = state.activeClass==="All" || s.className===state.activeClass; var q = state.search.trim().toLowerCase(); var matchSearch =!q || (s.name||"").toLowerCase().indexOf(q)>-1 || (s.rollNo||"").toLowerCase().indexOf(q)>-1; return matchClass && matchSearch; }); }
-  function allClasses(){ var set = {}; state.students.forEach(function(s){ set[s.className||"Unassigned"]=true; }); return Object.keys(set).sort(); }
+
+  function addSubject(studentId){ var r = getReport(studentId); r.subjects.push({ id: uid(), name:"New Subject", total:100, obtained:"" }); saveReportData(); render(); }
+  function removeSubject(studentId, subId){ var r = getReport(studentId); r.subjects = r.subjects.filter(function(su){ return su.id!==subId; }); saveReportData(); render(); }
+  function updateSubjectField(studentId, subId, field, value){ var r = getReport(studentId); var su = r.subjects.find(function(x){ return x.id===subId; }); if(!su) return; su[field]=value; saveReportData(); render(true); }
+
+  var pendingClear = null;
+  function askClear(studentId){ pendingClear = studentId; render(true); }
+  function cancelClear(){ pendingClear = null; render(true); }
+  function confirmClear(){ var bucket = state.reportData[termKey()]; if(bucket) delete bucket[pendingClear]; pendingClear = null; saveReportData(); render(); showToast("Grades cleared for this term"); }
+
+  function calculatePositions(){ saveReportData(); render(); showToast("Positions recalculated"); }
+
+  function sendToParent(studentId){
+    var entry = getEntry(studentId);
+    if(!entry) return;
+    var t = entry.totals, g = gradeFor(t.pct);
+    var lines = [ "*"+state.settings.schoolName+"*", state.settings.term+" — "+state.settings.session, "", "Student: "+entry.roster.name, "Class: "+entry.roster.class, "Total: "+t.totalObt+"/"+t.totalMax, "Percentage: "+(t.pct!==null? t.pct.toFixed(1)+"%":"—"), "Position: "+(entry.position? ordinal(entry.position): "—"), "Overall Grade: "+g.grade+" ("+g.remark+")" ];
+    var msg = encodeURIComponent(lines.join("\n"));
+    var phone = formatPhone(entry.roster.parentPhone);
+    if(!phone){ showToast("No parent phone on file — add it in Registration"); return; }
+    var url = "https://wa.me/"+phone+"?text="+msg;
+    window.open(url, "_blank");
+  }
+
+  function exportExcel(){
+    var list = buildEntries();
+    var rows = [];
+    list.forEach(function(entry){
+      var base = { "Student ID": entry.roster.id, "Student Name": entry.roster.name, "Class": entry.roster.class, "Term": state.settings.term, "Session": state.settings.session, "Total Obtained": entry.totals.totalObt, "Total Obtainable": entry.totals.totalMax, "Percentage": entry.totals.pct!==null? entry.totals.pct.toFixed(2)+"%":"", "Position": entry.position? ordinal(entry.position):"" };
+      (entry.report.subjects||[]).forEach(function(su){ base[su.name+" (Obt)"] = su.obtained; base[su.name+" (Total)"] = su.total; });
+      rows.push(base);
+    });
+    if(rows.length===0){ showToast("No students to export"); return; }
+    var ws = XLSX.utils.json_to_sheet(rows);
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Report");
+    XLSX.writeFile(wb, "Schoolease_" + state.activeClass.replace(/\s+/g,"_") + ".xlsx");
+    showToast("Excel downloaded");
+  }
+  function exportPDF(){ window.print(); }
+  function backupData(){ var blob = new Blob([JSON.stringify({settings:state.settings, reportData:state.reportData}, null, 2)], {type:"application/json"}); var url = URL.createObjectURL(blob); var a = document.createElement("a"); a.href = url; a.download = "schoolease-reportcards-backup.json"; a.click(); setTimeout(function(){ URL.revokeObjectURL(url); }, 1000); showToast("Backup downloaded"); }
+  function restoreData(file){ var reader = new FileReader(); reader.onload = function(e){ try{ var data = JSON.parse(e.target.result); if(data.settings) state.settings = data.settings; if(data.reportData) state.reportData = data.reportData; saveSettings(); saveReportData(); render(); showToast("Report data restored"); }catch(err){ showToast("Invalid backup file"); } }; reader.readAsText(file); }
+
+  // Build the merged roster+report list for the current class/search filter
+  function buildEntries(){
+    var q = state.search.trim().toLowerCase();
+    var list = state.roster
+      .filter(function(s){ return state.activeClass==="All" || s.class===state.activeClass; })
+      .filter(function(s){ return !q || (s.name||"").toLowerCase().indexOf(q)>-1 || (s.id||"").toLowerCase().indexOf(q)>-1; })
+      .map(function(s){ var report = getReport(s.id); var totals = studentTotals(report); return { roster:s, report:report, totals:totals, position:null }; });
+    computePositions(list);
+    return list;
+  }
+  function getEntry(studentId){ var found=null; buildEntries().forEach(function(e){ if(e.roster.id===studentId) found=e; }); return found; }
+
+  function allClasses(){ var set = {}; state.roster.forEach(function(s){ set[s.class||"Unassigned"]=true; }); return Object.keys(set).sort(); }
   function esc(v){ return (v===undefined||v===null)? "" : String(v).replace(/"/g,"&quot;"); }
-  function renderSummaryOnly(sid){ computePositions(); var el = document.getElementById("sum-"+sid); var s = state.students.find(function(x){ return x.id===sid; }); if(!el ||!s) return; var t = studentTotals(s); el.innerHTML = summaryHTML(s,t); }
-  function summaryHTML(s,t){ return '<div class="summary-item"><div class="label">Total</div><div class="val">'+t.totalObt+' / '+t.totalMax+'</div></div><div class="summary-item"><div class="label">Percentage</div><div class="val">'+(t.pct!==null? t.pct.toFixed(1)+'%':'—')+'</div></div><div class="summary-item"><div class="label">Overall Grade</div><div class="val">'+(t.pct!==null? gradeFor(t.pct).grade:'—')+'</div></div><div class="position-stamp">'+(s._position? ordinal(s._position): '—')+'</div>'; }
-  function studentCardHTML(s){ var t = studentTotals(s); var rowsHTML = (s.subjects||[]).map(function(su){ var pct = (su.total!=="" && su.obtained!=="" &&!isNaN(su.total) &&!isNaN(su.obtained))? (parseFloat(su.obtained)/parseFloat(su.total)*100) : null; var g = gradeFor(pct); return '<tr><td><input value="'+esc(su.name)+'" onchange="App.updateSubject(\''+s.id+'\',\''+su.id+'\',\'name\',this.value)"/></td><td><input type="number" value="'+esc(su.total)+'" style="max-width:70px" onchange="App.updateSubject(\''+s.id+'\',\''+su.id+'\',\'total\',this.value)"/></td><td><input type="number" value="'+esc(su.obtained)+'" style="max-width:70px" onchange="App.updateSubject(\''+s.id+'\',\''+su.id+'\',\'obtained\',this.value)"/></td><td class="grade-cell"><span class="grade-pill '+g.cls+'">'+g.grade+'</span></td><td class="remark-cell">'+g.remark+'</td><td><button class="x-btn" onclick="App.removeSubject(\''+s.id+'\',\''+su.id+'\')">×</button></td></tr>'; }).join(""); var photoHTML = s.photo? '<img class="photo-frame" src="'+s.photo+'"/>' : '<div class="photo-placeholder">PASSPORT<br/>PHOTO</div>'; return '<div class="student-card" data-id="'+s.id+'"><div class="student-head"><div><div class="role-label">Student Record</div><h3>'+esc(s.name||"Unnamed")+'</h3></div><button class="btn btn-red btn-sm no-print" onclick="App.askDelete(\''+s.id+'\')">Delete</button></div><div style="display:flex; gap:16px; flex-wrap:wrap;"><div class="photo-block no-print">'+photoHTML+'<label class="btn btn-outline-ink btn-sm" style="cursor:pointer; width:100%; font-size:11px;">Choose Photo<input type="file" accept="image/*" style="display:none" onchange="App.handlePhoto(\''+s.id+'\', this.files[0])"/></label></div><div class="field-grid"><div class="field"><label>Student Name</label><input value="'+esc(s.name)+'" onchange="App.updateField(\''+s.id+'\',\'name\',this.value)"/></div><div class="field"><label>Class</label><input value="'+esc(s.className)+'" onchange="App.updateField(\''+s.id+'\',\'className\',this.value)"/></div><div class="field"><label>Roll No.</label><input value="'+esc(s.rollNo)+'" onchange="App.updateField(\''+s.id+'\',\'rollNo\',this.value)"/></div><div class="field"><label>Parent WhatsApp</label><input value="'+esc(s.parentWhatsapp)+'" onchange="App.updateField(\''+s.id+'\',\'parentWhatsapp\',this.value)"/></div></div></div><div style="margin-top:16px;"><div class="role-label" style="margin-bottom:6px;">Subjects</div><table class="subjects" id="tbl-'+s.id+'"><thead><tr><th>Subject</th><th>Total</th><th>Obtained</th><th>Grade</th><th>Remark</th><th class="no-print"></th></tr></thead><tbody>'+rowsHTML+'</tbody></table><div class="subject-actions no-print"><button class="btn btn-green btn-sm" onclick="App.addSubject(\''+s.id+'\')">+ Add Subject</button><button class="btn btn-ink btn-sm" onclick="App.saveAndCalculate(\''+s.id+'\')">Save & Calculate</button><button class="btn btn-gold btn-sm" onclick="App.sendToParent(\''+s.id+'\')">Send to Parent</button></div></div><div class="summary-strip" id="sum-'+s.id+'">'+summaryHTML(s,t)+'</div></div>'; }
-  function classAverage(list){ var pcts = list.map(function(s){ return studentTotals(s).pct; }).filter(function(p){ return p!==null; }); if(pcts.length===0) return null; return pcts.reduce(function(a,b){return a+b;},0)/pcts.length; }
-  function render(skipCompute){ if(!loaded){ document.getElementById("root").innerHTML = '<div style="text-align:center; padding:80px;"><div style="font-size:40px;">📘</div>Loading...</div>'; return; } if(!skipCompute) computePositions(); var root = document.getElementById("root"); var classes = ["All"].concat(allClasses()); var list = filteredStudents(); var avg = classAverage(list); var tabsHTML = classes.map(function(c){ return '<button class="tab '+(state.activeClass===c?'active':'')+'" onclick="App.setClass(\''+esc(c)+'\')">'+esc(c)+'</button>'; }).join(""); var studentsHTML = list.length? list.map(studentCardHTML).join("") : '<div style="text-align:center; padding:50px;"><div style="font-size:40px;">🗂️</div>No students yet</div>'; root.innerHTML = '<div class="masthead"><div class="brand-row"><div><div class="brand-eyebrow">Schoolease · Report Card Manager Pro</div><h1 class="brand-title">'+esc(state.settings.schoolName)+'</h1><p class="brand-sub">'+esc(state.settings.schoolAddress)+'</p></div><div class="seal">OFFICIAL<br/>RECORD</div></div><div class="school-edit no-print"><input placeholder="School name" value="'+esc(state.settings.schoolName)+'" onchange="App.updateSettings(\'schoolName\',this.value)"/><input placeholder="School address" value="'+esc(state.settings.schoolAddress)+'" onchange="App.updateSettings(\'schoolAddress\',this.value)"/></div><div class="controls-row no-print"><select class="term-select" onchange="App.updateSettings(\'term\',this.value)">'+['1st Term','2nd Term','3rd Term'].map(function(t){return '<option '+(state.settings.term===t?'selected':'')+'>'+t+'</option>';}).join("")+'</select><input class="term-select" style="width:120px" value="'+esc(state.settings.session)+'" onchange="App.updateSettings(\'session\',this.value)"/></div></div><div class="toolbar no-print"><button class="btn btn-green" onclick="App.addStudent()">+ Add New Student</button><button class="btn btn-gold" onclick="App.calculatePositions()">🏆 Calculate Positions</button><button class="btn btn-red" onclick="App.exportPDF()">📄 Export / Print PDF</button><button class="btn btn-green" onclick="App.exportExcel()">📊 Export Excel</button><button class="btn btn-ink" onclick="App.backupData()">⬇ Backup Data</button><label class="btn btn-outline-ink" style="cursor:pointer;">⬆ Restore Data<input type="file" accept="application/json" style="display:none" onchange="App.restoreData(this.files[0])"/></label></div><div class="stats-row no-print"><div class="stat-card"><div class="label">Students shown</div><div class="value">'+list.length+'</div></div><div class="stat-card"><div class="label">Classes</div><div class="value">'+(classes.length-1)+'</div></div><div class="stat-card"><div class="label">Class average</div><div class="value">'+(avg!==null? avg.toFixed(1)+'%':'—')+'</div></div><div class="stat-card"><div class="label">Term</div><div class="value" style="font-size:16px;">'+esc(state.settings.term)+'</div></div></div><div class="tabs no-print">'+tabsHTML+'</div><div class="search-bar no-print"><input placeholder="Search by name or roll no…" value="'+esc(state.search)+'" oninput="App.setSearch(this.value)"/></div><div class="section-divider">— '+esc(state.activeClass)+' Results —</div>'+studentsHTML+(pendingDelete? '<div class="modal-overlay no-print"><div class="modal-box"><h4>Delete student record?</h4><p>This will permanently remove this student\'s record.</p><div style="display:flex; gap:10px; margin-top:18px; justify-content:flex-end;"><button class="btn btn-outline-ink" onclick="App.cancelDelete()">Cancel</button><button class="btn btn-red" onclick="App.confirmDelete()">Delete</button></div></div></div>' : ''); }
-  window.App = { addStudent: addStudent, askDelete: askDelete, cancelDelete: cancelDelete, confirmDelete: confirmDelete, updateField: function(id,f,v){ updateStudentField(id,f,v); }, updateSubject: updateSubjectField, addSubject: addSubject, removeSubject: removeSubject, saveAndCalculate: saveAndCalculate, calculatePositions: calculateAllPositions, sendToParent: sendToParent, handlePhoto: handlePhoto, exportExcel: exportExcel, exportPDF: exportPDF, backupData: backupData, restoreData: restoreData, setClass: function(c){ state.activeClass=c; render(); }, setSearch: function(v){ state.search=v; render(); }, updateSettings: function(f,v){ state.settings[f]=v; save(); render(); } };
-  load();
+
+  function summaryHTML(t,position){ return '<div class="summary-item"><div class="label">Total</div><div class="val">'+t.totalObt+' / '+t.totalMax+'</div></div><div class="summary-item"><div class="label">Percentage</div><div class="val">'+(t.pct!==null? t.pct.toFixed(1)+'%':'—')+'</div></div><div class="summary-item"><div class="label">Overall Grade</div><div class="val">'+(t.pct!==null? gradeFor(t.pct).grade:'—')+'</div></div><div class="position-stamp">'+(position? ordinal(position): '—')+'</div>'; }
+
+  function studentCardHTML(entry){
+    var s = entry.roster, report = entry.report, t = entry.totals;
+    var rowsHTML = (report.subjects||[]).map(function(su){
+      var pct = (su.total!=="" && su.obtained!=="" && !isNaN(su.total) && !isNaN(su.obtained))? (parseFloat(su.obtained)/parseFloat(su.total)*100) : null;
+      var g = gradeFor(pct);
+      return '<tr><td><input value="'+esc(su.name)+'" onchange="App.updateSubject(\''+s.id+'\',\''+su.id+'\',\'name\',this.value)"/></td><td><input type="number" value="'+esc(su.total)+'" style="max-width:70px" onchange="App.updateSubject(\''+s.id+'\',\''+su.id+'\',\'total\',this.value)"/></td><td><input type="number" value="'+esc(su.obtained)+'" style="max-width:70px" onchange="App.updateSubject(\''+s.id+'\',\''+su.id+'\',\'obtained\',this.value)"/></td><td class="grade-cell"><span class="grade-pill '+g.cls+'">'+g.grade+'</span></td><td class="remark-cell">'+g.remark+'</td><td><button class="x-btn" onclick="App.removeSubject(\''+s.id+'\',\''+su.id+'\')">×</button></td></tr>';
+    }).join("");
+    var photoHTML = s.photo? '<img class="photo-frame" src="'+s.photo+'"/>' : '<div class="photo-placeholder">PASSPORT<br/>PHOTO</div>';
+    return '<div class="student-card" data-id="'+s.id+'">'
+      + '<div class="student-head"><div><div class="role-label">Student Record <span class="synced-badge">⇄ synced from Registration</span></div><h3>'+esc(s.name||"Unnamed")+'</h3></div><button class="btn btn-red btn-sm no-print" onclick="App.askClear(\''+s.id+'\')">Clear Grades</button></div>'
+      + '<div style="display:flex; gap:16px; flex-wrap:wrap;">'
+      + '<div class="photo-block no-print">'+photoHTML+'</div>'
+      + '<div class="field-grid">'
+        + '<div class="field"><label>Student ID</label><div class="field-value">'+esc(s.id)+'</div></div>'
+        + '<div class="field"><label>Class</label><div class="field-value">'+esc(s.class)+'</div></div>'
+        + '<div class="field"><label>Age / Gender</label><div class="field-value">'+esc(s.age)+' · '+esc(s.gender)+'</div></div>'
+        + '<div class="field"><label>Parent Phone</label><div class="field-value">'+esc(s.parentPhone)+'</div></div>'
+      + '</div></div>'
+      + '<div style="margin-top:16px;"><div class="role-label" style="margin-bottom:6px;">Subjects — '+esc(state.settings.term)+'</div><table class="subjects"><thead><tr><th>Subject</th><th>Total</th><th>Obtained</th><th>Grade</th><th>Remark</th><th class="no-print"></th></tr></thead><tbody>'+rowsHTML+'</tbody></table>'
+      + '<div class="subject-actions no-print"><button class="btn btn-green btn-sm" onclick="App.addSubject(\''+s.id+'\')">+ Add Subject</button><button class="btn btn-gold btn-sm" onclick="App.sendToParent(\''+s.id+'\')">Send to Parent</button></div></div>'
+      + '<div class="summary-strip">'+summaryHTML(t, entry.position)+'</div>'
+    + '</div>';
+  }
+
+  function classAverage(list){ var pcts = list.map(function(e){ return e.totals.pct; }).filter(function(p){ return p!==null; }); if(pcts.length===0) return null; return pcts.reduce(function(a,b){return a+b;},0)/pcts.length; }
+
+  function render(skipReload){
+    if(!loaded){ document.getElementById("root").innerHTML = '<div class="empty-state"><div style="font-size:40px;">📘</div>Loading...</div>'; return; }
+    var root = document.getElementById("root");
+    var classes = ["All"].concat(allClasses());
+    var list = buildEntries();
+    var avg = classAverage(list);
+    var tabsHTML = classes.map(function(c){ return '<button class="tab '+(state.activeClass===c?'active':'')+'" onclick="App.setClass(\''+esc(c)+'\')">'+esc(c)+'</button>'; }).join("");
+    var studentsHTML = list.length? list.map(studentCardHTML).join("") : '<div class="empty-state"><div style="font-size:40px;">🗂️</div>No registered students match this view.<br/>Register students on the Registration page first.</div>';
+
+    root.innerHTML = '<div class="masthead"><div class="brand-row"><div><div class="brand-eyebrow">Schoolease · Report Card Manager Pro</div><h1 class="brand-title">'+esc(state.settings.schoolName)+'</h1><p class="brand-sub">'+esc(state.settings.schoolAddress)+'</p></div><div class="seal">OFFICIAL<br/>RECORD</div></div>'
+      + '<div class="school-edit no-print"><input placeholder="School name" value="'+esc(state.settings.schoolName)+'" onchange="App.updateSettings(\'schoolName\',this.value)"/><input placeholder="School address" value="'+esc(state.settings.schoolAddress)+'" onchange="App.updateSettings(\'schoolAddress\',this.value)"/></div>'
+      + '<div class="controls-row no-print"><select class="term-select" onchange="App.updateSettings(\'term\',this.value)">'+['1st Term','2nd Term','3rd Term'].map(function(t){return '<option '+(state.settings.term===t?'selected':'')+'>'+t+'</option>';}).join("")+'</select><input class="term-select" style="width:120px" value="'+esc(state.settings.session)+'" onchange="App.updateSettings(\'session\',this.value)"/></div></div>'
+      + '<div class="toolbar no-print"><button class="btn btn-ink" onclick="App.refreshRoster()">🔄 Refresh Roster</button><span class="roster-note">Students are managed on the Registration page — this reads them live.</span></div>'
+      + '<div class="toolbar no-print"><button class="btn btn-gold" onclick="App.calculatePositions()">🏆 Calculate Positions</button><button class="btn btn-red" onclick="App.exportPDF()">📄 Export / Print PDF</button><button class="btn btn-green" onclick="App.exportExcel()">📊 Export Excel</button><button class="btn btn-ink" onclick="App.backupData()">⬇ Backup Grades</button><label class="btn btn-outline-ink" style="cursor:pointer;">⬆ Restore Grades<input type="file" accept="application/json" style="display:none" onchange="App.restoreData(this.files[0])"/></label></div>'
+      + '<div class="stats-row no-print"><div class="stat-card"><div class="label">Students shown</div><div class="value">'+list.length+'</div></div><div class="stat-card"><div class="label">Classes</div><div class="value">'+(classes.length-1)+'</div></div><div class="stat-card"><div class="label">Class average</div><div class="value">'+(avg!==null? avg.toFixed(1)+'%':'—')+'</div></div><div class="stat-card"><div class="label">Term</div><div class="value" style="font-size:16px;">'+esc(state.settings.term)+'</div></div></div>'
+      + '<div class="tabs no-print">'+tabsHTML+'</div>'
+      + '<div class="search-bar no-print"><input placeholder="Search by name or student ID…" value="'+esc(state.search)+'" oninput="App.setSearch(this.value)"/></div>'
+      + '<div class="section-divider">— '+esc(state.activeClass)+' Results —</div>'
+      + studentsHTML
+      + (pendingClear? '<div class="modal-overlay no-print"><div class="modal-box"><h4>Clear this student\'s grades?</h4><p>This clears their subject scores for '+esc(state.settings.term)+' — '+esc(state.settings.session)+' only. Their registration record is untouched.</p><div style="display:flex; gap:10px; margin-top:18px; justify-content:flex-end;"><button class="btn btn-outline-ink" onclick="App.cancelClear()">Cancel</button><button class="btn btn-red" onclick="App.confirmClear()">Clear</button></div></div></div>' : '');
+  }
+
+  window.App = {
+    addSubject: addSubject,
+    removeSubject: removeSubject,
+    updateSubject: updateSubjectField,
+    askClear: askClear,
+    cancelClear: cancelClear,
+    confirmClear: confirmClear,
+    calculatePositions: calculatePositions,
+    sendToParent: sendToParent,
+    exportExcel: exportExcel,
+    exportPDF: exportPDF,
+    backupData: backupData,
+    restoreData: restoreData,
+    refreshRoster: function(){ loadRoster(); render(); showToast("Roster refreshed"); },
+    setClass: function(c){ state.activeClass=c; render(); },
+    setSearch: function(v){ state.search=v; render(); },
+    updateSettings: function(f,v){ state.settings[f]=v; saveSettings(); render(); }
+  };
+
+  loadAll();
 })();
 </script>
 </body>
-</html> 
+</html>
