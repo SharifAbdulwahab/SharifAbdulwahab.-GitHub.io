@@ -1,10 +1,28 @@
-// Check login
+ /* ==========================================================
+   SCHOOLEASE ATTENDANCE MANAGEMENT SYSTEM
+   ----------------------------------------------------------
+   PART 1
+   - Login Check
+   - Display Current Date
+   - Load Students
+   - Display Passport
+   - Filter By Class
+========================================================== */
+
+// ==========================================================
+// Login Check
+// ==========================================================
+
 if (localStorage.getItem("loggedIn") !== "true") {
     window.location.href = "login.html";
 }
 
-// Display today's date
+// ==========================================================
+// Current Date
+// ==========================================================
+
 const today = new Date();
+
 document.getElementById("currentDate").textContent =
 today.toLocaleDateString("en-GB", {
     weekday: "long",
@@ -13,25 +31,52 @@ today.toLocaleDateString("en-GB", {
     year: "numeric"
 });
 
+// ==========================================================
+// Attendance Records
+// ==========================================================
+
 let attendanceRecords = [];
 
-// Load students
-document.getElementById("loadBtn").addEventListener("click", loadStudents);
+// ==========================================================
+// Load Students Button
+// ==========================================================
+
+document.getElementById("loadBtn")
+.addEventListener("click", loadStudents);
+
+// ==========================================================
+// Load Students
+// ==========================================================
 
 function loadStudents() {
 
-    const className = document.getElementById("classSelect").value;
+    const className =
+    document.getElementById("classSelect").value;
 
     if (className === "") {
+
         alert("Please select a class.");
+
         return;
+
     }
 
-    let students = JSON.parse(localStorage.getItem("students")) || [];
+    // Read Registered Students
 
-    students = students.filter(student => student.class === className);
+    let students =
+    JSON.parse(
+        localStorage.getItem("schoolEaseStudents")
+    ) || [];
 
-    const table = document.getElementById("studentTable");
+    // Filter by Class
+
+    students =
+    students.filter(student =>
+        student.class === className
+    );
+
+    const table =
+    document.getElementById("studentTable");
 
     table.innerHTML = "";
 
@@ -39,27 +84,80 @@ function loadStudents() {
 
     students.forEach(student => {
 
-        const row = document.createElement("tr");
+        const row =
+        document.createElement("tr");
 
         row.innerHTML = `
-            <td>${student.id}</td>
-            <td>${student.name}</td>
-            <td>${student.class}</td>
-            <td>${today.toLocaleDateString()}</td>
-            <td id="time-${student.id}">--</td>
 
-            <td>
+        <td>
 
-            <select onchange="updateStatus('${student.id}', this.value)">
+        ${
+            student.photo
 
-                <option value="">Select</option>
-                <option value="Present">Present</option>
-                <option value="Late">Late</option>
-                <option value="Absent">Absent</option>
+            ?
 
-            </select>
+            `<img
+                src="${student.photo}"
+                width="45"
+                height="45"
+                style="
+                border-radius:50%;
+                object-fit:cover;
+                border:2px solid #198754;
+                ">`
 
-            </td>
+            :
+
+            `<div style="
+                width:45px;
+                height:45px;
+                border-radius:50%;
+                background:#ddd;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size:20px;">
+                👤
+            </div>`
+        }
+
+        </td>
+
+        <td>${student.id}</td>
+
+        <td>${student.name}</td>
+
+        <td>${student.class}</td>
+
+        <td>${today.toLocaleDateString()}</td>
+
+        <td id="time-${student.id}">
+        --
+        </td>
+
+        <td>
+
+        <select
+        onchange="updateStatus('${student.id}',this.value)">
+
+        <option value="">Select</option>
+
+        <option value="Present">
+        Present
+        </option>
+
+        <option value="Late">
+        Late
+        </option>
+
+        <option value="Absent">
+        Absent
+        </option>
+
+        </select>
+
+        </td>
+
         `;
 
         table.appendChild(row);
@@ -68,42 +166,46 @@ function loadStudents() {
 
     updateSummary();
 
-}
+}/* ==========================================================
+   UPDATE ATTENDANCE STATUS
+========================================================== */
 
 function updateStatus(id, status) {
 
     const now = new Date();
 
-    const time =
-    now.toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit'
+    const time = now.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
     });
+
+    const timeCell = document.getElementById("time-" + id);
 
     if (status === "Present" || status === "Late") {
 
-        document.getElementById("time-" + id).textContent = time;
+        timeCell.textContent = time;
 
     } else {
 
-        document.getElementById("time-" + id).textContent = "--";
+        timeCell.textContent = "--";
 
     }
 
-    const existing = attendanceRecords.find(r => r.id == id);
+    const existingRecord = attendanceRecords.find(record => record.id === id);
 
-    if (existing) {
+    if (existingRecord) {
 
-        existing.status = status;
-        existing.time = status === "Absent" ? "--" : time;
+        existingRecord.status = status;
+        existingRecord.time = status === "Absent" ? "--" : time;
 
     } else {
 
         attendanceRecords.push({
 
-            id,
-            status,
-            time: status === "Absent" ? "--" : time
+            id: id,
+            status: status,
+            time: status === "Absent" ? "--" : time,
+            date: today.toLocaleDateString()
 
         });
 
@@ -113,6 +215,10 @@ function updateStatus(id, status) {
 
 }
 
+/* ==========================================================
+   UPDATE SUMMARY CARDS
+========================================================== */
+
 function updateSummary() {
 
     let present = 0;
@@ -121,40 +227,64 @@ function updateSummary() {
 
     attendanceRecords.forEach(record => {
 
-        if (record.status === "Present") present++;
+        if (record.status === "Present") {
 
-        if (record.status === "Late") late++;
+            present++;
 
-        if (record.status === "Absent") absent++;
+        } else if (record.status === "Late") {
+
+            late++;
+
+        } else if (record.status === "Absent") {
+
+            absent++;
+
+        }
 
     });
 
-    document.getElementById("presentCount").textContent = present;
-    document.getElementById("lateCount").textContent = late;
-    document.getElementById("absentCount").textContent = absent;
-
     document.getElementById("totalStudents").textContent =
-    document.getElementById("studentTable").rows.length;
+        document.getElementById("studentTable").rows.length;
+
+    document.getElementById("presentCount").textContent = present;
+
+    document.getElementById("lateCount").textContent = late;
+
+    document.getElementById("absentCount").textContent = absent;
 
 }
 
-// Save Attendance
+/* ==========================================================
+   SAVE ATTENDANCE
+========================================================== */
 
-document.getElementById("saveAttendance").addEventListener("click", function () {
+document.getElementById("saveAttendance")
+.addEventListener("click", saveAttendance);
+
+function saveAttendance() {
 
     localStorage.setItem(
-        "attendance",
+        "attendanceRecords",
         JSON.stringify(attendanceRecords)
     );
 
     alert("Attendance saved successfully.");
 
-});
+}
 
-// Print
+/* ==========================================================
+   PRINT ATTENDANCE
+========================================================== */
 
-document.getElementById("printAttendance").addEventListener("click", function () {
+document.getElementById("printAttendance")
+.addEventListener("click", function () {
 
     window.print();
 
-}); 
+});
+
+/* ==========================================================
+   AUTO LOAD SUMMARY
+========================================================== */
+
+updateSummary();
